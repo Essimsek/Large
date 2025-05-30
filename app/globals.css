@@ -3,8 +3,30 @@
 
 @custom-variant dark (&:is(.dark *));
 
-.auth-button {
-  @apply flex flex-row cursor-pointer gap-1 hover:bg-gray-200 p-2 transition-all rounded-xl
+@layer utilities {
+
+  .auth-button {
+    @apply flex flex-row cursor-pointer gap-1 hover:bg-gray-200 p-2 transition-all rounded-xl;
+   }
+
+  .header-title {
+    @apply text-5xl text-white p-4 text-center font-semibold relative;
+  }
+
+  .header-bg {
+    @apply bg-black rounded-sm shadow-sm p-4 rotate-1 absolute inset-0 -z-10;
+  }
+}
+
+
+.home-background-image {
+  background-image: url("../public/image.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  height: 100vh;
+  width: 100%;
 }
 
 @theme inline {

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from 'next/font/local'
 import "./globals.css";
 
-const abhayaliFont = localFont({
+export const abhayaliFont = localFont({
   src: [
     {
       path: './fonts/AbhayaLibre-Bold.ttf',
@@ -40,7 +40,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans ${abhayaliFont.variable}`}>
+      <body className={`${abhayaliFont.className}`}>
         {children}
       </body>
     </html>

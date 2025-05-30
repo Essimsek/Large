@@ -16,9 +16,9 @@ const Navbar = async () => {
     const session = await auth();
 
     return (
-        <header className="bg-white text-black p-4 rounded-lg mx-auto">
+        <header className="text-black p-2 rounded-lg mx-auto bg-white shadow-sm">
             <nav className='flex justify-between items-center px-4'>
-                <Link href="/" className="text-2xl font-bold">
+                <Link href="/" className="text-2xl font-bold p-3">
                     Logo here
                 </Link>
                 <div className='flex flex-row gap-4'>
