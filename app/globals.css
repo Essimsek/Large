@@ -4,20 +4,28 @@
 @custom-variant dark (&:is(.dark *));
 
 @layer utilities {
-
   .auth-button {
     @apply flex flex-row cursor-pointer gap-1 hover:bg-gray-200 p-2 transition-all rounded-xl;
    }
-
   .header-title {
-    @apply text-5xl text-white p-4 text-center font-semibold relative;
+    @apply text-3xl text-white p-4 text-center font-semibold relative leading-10 md:text-5xl lg:text-6xl;
   }
-
   .header-bg {
     @apply bg-black rounded-sm shadow-sm p-4 rotate-1 absolute inset-0 -z-10;
   }
+  .red-container {
+    @apply flex flex-col gap-2 items-center justify-center bg-red-400 -z-10 p-10 mx-5 mt-4 min-h-[350px]; 
+  }
+  .pattern {
+  background-image: repeating-linear-gradient(
+    30deg,
+    rgba(255, 255, 255, 0.08) 0px,
+    rgba(255, 255, 255, 0.08) 1px,
+    transparent 1px,
+    transparent 12px
+  );
+  }
 }
-
 
 .home-background-image {
   background-image: url("../public/image.png");
