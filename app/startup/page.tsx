@@ -1,18 +1,21 @@
-import React from 'react';
 import { auth } from '@/auth';
+import Header from '../components/Header';
 
 const Page = async () => {
     const session = await auth();
     if (!session || !session?.user) {
         return (
             <div className='red-container pattern'>
-                <h1>Please sign in to access the startup page.</h1>
+                <Header title='Please Sign In to Continue' />
+                <p className='font-semibold text-white text-center'>
+                    You need to be signed in to access this page. Please sign in to continue.
+                </p>
             </div>
         );
     }
     return (
         <div className='red-container pattern'>
-            <h1>Startup Page</h1>
+            <Header title='Welcome to the Startup Page' />
         </div>
     );
 }
