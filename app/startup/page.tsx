@@ -1,5 +1,5 @@
 import { auth } from '@/auth';
-import Header from '../components/Header';
+import Header from '@/components/Header';
 
 const Page = async () => {
     const session = await auth();

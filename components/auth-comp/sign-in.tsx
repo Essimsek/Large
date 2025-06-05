@@ -1,5 +1,6 @@
 import { signIn } from "@/auth"
-import Icon from "./Icon"
+import Icon from "../Icon"
+import { Button } from "../ui/button"
  
 export default function SignIn() {
   return (
@@ -9,9 +10,9 @@ export default function SignIn() {
         await signIn("github")
       }}
     >
-      <button className="auth-button" type="submit">
+      <Button variant={"outline"} type="submit">
         Signin with<Icon iconPath="./icons/github-brands-solid.svg" width={20} height={20}/>
-      </button>
+      </Button>
     </form>
   )
 } 

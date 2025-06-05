@@ -1,5 +1,5 @@
-import Header from "../components/Header";
-import SearchForm from "../components/SearchForm";
+import Header from "@/components/Header";
+import SearchForm from "@/components/SearchForm";
 
 export default async function Home() {
   return (

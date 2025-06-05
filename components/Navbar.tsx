@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import SignIn from './sign-in';
-import SignOut from './sign-out';
+import SignIn from './auth-comp/sign-in';
+import SignOut from './auth-comp/sign-out';
 import { auth } from '@/auth'
 import Image from 'next/image';
 
@@ -10,7 +10,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/app/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu"
 
 const Navbar = async () => {
     const session = await auth();
