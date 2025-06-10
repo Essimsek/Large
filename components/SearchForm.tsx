@@ -17,7 +17,7 @@ const SearchForm = () => {
             onChange={(e) => setQuery(e.target.value)}
             autoComplete="off"
             placeholder="Search"
-            className="w-[260px] sm:w-sm md:w-md lg:w-lg bg-white p-6 pr-14 box-border rounded-full lg:text-2xl md:text-xl text-lg font-semibold"
+            className="w-[260px] sm:w-sm md:w-md lg:w-lg bg-white p-6 pr-15 box-border rounded-full lg:text-2xl md:text-xl text-lg font-semibold"
         />
         {query && (
             <>
@@ -25,8 +25,8 @@ const SearchForm = () => {
                     <X />
                 </Button>
             </>
-        )}
-        <Button variant="default" type="submit" className="rounded-lg"> 
+        )} 
+        <Button variant="default" type="submit" className="rounded-lg scale-110 rounded-bl-none"> 
             <Search />
         </Button>
     </Form>
