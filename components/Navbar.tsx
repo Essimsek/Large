@@ -10,6 +10,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 
 const Navbar = async () => {
@@ -32,7 +33,7 @@ const Navbar = async () => {
                         <div className="flex flex-row gap-2 items-center">
                             <Link href="/startup">Startup</Link>
                             <DropdownMenu>
-                                <DropdownMenuTrigger asChild className='cursor-pointer'>
+                                <DropdownMenuTrigger asChild>
                                     <Image 
                                         src={session.user.image || '/default-avatar.png'}
                                         alt="User Avatar"
@@ -40,8 +41,12 @@ const Navbar = async () => {
                                         height={40}
                                         className="rounded-full mr-2 hover:scale-105 transition-all"/>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent>
-                                    <DropdownMenuItem asChild>
+                                <DropdownMenuContent className='border-none mr-4 bg-black/80 text-white font-medium'>
+                                    <DropdownMenuItem>
+                                        settings
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem asChild className='focus:bg-red-400'>
                                         <SignOut />
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>

@@ -16,7 +16,7 @@ const SearchForm = ({ query }: { query?: string }) => {
             className="w-[260px] sm:w-sm md:w-md lg:w-lg bg-white p-6 pr-15 box-border rounded-full lg:text-2xl md:text-xl text-lg font-semibold"
         />
         {query && <SeachFormReset />} 
-        <Button variant="default" type="submit" className="rounded-lg scale-110 rounded-bl-none"> 
+        <Button variant="default" type="submit" className="rounded-lg scale-110"> 
             <Search />
         </Button>
     </Form>

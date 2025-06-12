@@ -25,6 +25,9 @@
     transparent 12px
   );
   }
+  .grid-card-area {
+    @apply grid md:grid-cols-3 sm:grid-cols-2 gap-5 mt-7
+  }
 }
 
 .home-background-image {
