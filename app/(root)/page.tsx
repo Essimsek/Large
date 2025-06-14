@@ -1,24 +1,13 @@
 import Header from "@/components/Header";
 import SearchForm from "@/components/SearchForm";
 import StartupCard, {startupCardType} from "@/components/StartupCard";
+import { posts } from "../api/testData/posts";
 
 export default async function Home({ searchParams }: {
    searchParams: Promise<{query?: string}>
 }) {
 
   const query = (await searchParams).query
-  const posts = [
-    {
-      _createdAt: 'Yesterday',
-      _id: 1,
-      author: {name: 'John Doe', id: 1}, 
-      views: 100,
-      likes: 50,
-      description: 'This is a description.',
-      image: '',
-      category: 'Robots',
-      title: 'We Robots',
-    }];
 
   return (
     <>
@@ -31,7 +20,6 @@ export default async function Home({ searchParams }: {
       </section>
       
       <section className="px-6 py-10 mx-auto max-w-7xl">
-
         <p className="text-black text-3xl font-semibold"> 
           {query ? `Search results for ${query}` : "Explore Startups"}
         </p>
@@ -45,7 +33,6 @@ export default async function Home({ searchParams }: {
             <li className="col-span-3 text-center text-gray-500">No results found</li>
           }
         </ul>
-
       </section>
     </>
   );
