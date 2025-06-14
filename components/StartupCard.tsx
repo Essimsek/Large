@@ -17,7 +17,6 @@ export type startupCardType = {
 }
 
 const StartupCard = async ({ post }: { post: startupCardType }) => {
-  const session = await auth();
   
   const formattedDate = new Date(post._createdAt).toLocaleDateString('en-US', {
     month: 'short',
@@ -94,7 +93,7 @@ const StartupCard = async ({ post }: { post: startupCardType }) => {
         
         <Link 
           href={`startup/${post._id}`} 
-          className="flex items-center text-sm font-bold hover:underline group"
+          className="flex items-center text-sm font-bold hover:underline group transition-all"
         >
           Read more
           <svg 
