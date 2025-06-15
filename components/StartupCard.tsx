@@ -5,7 +5,7 @@ import { auth } from '@/auth';
 import { Heart, Eye, CalendarDays, UserCircle } from 'lucide-react';
 
 export type startupCardType = {
-  _createdAt: Date;
+  _createdAt: string;
   _id: number;
   author: { name: string, id: number },
   views: number;
@@ -18,11 +18,6 @@ export type startupCardType = {
 
 const StartupCard = async ({ post }: { post: startupCardType }) => {
   
-  const formattedDate = new Date(post._createdAt).toLocaleDateString('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric'
-  });
 
   return (
     <div className="max-w-2xl w-full bg-white border-2 border-black rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] p-5 my-6">
@@ -33,11 +28,11 @@ const StartupCard = async ({ post }: { post: startupCardType }) => {
           <div className="p-1 border border-gray-300 rounded-sm">
             <UserCircle size={20} className="text-gray-600" />
           </div>
-          <div>
+          <div className='flex flex-col justify-center items-center'>
             <p className="text-sm font-bold">{post.author.name}</p>
             <div className="flex items-center gap-1 text-xs text-gray-500">
               <CalendarDays size={12} />
-              <span>{formattedDate}</span>
+              <span>{post._createdAt}</span>
             </div>
           </div>
         </div>

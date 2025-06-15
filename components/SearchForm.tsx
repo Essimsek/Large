@@ -6,7 +6,7 @@ import SeachFormReset from './SeachFormReset';
 
 const SearchForm = ({ query }: { query?: string }) => {
     return (
-    <Form action="/" className="relative mt-8 flex justify-center items-center gap-1">
+    <Form action="/" scroll={false} className="relative mt-8 flex justify-center items-center gap-1">
         <Input
             type="text"
             name="query"

@@ -1,6 +1,9 @@
   export const posts = [
     {
-      _createdAt: new Date(),
+      _createdAt: new Date().toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'}),
       _id: 1,
       author: {name: 'Emre Şimşek', id: 1}, 
       views: 351,
@@ -10,8 +13,11 @@
       category: 'Software',
       title: 'Next js 15',
     },
-       {
-      _createdAt: new Date(),
+    {
+      _createdAt: new Date().toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'}),
       _id: 2,
       author: {name: 'Mert Aydin', id: 1}, 
       views: 512,
@@ -21,8 +27,11 @@
       category: 'Robots',
       title: 'We Robots',
     },
-       {
-      _createdAt: new Date(),
+    {
+      _createdAt: new Date().toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'}),
       _id: 3,
       author: {name: 'Görkem Kuruköse', id: 1}, 
       views: 20,
