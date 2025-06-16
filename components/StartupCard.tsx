@@ -1,5 +1,4 @@
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { auth } from '@/auth';
 import { Heart, Eye, CalendarDays, UserCircle } from 'lucide-react';
@@ -38,7 +37,7 @@ const StartupCard = async ({ post }: { post: startupCardType }) => {
         </div>
         
         <Link 
-          href={`?query=${post.category}`} 
+          href={`?query=${post.category.toLowerCase()}`} 
           className="px-2 py-1 bg-yellow-400 text-black text-xs font-bold border transition-all duration-150 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
         >
           {post.category}
@@ -57,7 +56,7 @@ const StartupCard = async ({ post }: { post: startupCardType }) => {
         <div className="md:col-span-1 flex justify-center">
           <div className="border-2 border-black w-full h-32 bg-gray-100 flex items-center justify-center">
             {post.image ? (
-              <Image
+              <img
                 src={post.image}
                 alt={post.title}
                 width={120}
