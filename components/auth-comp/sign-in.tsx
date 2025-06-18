@@ -11,7 +11,7 @@ export default function SignIn() {
       }}
     >
       <Button variant="outline" type="submit">
-        Signin with<Icon iconPath="./icons/github-brands-solid.svg" width={20} height={20}/>
+        Signin with<Icon iconPath="/icons/github-brands-solid.svg" width={20} height={20}/>
       </Button>
     </form>
   )
