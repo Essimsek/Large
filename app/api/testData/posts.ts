@@ -6,12 +6,12 @@
       year: 'numeric'}),
       _id: 1,
       author: {name: 'Emre Şimşek', id: 1}, 
+      title: 'Next js 15',
+      description: 'Next js published its new version Next15 amazing cheak out.',
+      category: 'Software',
       views: 351,
       likes: 15,
-      description: 'Next js published its new version Next15 amazing cheak out.',
       image: 'https://static.vecteezy.com/system/resources/thumbnails/036/324/708/small/ai-generated-picture-of-a-tiger-walking-in-the-forest-photo.jpg',
-      category: 'Software',
-      title: 'Next js 15',
     },
     {
       _createdAt: new Date().toLocaleDateString('en-US', {
