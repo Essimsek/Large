@@ -44,5 +44,9 @@ export const post = defineType({
             name: "likes",
             type: "number",
         }),
+        defineField({
+            name: "pitch",
+            type: "markdown"
+        })
     ]
 })
