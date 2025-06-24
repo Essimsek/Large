@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import { auth } from '@/auth';
 import { Heart, Eye, CalendarDays, UserCircle } from 'lucide-react';
 
 export type startupCardType = {
