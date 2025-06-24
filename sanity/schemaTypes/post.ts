@@ -46,7 +46,11 @@ export const post = defineType({
         }),
         defineField({
             name: "pitch",
-            type: "markdown"
+            type: "array",
+            of: [
+                {type: "block"},
+                {type: "image", options: {hotspot: true} },
+            ]
         })
     ]
 })
