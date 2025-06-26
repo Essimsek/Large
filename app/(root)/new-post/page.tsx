@@ -15,7 +15,7 @@ const Page = async () => {
     }
     return (
         <div className='red-container pattern'>
-            <Header title='Welcome to the Startup Page' />
+            <Header title='Welcome to the Create Page' />
         </div>
     );
 }

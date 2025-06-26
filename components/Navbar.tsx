@@ -31,7 +31,7 @@ const Navbar = async () => {
                 <div className='flex flex-row gap-4'>
                     {session && session?.user ? (
                         <div className="flex flex-row gap-2 items-center">
-                            <Link href="/startup">Startup</Link>
+                            <Link href="/new-post">Create</Link>
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Image 

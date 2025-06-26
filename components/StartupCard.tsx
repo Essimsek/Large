@@ -37,7 +37,7 @@ const StartupCard = async ({ post }: { post: startupCardType }) => {
       { /*Content Section*/ }
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="md:col-span-3">
-          <Link href={`startup/${post.author.username}/${post.slug}`}>
+          <Link href={`/${post.author.username}/${post.slug}`}>
             <h2 className="text-xl font-bold mb-2 hover:underline">{post.title}</h2>
           </Link>
           <p className="text-gray-700 line-clamp-3">{post.description}</p>
@@ -76,7 +76,7 @@ const StartupCard = async ({ post }: { post: startupCardType }) => {
         </div>
         
         <Link 
-          href={`startup/${post.author.username}/${post.slug}`} 
+          href={`/${post.author.username}/${post.slug}`} 
           className="flex items-center text-sm font-bold hover:underline group transition-all"
         >
           Read more
