@@ -1,13 +1,15 @@
 import Header from "@/components/Header";
 import SearchForm from "@/components/SearchForm";
-import StartupCard, {startupCardType} from "@/components/StartupCard";
-import { posts } from "../api/testData/posts";
+import StartupCard from "@/components/StartupCard";
+import { client } from "@/sanity/lib/client";
+import { GET_ALL_POSTS_QUERY_DESC } from "@/sanity/lib/queries";
+import { startupCardType } from "@/sanity/types";
 
 export default async function Home({ searchParams }: {
    searchParams: Promise<{query?: string}>
 }) {
-
   const query = (await searchParams).query
+  const posts = await client.fetch(GET_ALL_POSTS_QUERY_DESC);
 
   return (
     <>

@@ -2,11 +2,7 @@
 import React from 'react';
 import { useParams } from 'next/navigation';
 
-interface PageProps {
-    searchParams?: { [key: string]: string | string[] | undefined };
-}
-
-const Page: React.FC<PageProps> = ({ searchParams }) => {
+const Page = () => {
     const params = useParams();
     const id = params?.startupId;
 
