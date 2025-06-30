@@ -3,6 +3,9 @@ import SignOutAction from "./sign-out-action";
  
 export default function SignOut() {
   return (
-    <span onClick={SignOutAction}>Log out <LogOutIcon /> </span>
+    <div onClick={SignOutAction} className="flex flex-row justify-between w-full h-full">
+      <span>Log out</span>
+      <LogOutIcon />
+    </div>
   )
 };
