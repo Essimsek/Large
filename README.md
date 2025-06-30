@@ -1,10 +1,35 @@
-SignOut redirect to "/" in dynamic url only. Done
-sanity author and post types. Done
+# Large
 
-dynamic routing for every user [username].tsx. Done
-dynamic routing for every posts [username]/[postId]. Done
+Create and publish your own startups.
 
+---
 
-after user logged in create new author if we haven't already (get the username with overiding github profile). Not done
+## ✅ Completed
 
-new-post(create) page. not Done.
+- **Sign Out Redirect:**  
+  Redirects to `/` only on dynamic URLs.
+- **Sanity Author & Post Types:**  
+  Implemented author and post schemas in Sanity.
+- **Dynamic Routing:**  
+  - User profile pages: `[username].tsx`
+  - Individual post pages: `[username]/[postId].tsx`
+- **New Post Page UI:**  
+  `/new-post` page with authentication check and basic layout.
+
+---
+
+## 🛠️ In Progress / Next Steps
+
+- **Author Creation After Login:**  
+  After user logs in, create a new author in Sanity if one doesn't exist (override GitHub profile username if needed).
+- **New Post Functionality:**  
+  Implement the form and logic to create and publish new posts from the `/new-post` page.
+- **Improve UI/UX:**  
+  - Enhance styling and responsiveness.
+  - Add feedback for actions (e.g., post creation, errors).
+- **Authorization & Permissions:**  
+  Ensure only authenticated users can create/edit posts.
+- **Testing:**  
+  Add unit and integration tests for critical flows.
+
+---
