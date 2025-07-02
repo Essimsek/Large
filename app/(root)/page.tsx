@@ -9,6 +9,7 @@ export default async function Home({ searchParams }: {
    searchParams: Promise<{query?: string}>
 }) {
   const query = (await searchParams).query
+  // const { data: posts } = await sanityFetch({query: GET_ALL_POSTS_QUERY_DESC}) as { data: startupCardType[] };
   const posts = await client.fetch(GET_ALL_POSTS_QUERY_DESC);
 
   return (
@@ -36,6 +37,7 @@ export default async function Home({ searchParams }: {
           }
         </ul>
       </section>
+      {/*<SanityLive />*/}
     </>
   );
 }

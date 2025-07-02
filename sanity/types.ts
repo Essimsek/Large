@@ -2,7 +2,6 @@
 export type authorType = {
   _id: string;
   username: string;
-  id?: string;
   name: string;
   image?: string;
   _createdAt: Date | string;
