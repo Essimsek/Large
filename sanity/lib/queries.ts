@@ -1,4 +1,16 @@
-export const GET_ALL_POSTS_QUERY_DESC = `*[_type == 'post'] | order(_createdAt desc) {
+export const GET_ALL_POSTS_QUERY_DESC = `
+  *[
+    _type == "post" &&
+    defined(slug.current) &&
+    (
+      !defined($search) ||
+      category match $search ||
+      title match $search ||
+      description match $search ||
+      author->username match $search ||
+      author->name match $search
+    )
+  ] | order(_createdAt desc) {
     _id,
     _createdAt,
     title,
@@ -11,6 +23,8 @@ export const GET_ALL_POSTS_QUERY_DESC = `*[_type == 'post'] | order(_createdAt d
     "author": author -> {
       _id,
       username,
+      name,
       image
-      },
-  }`;
+    },
+  }
+`;

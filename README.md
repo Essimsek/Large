@@ -15,7 +15,8 @@ Create and publish your own startups.
   - Individual post pages: `[username]/[postId].tsx`
 - **New Post Page UI:**  
   `/new-post` page with authentication check and basic layout.
-
+- **Search**
+  - search posts by Title, username, name and category
 ---
 
 ## 🛠️ In Progress / Next Steps
@@ -31,5 +32,5 @@ Create and publish your own startups.
   Ensure only authenticated users can create/edit posts.
 - **Testing:**  
   Add unit and integration tests for critical flows.
-
+  
 ---
