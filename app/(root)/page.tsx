@@ -9,7 +9,7 @@ export default async function Home({ searchParams }: {
    searchParams: Promise<{query?: string}>
 }) {
   const query = (await searchParams).query
-  const params = { search: query || null };
+  const params = { search: query ? `*${query}*` : null };
   // const { data: posts } = await sanityFetch({query: GET_ALL_POSTS_QUERY_DESC}) as { data: startupCardType[] };
   const posts = await client.fetch(GET_ALL_POSTS_QUERY_DESC, params);
 
