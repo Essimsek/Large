@@ -1,5 +1,6 @@
 import { auth } from '@/auth';
-import Header from '@/components/Header';
+import { SimpleEditor } from '@/components/tiptap-templates/simple/simple-editor';
+import Header  from '@/components/Header';
 
 const Page = async () => {
     const session = await auth();
@@ -14,9 +15,12 @@ const Page = async () => {
         );
     }
     return (
-        <div className='red-container pattern'>
-            <Header title='Welcome to the Create Page' />
-        </div>
+        <>
+            <div className='red-container pattern'>
+                <Header title='Welcome to the Create Page' />
+            </div>
+            <SimpleEditor/>
+        </>
     );
 }
 
