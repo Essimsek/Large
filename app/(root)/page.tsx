@@ -1,9 +1,9 @@
 import Header from "@/components/Header";
 import SearchForm from "@/components/SearchForm";
 import StartupCard from "@/components/StartupCard";
+import { Post } from "@/sanity.types";
 import { client } from "@/sanity/lib/client";
 import { GET_ALL_POSTS_QUERY_DESC } from "@/sanity/lib/queries";
-import { startupCardType } from "@/sanity/types";
 
 export default async function Home({ searchParams }: {
    searchParams: Promise<{query?: string}>
@@ -30,7 +30,7 @@ export default async function Home({ searchParams }: {
 
         <ul className="grid-card-area">
           {posts?.length > 0 ? (
-            posts.map((post: startupCardType) => (
+            posts.map((post: Post) => (
               <StartupCard key={post?._id} post={post} />
             ))
           ):
