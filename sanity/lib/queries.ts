@@ -28,3 +28,15 @@ export const GET_ALL_POSTS_QUERY_DESC = `
     },
   }
 `;
+
+export const GET_POST_BY_SLUG_QUERY = `*[_type == "post" && slug.current == $slug && author->username == $username][0] {
+  title,
+  description,
+  category,
+  image,
+  likes,
+  views,
+  _createdAt,
+  _updatedAt,
+  pitch
+}`
