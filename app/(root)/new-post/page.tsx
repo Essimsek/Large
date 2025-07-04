@@ -16,6 +16,7 @@ const Page = async () => {
     return (
         <div className='red-container pattern'>
             <Header title='Welcome to the Create Page' />
+            <p className='font-semibold text-white text-center'>Start writing your post right here.</p>
         </div>
     );
 }
