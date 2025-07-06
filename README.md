@@ -13,6 +13,7 @@ Create and publish your own startups.
 - **Dynamic Routing:**  
   - User profile pages: `[username].tsx`
   - Individual post pages: `[username]/[postId].tsx`
+  - fetch the post informations in `[username]/[postId].tsx`
 - **New Post Page UI:**  
   `/new-post` page with authentication check and basic layout.
 - **Search**
