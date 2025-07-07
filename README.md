@@ -25,7 +25,7 @@ Create and publish your own startups.
 - **Author Creation After Login:**  
   After user logs in, create a new author in Sanity if one doesn't exist (override GitHub profile username if needed).
 - **New Post Functionality:**  
-  Implement the form and logic to create and publish new posts from the `/new-post` page.
+  Implement the form UI and logic to create and publish new posts from the `/new-post` page.
 - **Improve UI/UX:**  
   - Enhance styling and responsiveness.
   - Add feedback for actions (e.g., post creation, errors).
