@@ -13,18 +13,18 @@ Create and publish your own startups.
 - **Dynamic Routing:**  
   - User profile pages: `[username].tsx`
   - Individual post pages: `[username]/[postId].tsx`
+  - fetch the post informations in `[username]/[postId].tsx`
 - **New Post Page UI:**  
   `/new-post` page with authentication check and basic layout.
 - **Search**
   - search posts by Title, username, name and category
+- **Author Creation After Login:**  
+  After user logs in, create a new author in Sanity ( auth.ts  callbacks) if one doesn't exist (override GitHub profile username if needed).
 ---
 
 ## 🛠️ In Progress / Next Steps
-
-- **Author Creation After Login:**  
-  After user logs in, create a new author in Sanity if one doesn't exist (override GitHub profile username if needed).
 - **New Post Functionality:**  
-  Implement the form and logic to create and publish new posts from the `/new-post` page.
+  Implement the form UI and logic to create and publish new posts from the `/new-post` page.
 - **Improve UI/UX:**  
   - Enhance styling and responsiveness.
   - Add feedback for actions (e.g., post creation, errors).
