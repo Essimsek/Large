@@ -23,8 +23,8 @@ const Navbar = async () => {
                     <Image 
                         src="/Website-Logo-removebg.png"
                         alt="Logo"
-                        width={60}
                         height={55}
+                        width={55}
                         className="p-0 m-0 rounded-full hover:scale-105 transition-transform duration-300 ease-in-out"    
                     />
                 </Link>

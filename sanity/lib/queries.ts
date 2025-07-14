@@ -40,3 +40,5 @@ export const GET_POST_BY_SLUG_QUERY = `*[_type == "post" && slug.current == $slu
   _updatedAt,
   pitch
 }`
+
+export const GET_USER_BY_USERNAME_QUERY = `*[_type == "author" && username == $username][0]`

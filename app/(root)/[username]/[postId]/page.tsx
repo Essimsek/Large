@@ -1,6 +1,8 @@
 import { GET_POST_BY_SLUG_QUERY } from '@/sanity/lib/queries';
 import { client } from '@/sanity/lib/client';
 import { Post } from '@/sanity.types';
+import React from 'react';
+import { notFound } from 'next/navigation';
 
 const Page = async ({params}: {
     params: Promise<{username: string, postId: string}>
@@ -8,8 +10,11 @@ const Page = async ({params}: {
     const {username, postId} = await params;
     const currentPost = await client.fetch(GET_POST_BY_SLUG_QUERY, {username, slug: postId}
     ) as Post;
-
+    if (!currentPost) {
+        notFound();
+    }
     const {title, description, category, image, likes, views, _createdAt, _updatedAt, pitch} = currentPost
+    console.log(currentPost);
     return (
         <>
             <div>
