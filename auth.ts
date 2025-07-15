@@ -13,12 +13,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async signIn(params) {
       try {
         const username = params.profile?.login
-        const author = await client.fetch(`*[_type == "author" && username == $username][0]`, { username })
+        const author = await client.fetch(`*[_type == "author" && username == $username][0]{username}`, { username })
         if (author) {
-          console.log("Author found")
           return true
         } else {
-          console.log("Author not found, creating new author")
           await client.create({
             _type: "author",
             name: params.profile?.name || "Unknown",
