@@ -58,7 +58,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   },
 
   async session({ session, token }) {
-    session.user.username = token.username as string | null;
+    if (token.username) {
+      session.user.username = token.username as string;
+    }
     return session;
   }},
   secret: process.env.AUTH_SECRET
