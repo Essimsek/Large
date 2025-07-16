@@ -14,7 +14,6 @@ const Page = async ({params}: {
         notFound();
     }
     const {title, description, category, image, likes, views, _createdAt, _updatedAt, pitch} = currentPost
-    console.log(currentPost);
     return (
         <>
             <div>

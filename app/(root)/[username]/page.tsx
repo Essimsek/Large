@@ -4,12 +4,15 @@ import { GET_USER_BY_USERNAME_QUERY } from '@/sanity/lib/queries'
 import { Author } from '@/sanity.types';
 import { client } from '@/sanity/lib/client';
 import { notFound } from 'next/navigation';
+import { auth } from '@/auth';
 
-async function Page({ params }: 
+async function Page({ params }:
     { params: Promise<{username: string}> }
 ) {
+    const session = await auth();
     const { username } = await params;
     const user = await client.fetch(GET_USER_BY_USERNAME_QUERY, {username}) as Author;
+    console.log("User:", user);
     if (!user) {
         notFound();
     }

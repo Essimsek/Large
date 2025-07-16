@@ -1,7 +1,25 @@
 import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
 import { client } from "./sanity/lib/client"
- 
+
+declare module "next-auth" {
+  interface Session {
+    user: {
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+      username?: string | null;
+    };
+  }
+  interface User {
+    username?: string | null;
+  }
+
+  interface JWT {
+    username?: string | null;
+  }
+}
+
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
     GitHub({
@@ -32,6 +50,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return false
       }
     },
+  async jwt({ token, profile }) {
+    if (profile) {
+      token.username = profile.login;
+    }
+    return token;
   },
+
+  async session({ session, token }) {
+    session.user.username = token.username as string | null;
+    return session;
+  }},
   secret: process.env.AUTH_SECRET
 })

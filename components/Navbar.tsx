@@ -15,7 +15,6 @@ import {
 
 const Navbar = async () => {
     const session = await auth();
-
     return (
         <header className="text-black p-1 mb-0 rounded-lg mx-auto bg-white shadow-md w-full max-w-8xl">
             <nav className='flex justify-between items-center px-4'>
@@ -42,8 +41,8 @@ const Navbar = async () => {
                                         className="rounded-full mr-2 hover:scale-105 transition-all"/>
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent className='border-none mr-4 bg-black/80 text-white font-medium'>
-                                    <DropdownMenuItem>
-                                        settings
+                                    <DropdownMenuItem asChild>
+                                        <Link href={"/" + session?.user?.username}>Profile</Link>
                                     </DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem asChild className='focus:bg-red-400'>
