@@ -31,7 +31,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async signIn(params) {
       try {
         const username = params.profile?.login
-        const author = await client.fetch(`*[_type == "author" && username == $username][0]{username}`, { username })
+        const author = await client.fetch(`*[_type == "author" && id == $id][0]`, { id: params.profile?.id})
         if (author) {
           return true
         } else {
@@ -41,7 +41,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
             username: username,
             image: params.profile?.avatar_url,
             email: params.profile?.email,
-            bio: params.profile?.bio || "No bio available"
+            bio: params.profile?.bio || "No bio available",
+            id: params.profile?.id,
           })
           return true
         }
@@ -52,7 +53,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     },
   async jwt({ token, profile }) {
     if (profile) {
-      token.username = profile.login;
+      const author = await client.fetch(`*[_type == "author" && id == $id][0] {username}`, { id: profile.id })
+      if (author) {
+        token.username = author.username;
+      }
     }
     return token;
   },
@@ -64,4 +68,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     return session;
   }},
   secret: process.env.AUTH_SECRET
-})
+});
