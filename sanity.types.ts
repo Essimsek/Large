@@ -60,6 +60,7 @@ export type Post = {
 };
 
 export type Author = {
+  id: string;
   _id: string;
   _type: "author";
   _createdAt: string;
