@@ -7,6 +7,7 @@ import { Edit, Save, X } from 'lucide-react';
 import { useState } from 'react';
 import { Input } from './ui/input';
 import { z } from 'zod';
+import sanityUpdateUsername  from '@/sanity/lib/update-username';
 
 const USERNAME_SCHEMA = z
   .string()
@@ -24,8 +25,10 @@ const ProfileCard = ({user, isOwner}: {user: Author, isOwner: boolean}) => {
             alert("Username must be alphanumeric or hyphen, cannot start or end with hyphen, and cannot contain consecutive hyphens");
             return;
         } else {
-                setIsEditing(false);
+            // Here you would typically send the parsed username to your backend or API
+                sanityUpdateUsername();
             }
+            setIsEditing(false);
         }
 
     return (

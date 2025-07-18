@@ -70,7 +70,7 @@ export type Author = {
   image?: string;
   email?: string;
   bio?: string;
-  id: string;
+  id: number;
 };
 
 export type SanityImagePaletteSwatch = {

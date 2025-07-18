@@ -29,8 +29,10 @@ export const author = defineType({
         }),
         defineField({
             name: "id",
-            type: "string",
+            type: "number",
+            validation: Rule => Rule.required(),
         })
+        
     ],
     preview: {
         select: {

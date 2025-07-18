@@ -30,11 +30,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn(params) {
       try {
-        const username = params.profile?.login
         const author = await client.fetch(`*[_type == "author" && id == $id][0]`, { id: params.profile?.id})
         if (author) {
           return true
         } else {
+          const username = params.profile?.login
           await client.create({
             _type: "author",
             name: params.profile?.name || "Unknown",
