@@ -25,8 +25,7 @@ const ProfileCard = ({user, isOwner}: {user: Author, isOwner: boolean}) => {
             alert("Username must be alphanumeric or hyphen, cannot start or end with hyphen, and cannot contain consecutive hyphens");
             return;
         } else {
-            // Here you would typically send the parsed username to your backend or API
-                sanityUpdateUsername(username, user.id);
+                sanityUpdateUsername({username: username, userId: user._id});
             }
             setIsEditing(false);
         }
