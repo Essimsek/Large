@@ -26,7 +26,7 @@ const ProfileCard = ({user, isOwner}: {user: Author, isOwner: boolean}) => {
             return;
         } else {
             // Here you would typically send the parsed username to your backend or API
-                sanityUpdateUsername();
+                sanityUpdateUsername(username, user.id);
             }
             setIsEditing(false);
         }
