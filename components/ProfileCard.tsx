@@ -6,6 +6,7 @@ import { Button } from './ui/button';
 import { Edit, Save, X } from 'lucide-react';
 import { useState } from 'react';
 import { Input } from './ui/input';
+import { signIn } from 'next-auth/react';
 import { z } from 'zod';
 import sanityUpdateUsername  from '@/sanity/lib/update-username';
 
@@ -18,6 +19,7 @@ const USERNAME_SCHEMA = z
 const ProfileCard = ({user, isOwner}: {user: Author, isOwner: boolean}) => {
     const [isEditing, setIsEditing] = useState(false);
     const [username, setUsername] = useState(user.username || '');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSave = async () => {
         const parsedUsername = USERNAME_SCHEMA.safeParse(username);
@@ -25,9 +27,13 @@ const ProfileCard = ({user, isOwner}: {user: Author, isOwner: boolean}) => {
             alert("Username must be alphanumeric or hyphen, cannot start or end with hyphen, and cannot contain consecutive hyphens");
             return;
         } else {
-                sanityUpdateUsername({username: username, userId: user._id});
+                setIsLoading(true);
+                await sanityUpdateUsername({username: username, userId: user._id});
+                await signIn("github", {redirect: false});
+                window.location.href = `/${username}`;
             }
             setIsEditing(false);
+            setIsLoading(false);
         }
 
     return (
@@ -45,7 +51,8 @@ const ProfileCard = ({user, isOwner}: {user: Author, isOwner: boolean}) => {
                 {isOwner && isEditing ? (
                     <>
                         <Input className="text-2xl text-white py-7 text-center font-semibold md:text-3xl lg:text-4xl bg-black" onChange={(e) => setUsername(e.target.value)} defaultValue={username || 'no name'} />
-                        <Button onClick={() => handleSave()}><Save /></Button>
+                        <Button onClick={() => {handleSave()}}><Save /></Button>
+                        { isLoading && <span className="text-white">Saving...</span>}
                         <Button onClick={() => setIsEditing(false)}><X /></Button>
                     </>
                 ): (

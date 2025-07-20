@@ -52,10 +52,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
     },
   async jwt({ token, profile }) {
-    if (profile) {
-      const author = await client.fetch(`*[_type == "author" && id == $id][0] {username}`, { id: profile.id })
+    const id = profile?.id ?? token.id;
+    if (id) {
+      const author = await client.fetch(
+        `*[_type=="author" && id == $id][0]{username}`,
+        { id }
+      );
       if (author) {
         token.username = author.username;
+        token.id = id;
       }
     }
     return token;
@@ -64,6 +69,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   async session({ session, token }) {
     if (token.username) {
       session.user.username = token.username as string;
+      session.user.id = token.id as string;
     }
     return session;
   }},
