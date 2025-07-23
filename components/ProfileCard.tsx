@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { Input } from './ui/input';
 import { signIn } from 'next-auth/react';
 import { z } from 'zod';
+import Image from 'next/image';
 import sanityUpdateUsername  from '@/sanity/lib/update-username';
 
 const USERNAME_SCHEMA = z
@@ -39,10 +40,11 @@ const ProfileCard = ({user, isOwner}: {user: Author, isOwner: boolean}) => {
     return (
         <div className="red-container pattern">
             <div className="relative w-48 h-48">
-                <img
-                src={user.image || '/fallback-profile.png'}
-                alt={`${user.name}'s avatar`}
-                className="object-cover rounded-full border-4 border-white"
+                <Image
+                    src={user.image || '/fallback-profile.png'}
+                    alt={`${user.name}'s avatar`}
+                    fill
+                    className="object-cover rounded-full border-4 border-white"
                 />
             </div>
 

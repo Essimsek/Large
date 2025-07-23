@@ -1,6 +1,7 @@
 import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
 import { client } from "./sanity/lib/client"
+import { Author } from "./sanity.types";
 
 declare module "next-auth" {
   interface Session {
@@ -32,7 +33,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn(params) {
       try {
-        const author = await client.fetch(`*[_type == "author" && id == $id][0]`, { id: params.profile?.id})
+        const author = await client.fetch(`*[_type == "author" && id == $id][0]`, { id: params.profile?.id}) as Author
         if (author) {
           return true
         } else {
