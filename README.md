@@ -18,21 +18,22 @@ Create and publish your own startups.
 - **New Post Page UI:**  
   `/new-post` page with authentication check and basic layout.
 - **Search**
-  - search posts by Title, username, name and category
+  - search posts by Title, Author, Name, Username and Category
 - **Author Creation After Login:**  
   After user logs in, create a new author in Sanity ( auth.ts  callbacks) if one doesn't exist (override GitHub profile username if needed).
+- **Authorization & Permissions:** 
+  Ensure only authenticated users can create/edit posts.
 ---
 
 ## 🛠️ In Progress / Next Steps
-- /[username] change profile photo 
+- /[username]
+  - change profile photo
+  - add posts of the user
 - **New Post Functionality:**  
   Implement the form UI and logic to create and publish new posts from the `/new-post` page.
+- **Testing:**  
+  Add unit and integration tests for critical flows.
 - **Improve UI/UX:**  
   - Enhance styling and responsiveness.
   - Add feedback for actions (e.g., post creation, errors).
-- **Authorization & Permissions:**  
-  Ensure only authenticated users can create/edit posts.
-- **Testing:**  
-  Add unit and integration tests for critical flows.
-  
 ---
