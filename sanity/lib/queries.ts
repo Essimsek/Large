@@ -1,4 +1,6 @@
-export const GET_ALL_POSTS_QUERY_DESC = `
+import { defineQuery } from "next-sanity";
+
+export const GET_ALL_POSTS_QUERY_DESC = defineQuery(`
   *[
     _type == "post" &&
     defined(slug.current) &&
@@ -27,9 +29,9 @@ export const GET_ALL_POSTS_QUERY_DESC = `
       image
     },
   }
-`;
+`);
 
-export const GET_POST_BY_SLUG_QUERY = `*[_type == "post" && slug.current == $slug && author->username == $username][0] {
+export const GET_POST_BY_SLUG_QUERY = defineQuery(`*[_type == "post" && slug.current == $slug && author->username == $username][0] {
   title,
   description,
   category,
@@ -39,11 +41,11 @@ export const GET_POST_BY_SLUG_QUERY = `*[_type == "post" && slug.current == $slu
   _createdAt,
   _updatedAt,
   pitch
-}`
+}`);
 
-export const GET_USER_BY_USERNAME_QUERY = `*[_type == "author" && username == $username][0]`
+export const GET_USER_BY_USERNAME_QUERY = defineQuery(`*[_type == "author" && username == $username][0]`);
 
-export const GET_USER_POSTS_QUERY = `*[_type == "post" && author->username == $username] | order(_createdAt desc) {
+export const GET_USER_POSTS_QUERY = defineQuery(`*[_type == "post" && author->username == $username] | order(_createdAt desc) {
   _id,
   _createdAt,
   title,
@@ -59,4 +61,4 @@ export const GET_USER_POSTS_QUERY = `*[_type == "post" && author->username == $u
     name,
     image
   },
-}`
+}`);
