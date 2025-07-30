@@ -37,6 +37,11 @@ export const GET_POST_BY_SLUG_QUERY = defineQuery(`*[_type == "post" && slug.cur
   category,
   image,
   likes,
+  author -> {
+  username,
+  name,
+  image
+  },
   views,
   _createdAt,
   _updatedAt,
