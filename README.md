@@ -13,6 +13,7 @@ Create and publish your own startups.
 - **Dynamic Routing:**  
   - User profile pages: `[username].tsx`
     - user can change the username
+    - user's latest posts
   - Individual post pages: `[username]/[postId].tsx`
   - fetch the post informations in `[username]/[postId].tsx`
 - **New Post Page UI:**  
@@ -28,7 +29,6 @@ Create and publish your own startups.
 ## 🛠️ In Progress / Next Steps
 - /[username]
   - change profile photo
-  - add posts of the user
 - **New Post Functionality:**  
   Implement the form UI and logic to create and publish new posts from the `/new-post` page.
 - **Testing:**  
