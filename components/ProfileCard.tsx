@@ -21,6 +21,7 @@ const ProfileCard = ({user, isOwner}: {user: Author, isOwner: boolean}) => {
     const [isEditing, setIsEditing] = useState(false);
     const [username, setUsername] = useState(user.username || '');
     const [isLoading, setIsLoading] = useState(false);
+    const [isError, setIsError] = useState(false);
 
     const handleSave = async () => {
         const parsedUsername = USERNAME_SCHEMA.safeParse(username);
@@ -29,11 +30,17 @@ const ProfileCard = ({user, isOwner}: {user: Author, isOwner: boolean}) => {
             return;
         } else {
                 setIsLoading(true);
-                await sanityUpdateUsername({username: username, userId: user._id});
-                await signIn("github", {redirect: false});
-                window.location.href = `/${username}`;
+                const err = await sanityUpdateUsername({username: username, userId: user._id});
+                if (err !== true) {
+                    await signIn("github", {redirect: false});
+                    window.location.href = `/${username}`;
+                    setIsEditing(false);
+                    setIsError(false);
+                }
+                else {
+                    setIsError(true);
+                }
             }
-            setIsEditing(false);
             setIsLoading(false);
         }
 
@@ -43,6 +50,7 @@ const ProfileCard = ({user, isOwner}: {user: Author, isOwner: boolean}) => {
                 <Image
                     src={user.image || '/fallback-profile.png'}
                     alt={`${user.name}'s avatar`}
+                    sizes="(max-width: 768px) 100vw, 200px"
                     fill
                     className="object-cover rounded-full border-4 border-white"
                 />
@@ -52,14 +60,18 @@ const ProfileCard = ({user, isOwner}: {user: Author, isOwner: boolean}) => {
                 <div className="flex flex-row items-center justify-center space-x-2">
                 {isOwner && isEditing ? (
                     <>
-                        <Input className="text-2xl text-white py-7 text-center font-semibold md:text-3xl lg:text-4xl bg-black" onChange={(e) => setUsername(e.target.value)} defaultValue={username || 'no name'} />
+                        <Input className="text-2xl text-white py-7 text-center font-semibold md:text-3xl lg:text-4xl bg-black" 
+                                onChange={(e) => setUsername(e.target.value)}
+                                value={isError ? user.username : username} 
+                        />
                         <Button onClick={() => {handleSave()}}><Save /></Button>
                         { isLoading && <span className="text-white">Saving...</span>}
                         <Button onClick={() => setIsEditing(false)}><X /></Button>
+                        {isError == true && <span className="text-red-500">Username already exists!</span>}
                     </>
                 ): (
                     <>
-                        <Header title={username || 'no name'} />
+                        <Header title={user.username || 'no name'} />
                         {isOwner && <Button onClick={() => setIsEditing(true)}><Edit /></Button>}
                     </>
                 )}
