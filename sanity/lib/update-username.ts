@@ -7,7 +7,7 @@ export default async function sanityUpdateUsername({ username, userId }: { usern
       _id
     }`, { username });
     if (usernameExists) {
-      return true;
+      throw new Error("");
     }
     await client.patch(userId).set({username: username}).commit();
     return false;

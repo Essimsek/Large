@@ -9,7 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { PortableText } from '@portabletext/react';
 import { urlForImage } from '@/sanity/lib/image';
-
+// TODO: update the number of views and likes
 const Page = async ({params}: {
     params: Promise<{username: string, postId: string}>
 }) => {
