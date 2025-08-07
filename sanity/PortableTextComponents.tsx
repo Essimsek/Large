@@ -3,6 +3,27 @@ import Link from "next/link";
 import { PortableTextComponents } from "next-sanity";
 import { urlForImage } from "@/sanity/lib/image";
 
+interface CustomBlockQuoteProps {
+  children: React.ReactNode;
+  attributes?: React.BlockquoteHTMLAttributes<HTMLQuoteElement>;
+}
+
+export const CustomBlockQuote = ({ children, attributes }: CustomBlockQuoteProps) => {
+  return (
+    <blockquote
+      {...attributes}
+      style={{
+        borderLeft: '4px solid #ccc',
+        margin: '1em 0',
+        paddingLeft: '1em',
+        fontStyle: 'italic',
+      }}
+    >
+      {children}
+    </blockquote>
+  );
+};
+
 export const components: PortableTextComponents = {
   types: {
     // image
@@ -32,12 +53,11 @@ export const components: PortableTextComponents = {
     h3: ({ children }) => <h3 className="text-2xl font-bold my-4">{children}</h3>,
     h4: ({ children }) => <h4 className="text-xl font-semibold my-3">{children}</h4>,
 
-    // quote type
-    blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-gray-300 pl-4 italic my-6">
+    quote: ({ children }) => (
+      <CustomBlockQuote>
         {children}
-      </blockquote>
-    ),
+      </CustomBlockQuote>
+    )
   },
 
   list: {
