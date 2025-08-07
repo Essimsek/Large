@@ -7,9 +7,9 @@ import { formatDate } from '@/lib/utils';
 import Header from '@/components/Header';
 import Image from 'next/image';
 import Link from 'next/link';
-import { PortableText } from '@portabletext/react';
-import { urlForImage } from '@/sanity/lib/image';
-// TODO: update the number of views and likes
+import { PortableText } from 'next-sanity';
+import { components } from '@/sanity/PortableTextComponents';
+
 const Page = async ({params}: {
     params: Promise<{username: string, postId: string}>
 }) => {
@@ -21,56 +21,13 @@ const Page = async ({params}: {
     }
 
     const { title, description, author, category, image, likes, views, _createdAt, _updatedAt, pitch } = currentPost;
-
-    // Custom components for Portable Text
-    const components = {
-        types: {
-            image: ({ value }: any) => (
-                <div className="my-8">
-                    <img 
-                        src={urlForImage(value).url()} 
-                        alt={value.alt || 'Post image'}
-                        className="rounded-xl mx-auto max-w-full"
-                    />
-                    {value.caption && (
-                        <p className="text-center text-gray-500 text-sm mt-2">
-                            {value.caption}
-                        </p>
-                    )}
-                </div>
-            ),
-        },
-        marks: {
-            link: ({ children, value }: any) => (
-                <Link 
-                    href={value.href} 
-                    className="text-blue-600 hover:underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    {children}
-                </Link>
-            ),
-        },
-    };
-
-    // Get the text safely I had to do it damnn
-    const excerptText = pitch && 
-                       pitch.length > 0 && 
-                       pitch[0]._type === 'block' && 
-                       pitch[0].children && 
-                       pitch[0].children.length > 0 ? 
-                       pitch[0].children[0].text : '';
-
     return (
         <>
-            {/* Header Section header, description, date user bla bla */}
+            {/* Header Section */}
             <section className='red-container pattern'>
                 <div className="max-w-4xl w-full mx-auto relative">
                     <div className="flex flex-col items-center">
-                        <Header 
-                            title={title || ''} 
-                        />
+                        <Header title={title || ''} />
                         
                         {category && (
                             <span className="bg-white text-red-600 px-3 py-1 rounded-full text-sm font-medium mt-4">
@@ -131,7 +88,7 @@ const Page = async ({params}: {
                 </div>
             </section>
 
-            {/* thumbail image */}
+            {/* Thumbnail image */}
             {image && (
                 <section className="max-w-4xl mx-auto px-5 mt-8">
                     <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg">
@@ -145,13 +102,7 @@ const Page = async ({params}: {
                 </section>
             )}
 
-            <section className="max-w-2xl mx-auto px-5 py-10 prose prose-lg prose-red">
-                {excerptText && (
-                    <div className="text-gray-600 mb-10 border-l-4 border-red-400 pl-4 py-1 italic text-xl">
-                        {excerptText}
-                    </div>
-                )}
-                
+            <section className="max-w-3xl mx-auto px-5 py-10">
                 {pitch && pitch.length > 0 ? (
                     <PortableText 
                         value={pitch} 
