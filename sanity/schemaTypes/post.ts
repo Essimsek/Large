@@ -46,59 +46,56 @@ export const post = defineType({
             type: "number",
         }),
         defineField({
-            name: "pitch",
-            type: "array",
-            of: [
-                defineArrayMember({
-                    type: "block",
-
-                    styles: [
-                        {title: "Normal", value: "normal"},
-                        {title: "H1", value: "h1"},
-                        {title: "H2", value: "h2"},
-                        {title: "H3", value: "h3"},
-                        {title: "H4", value: "h4"},
-                        {title: "Quote",  value: "blockquote" },
+        name: "pitch",
+        type: "array",
+        of: [
+            // Text blocks (paragraphs, headings, etc.)
+            defineArrayMember({
+                type: "block",
+                of: [],
+                styles: [
+                    { title: "Normal", value: "normal" },
+                    { title: "H1", value: "h1" },
+                    { title: "H2", value: "h2" },
+                    { title: "H3", value: "h3" },
+                    { title: "H4", value: "h4" },
+                ],
+                lists: [{ title: "Bullet", value: "bullet" }],
+                marks: {
+                    decorators: [
+                    { title: "Strong", value: "strong" },
+                    { title: "Emphasis", value: "em" },
                     ],
-                    lists: [
-                        {title: "Bullet", value: "bullet"}, 
-                    ],
-                    marks: {
-                        decorators: [
-                            {title: "Strong", value: "strong"},
-                            {title: "Emphasis", value: "em"},
-                        ],
-                        annotations: [
-                            {
-                                title: "URL",
-                                name: "link",
-                                type: "object",
-                                fields: [
-                                    {
-                                        title: "URL",
-                                        name: "href",
-                                        type: "url",
-                                    },
-                                ]
-                            }
-                        ]
-                    }
-                }),
-                defineArrayMember({
-                    type: "image",
-                    options: {
-                        hotspot: true,
-                    },
-                    icon: ImageIcon,
-                    fields: [
+                    annotations: [
+                    {
+                        title: "URL",
+                        name: "link",
+                        type: "object",
+                        fields: [
                         {
-                            name: "alt",
-                            type: "string",
-                            title: "Alternative text",
-                        }
-                    ]
+                            title: "URL",
+                            name: "href",
+                            type: "url",
+                        },
+                        ],
+                    },
+                    ],
+                },
                 }),
-            ]
+                // Images as standalone blocks (not nested in text)
+                defineArrayMember({
+                type: "image",
+                options: { hotspot: true },
+                icon: ImageIcon,
+                fields: [
+                    {
+                    name: "alt",
+                    type: "string",
+                    title: "Alternative Text",
+                    },
+                ],
+                }),
+            ],
         })
     ]
 })
