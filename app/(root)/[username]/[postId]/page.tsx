@@ -54,6 +54,7 @@ const Page = async ({params}: {
                             src={author.image}
                             alt={`${author.name}'s avatar`}
                             fill
+                            sizes='(50px) 50px, (100px) 100px, 150px'
                             className="object-cover rounded-full border-2 border-white group-hover:border-red-300 transition-all"
                         />
                         ) : (
@@ -96,6 +97,7 @@ const Page = async ({params}: {
                             src={image}
                             alt={title || 'Post image'}
                             fill
+                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                             className="object-cover"
                         />
                     </div>
