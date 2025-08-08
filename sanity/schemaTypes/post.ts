@@ -65,6 +65,7 @@ export const post = defineType({
                     decorators: [
                     { title: "Strong", value: "strong" },
                     { title: "Emphasis", value: "em" },
+                    { title: "Inline Code", value: "code" },
                     ],
                     annotations: [
                     {
@@ -82,7 +83,7 @@ export const post = defineType({
                     ],
                 },
                 }),
-                // Images as standalone blocks (not nested in text)
+                // Images
                 defineArrayMember({
                 type: "image",
                 options: { hotspot: true },
@@ -94,6 +95,29 @@ export const post = defineType({
                     title: "Alternative Text",
                     },
                 ],
+                }),
+                // Code blocks
+                defineArrayMember({
+                    type: "code",
+                    name: "codeBlock",
+                    title: "Code Block",
+                    options: {
+                        withFilename: true,
+                        language: "javascript",
+                        languageAlternatives: [
+                            { title: "JavaScript", value: "javascript" },
+                            { title: "TypeScript", value: "typescript" },
+                            { title: "Python", value: "python" },
+                            { title: "Go", value: "go" },
+                            { title: "Rust", value: "rust" },
+                            { title: "HTML", value: "html" },
+                            { title: "CSS", value: "css" },
+                            { title: "JSON", value: "json" },
+                            { title: "C", value: "c" },
+                            { title: "C++", value: "cpp" },
+                            { title: "C#", value: "csharp" },
+                        ],
+                    },
                 }),
             ],
         })
