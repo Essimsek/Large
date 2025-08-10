@@ -33,6 +33,7 @@ Create and publish your own startups.
   Implement the form UI and logic to create and publish new posts from the `/new-post` page.
 - **Testing:**  
   Add unit and integration tests for critical flows.
+  add small hash to the username if already exists. Not Sure ?
 - **Improve UI/UX:**  
   - Enhance styling and responsiveness.
   - Add feedback for actions (e.g., post creation, errors).

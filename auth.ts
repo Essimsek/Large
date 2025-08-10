@@ -2,6 +2,7 @@ import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
 import { client } from "./sanity/lib/client"
 import { Author } from "./sanity.types";
+import { checkExistingUsername } from "./sanity/lib/update-username";
 
 declare module "next-auth" {
   interface Session {
@@ -37,7 +38,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (author) {
           return true
         } else {
-          const username = params.profile?.login
+          let username = await checkExistingUsername(`${params.profile?.login}` || '');
           await client.create({
             _type: "author",
             name: params.profile?.name || "Unknown",
