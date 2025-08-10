@@ -41,7 +41,6 @@ const Page = async ({params}: {
                     </div>
                 </div>
             </section>
-
             <section className="max-w-4xl mx-auto px-5 mt-6 mb-6">
                 <div className="flex items-center gap-4">
                     <Link 
@@ -87,6 +86,7 @@ const Page = async ({params}: {
                     </time>
                     </div>
                 </div>
+                <hr className='mt-4 h-0.5 bg-gray-300'/>
             </section>
 
             {/* Thumbnail image */}
@@ -101,6 +101,7 @@ const Page = async ({params}: {
                             className="object-cover"
                         />
                     </div>
+                    <hr className='mt-4 h-0.5 bg-gray-300'/>
                 </section>
             )}
 
