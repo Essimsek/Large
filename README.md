@@ -34,6 +34,9 @@ Create and publish your own startups.
 - **Testing:**  
   Add unit and integration tests for critical flows.
   add small hash to the username if already exists. Not Sure ?
+- **Post page:**
+  update view count when visit a page.
+  add like button and update like count
 - **Improve UI/UX:**  
   - Enhance styling and responsiveness.
   - Add feedback for actions (e.g., post creation, errors).
