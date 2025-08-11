@@ -4,7 +4,6 @@ import { GET_ALL_POSTS_QUERY_DESC } from "@/sanity/lib/queries";
 import StartupCard from "@/components/StartupCard";
 
 const  StartupList = async ({params}: {params: string | any}) => {
-    // set timeout(() => {}, 1000); // Simulate a delay for suspense
     const posts = await client.fetch(GET_ALL_POSTS_QUERY_DESC, params) as Post[];
     return (
           <ul className="grid-card-area">

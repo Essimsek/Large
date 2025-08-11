@@ -2,6 +2,7 @@ import Header from "@/components/Header";
 import SearchForm from "@/components/SearchForm";
 import { Suspense } from "react";
 import StartupList from "@/components/StartupList";
+import SkeletonList from "@/components/ui/SkeletonList";
 
 export const experimental_ppr = true;
 
@@ -26,7 +27,7 @@ export default async function Home({ searchParams }: {
         <p className="text-black text-3xl font-semibold"> 
           {query ? `Search results for ${query}` : "Explore Startups"}
         </p>
-        <Suspense fallback={<p>Posts loading...</p>}>
+        <Suspense fallback={<SkeletonList range={4} />}>
           <StartupList params={params} />
         </Suspense>
       </section>
