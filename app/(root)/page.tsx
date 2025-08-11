@@ -1,18 +1,17 @@
 import Header from "@/components/Header";
 import SearchForm from "@/components/SearchForm";
-import StartupCard from "@/components/StartupCard";
-import { Post } from "@/sanity.types";
-import { client } from "@/sanity/lib/client";
-import { GET_ALL_POSTS_QUERY_DESC } from "@/sanity/lib/queries";
+import { Suspense } from "react";
+import StartupList from "@/components/StartupList";
+
+export const experimental_ppr = true;
 
 export default async function Home({ searchParams }: {
    searchParams: Promise<{query?: string}>
 }) {
+
   const query = (await searchParams).query
   const params = { search: query ? `*${query}*` : null };
-  // const { data: posts } = await sanityFetch({query: GET_ALL_POSTS_QUERY_DESC}) as { data: startupCardType[] };
-  const posts = await client.fetch(GET_ALL_POSTS_QUERY_DESC, params);
-
+  
   return (
     <>
       <section className="red-container pattern">
@@ -27,18 +26,10 @@ export default async function Home({ searchParams }: {
         <p className="text-black text-3xl font-semibold"> 
           {query ? `Search results for ${query}` : "Explore Startups"}
         </p>
-
-        <ul className="grid-card-area">
-          {posts?.length > 0 ? (
-            posts.map((post: Post) => (
-              <StartupCard key={post?._id} post={post} />
-            ))
-          ):
-            <li className="col-span-3 text-center text-gray-500">No results found</li>
-          }
-        </ul>
+        <Suspense fallback={<p>Posts loading...</p>}>
+          <StartupList params={params} />
+        </Suspense>
       </section>
-      {/*<SanityLive />*/}
     </>
   );
 }

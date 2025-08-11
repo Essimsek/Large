@@ -13,7 +13,10 @@ const nextConfig: NextConfig = {
     allowedDevOrigins: [
       "http://192.168.1.42:3000",
       "http://localhost:3000",
-    ]
+    ],
+    experimental: {
+      ppr: "incremental"
+    }
 };
 
 export default nextConfig;
