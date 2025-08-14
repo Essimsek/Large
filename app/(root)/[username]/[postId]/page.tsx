@@ -14,12 +14,18 @@ const Page = async ({params}: {
     params: Promise<{username: string, postId: string}>
 }) => {
     const {username, postId} = await params;
-    const currentPost = await client.fetch(GET_POST_BY_SLUG_QUERY, {username, slug: postId}) as Post;
+    const currentPost = await client.fetch(GET_POST_BY_SLUG_QUERY, {username, slug: postId}) as Post; // get the posts
     
     if (!currentPost) {
         notFound();
     }
-
+    try {
+        await client.patch(currentPost._id)
+            .inc({ views: 1 })
+            .commit();
+    } catch (error) {
+        console.error("Error updating post views:", error);
+    }
     const { title, description, author, category, image, likes, views, _createdAt, _updatedAt, pitch } = currentPost;
     return (
         <>
