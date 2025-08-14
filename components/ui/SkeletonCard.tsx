@@ -1,4 +1,4 @@
-// components/SkeletonCard.tsx
+"use client";
 import { Skeleton } from "./skeleton";
 
 export default function SkeletonCard() {

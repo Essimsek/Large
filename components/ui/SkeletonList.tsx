@@ -1,3 +1,5 @@
+"use client";
+
 import SkeletonCard from "@/components/ui/SkeletonCard";
 
 const SkeletonList = ({ range }: { range: number }) => {

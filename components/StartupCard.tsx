@@ -4,7 +4,7 @@ import { Heart, Eye, CalendarDays, UserCircle } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 import { Post } from '@/sanity.types';
 
-const StartupCard = async ({ post }: { post: Post }) => {
+const StartupCard = ({ post }: { post: Post }) => {
   return (
     <div className="max-w-2xl w-full bg-white border-2 border-black rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] p-5 my-6">
     { /*Header ->  avatar date etc. */ }
