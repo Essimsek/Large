@@ -32,6 +32,7 @@ export const GET_ALL_POSTS_QUERY_DESC = defineQuery(`
 `);
 
 export const GET_POST_BY_SLUG_QUERY = defineQuery(`*[_type == "post" && slug.current == $slug && author->username == $username][0] {
+  _id,
   title,
   description,
   category,
