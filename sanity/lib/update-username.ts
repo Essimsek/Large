@@ -4,7 +4,7 @@ import { client } from "./client"
 export async function checkExistingUsername(username: string) {
 
   let count = 0
-  let existingUser = await client.fetch(
+  let existingUser = await client.withConfig({useCdn: false}).fetch(
     `*[_type == "author" && username == $username][0]`, 
     { username }
   )
@@ -13,7 +13,7 @@ export async function checkExistingUsername(username: string) {
     console.log(`Username ${username} already exists, trying with a number suffix...`)
     count++
     username = `${username}${count}`
-    existingUser = await client.fetch(
+    existingUser = await client.withConfig({useCdn: false}).fetch(
       `*[_type == "author" && username == $username][0]`, 
       { username }
     )

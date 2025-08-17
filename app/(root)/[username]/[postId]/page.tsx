@@ -14,7 +14,7 @@ const Page = async ({params}: {
     params: Promise<{username: string, postId: string}>
 }) => {
     const {username, postId} = await params;
-    const currentPost = await client.fetch(GET_POST_BY_SLUG_QUERY, {username, slug: postId}) as Post; // get the posts
+    const currentPost = await client.withConfig({useCdn: false}).fetch(GET_POST_BY_SLUG_QUERY, {username, slug: postId}) as Post; // get the posts
     
     if (!currentPost) {
         notFound();

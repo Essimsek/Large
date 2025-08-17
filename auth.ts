@@ -34,7 +34,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     async signIn(params) {
       try {
-        const author = await client.fetch(`*[_type == "author" && id == $id][0]`, { id: params.profile?.id}) as Author
+        const author = await client.withConfig({useCdn: false}).fetch(`*[_type == "author" && id == $id][0]`, { id: params.profile?.id}) as Author
         if (author) {
           return true
         } else {
@@ -58,7 +58,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   async jwt({ token, profile }) {
     const id = profile?.id ?? token.id;
     if (id) {
-      const author = await client.fetch(
+      const author = await client.withConfig({useCdn: false}).fetch(
         `*[_type=="author" && id == $id][0]{username}`,
         { id }
       );
