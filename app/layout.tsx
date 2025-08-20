@@ -30,7 +30,7 @@ export const abhayaliFont = localFont({
 
 export const metadata: Metadata = {
   title: "Large",
-  description: "Create and publish your own startups with Large",
+  description: "Create and publish your own Posts with Large",
 };
 
 export default function RootLayout({

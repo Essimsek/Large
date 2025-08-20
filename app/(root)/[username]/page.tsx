@@ -4,7 +4,7 @@ import { GET_USER_BY_USERNAME_QUERY, GET_USER_POSTS_QUERY } from '@/sanity/lib/q
 import { Author, Post } from '@/sanity.types';
 import ProfileCard from '@/components/ProfileCard';
 import {auth} from '@/auth';
-import StartupCard from '@/components/StartupCard';
+import PostCard from '@/components/PostCard';
 
 export default async function Page({ params }: {params: Promise<{username: string}>}) {
   const { username } = await params;
@@ -30,7 +30,7 @@ export default async function Page({ params }: {params: Promise<{username: strin
         <ul className="grid-card-area">
           {posts?.length > 0 ? (
             posts.map((post) => (
-              <StartupCard key={post?._id} post={post} />
+              <PostCard key={post?._id} post={post} />
             ))
           ) : (
             <li className="col-span-3 text-center text-gray-500">No posts found</li>

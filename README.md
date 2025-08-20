@@ -1,6 +1,6 @@
 # Large
 
-Create and publish your own startups.
+Create and publish your own posts.
 
 ---
 

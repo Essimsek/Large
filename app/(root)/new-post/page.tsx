@@ -14,10 +14,15 @@ const Page = async () => {
         );
     }
     return (
-        <div className='red-container pattern'>
-            <Header title='Welcome to the Create Page' />
-            <p className='font-semibold text-white text-center'>Start writing your post right here.</p>
-        </div>
+        <>
+            <div className='red-container pattern'>
+                <Header title='Welcome to the Create Page' />
+                <p className='font-semibold text-white text-center'>Start writing your post right here.</p>
+            </div>
+            <section>
+                <h1>Create your Posts ideas</h1>
+            </section>
+        </>
     );
 }
 
