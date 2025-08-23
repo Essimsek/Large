@@ -9,6 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { PortableText } from 'next-sanity';
 import { components } from '@/sanity/PortableTextComponents';
+import { Separator } from '@/components/ui/separator';
 
 const Page = async ({params}: {
     params: Promise<{username: string, postId: string}>
@@ -92,7 +93,7 @@ const Page = async ({params}: {
                     </time>
                     </div>
                 </div>
-                <hr className='mt-4 h-0.5 bg-gray-300'/>
+                <Separator className='mt-4'/>
             </section>
 
             {/* Thumbnail image */}
@@ -107,7 +108,7 @@ const Page = async ({params}: {
                             className="object-cover"
                         />
                     </div>
-                    <hr className='mt-4 h-0.5 bg-gray-300'/>
+                    <Separator className='mt-4'/>
                 </section>
             )}
 
