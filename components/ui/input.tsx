@@ -1,6 +1,28 @@
-import * as React from "react"
+"use client"
 
 import { cn } from "@/lib/utils"
+import { useState } from "react"
+
+function InputWithCounter(
+  { maxChars, className, ...props }: { maxChars: number } & React.ComponentProps<"input">
+) {
+  const [value, setValue] = useState("")
+  return (
+    <>
+      <Input 
+        value={value} 
+        onChange={(e) => setValue(e.target.value)} 
+        maxLength={maxChars} 
+        className={cn("!text-lg !font-semibold", className)}
+        type="text" 
+        {...props}
+      />
+      <p className={`text-sm text-muted-foreground text-right ${value.length === maxChars ? 'text-red-500 font-semibold' : ''}`}>
+        {value.length}/{maxChars} characters
+      </p>
+    </>
+  )
+}
 
 function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   return (
@@ -18,4 +40,4 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
   )
 }
 
-export { Input }
+export { Input, InputWithCounter }

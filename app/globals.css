@@ -8,7 +8,7 @@
     @apply flex flex-row cursor-pointer gap-1 hover:bg-gray-200 p-2 transition-all rounded-xl;
    }
   .header-title {
-    @apply text-3xl text-white p-4 text-center font-semibold relative leading-10 z-20 md:text-5xl lg:text-6xl;
+    @apply text-2xl text-white p-4 text-center font-semibold relative leading-10 z-20 md:text-4xl lg:text-5xl;
   }
   .header-bg {
     @apply bg-black rounded-sm shadow-sm p-4 rotate-1 absolute inset-0 z-10;
