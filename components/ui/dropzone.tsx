@@ -34,7 +34,7 @@ export default function SimpleDropzone() {
 
   return (
     <>
-    <Label htmlFor="fileUpload" className="text-2xl">File Upload</Label>
+    <Label htmlFor="fileUpload" className="text-2xl">Post Thumbnail</Label>
     <div className="w-full max-w-md mx-auto">
       <Label
         onDragOver={(e) => e.preventDefault()}
