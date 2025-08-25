@@ -40,4 +40,6 @@ Create and publish your own posts.
 - **Improve UI/UX:**  
   - Enhance styling and responsiveness.
   - Add feedback for actions (e.g., post creation, errors).
+- **Use sanity image type**
+  - upload images to sanity
 ---
