@@ -3,6 +3,7 @@ import GitHub from "next-auth/providers/github"
 import { client } from "./sanity/lib/client"
 import { Author } from "./sanity.types";
 import { checkExistingUsername } from "./sanity/lib/update-username";
+import { uploadImageFromUrl } from "./sanity/lib/image";
 
 declare module "next-auth" {
   interface Session {
@@ -38,12 +39,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (author) {
           return true
         } else {
+          const imageRef = await uploadImageFromUrl(params.profile?.avatar_url);
           let username = await checkExistingUsername(`${params.profile?.login}` || '');
           await client.create({
             _type: "author",
             name: params.profile?.name || "Unknown",
             username: username,
-            image: params.profile?.avatar_url,
+            image: imageRef,
             email: params.profile?.email,
             bio: params.profile?.bio || "No bio available",
             id: params.profile?.id,

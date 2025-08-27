@@ -70,7 +70,7 @@ export default function SimpleDropzone() {
       <Input
         id="fileUpload"
         type="file"
-        name="fileUpload"
+        name="post-thumbnail"
         accept="image/*"
         onChange={handleChange}
         className="hidden"

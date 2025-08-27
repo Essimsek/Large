@@ -3,8 +3,10 @@ import Link from 'next/link';
 import { Heart, Eye, CalendarDays, UserCircle } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 import { Post } from '@/sanity.types';
+import { urlForImage } from '@/sanity/lib/image';
 
 const PostCard = ({ post }: { post: Post }) => {
+  const imageUrl = urlForImage(post.author?.image).width(24).height(24).url()
   return (
     <div className="max-w-2xl w-full bg-white border-2 border-black rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] p-5 my-6">
     { /*Header ->  avatar date etc. */ }
@@ -12,7 +14,7 @@ const PostCard = ({ post }: { post: Post }) => {
         <Link href={"/" + post.author?.username} className="flex p-1 items-center justify-center gap-2 transition-all duration-150 shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] hover:shadow-[0px_2px_0px_0px_rgba(0,0,0,1)]">
           <div className="p-1 border border-gray-300 rounded-sm">
             {post.author?.image ?
-              <img src={post.author.image} alt={post.author.username} className="w-6 h-6 rounded-full" /> 
+              <img src={imageUrl} alt={post.author.username} className="w-6 h-6 rounded-full" /> 
             : <UserCircle className="w-6 h-6 text-gray-500" />
             }
           </div>

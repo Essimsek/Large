@@ -10,6 +10,7 @@ import { signIn } from 'next-auth/react';
 import { z } from 'zod';
 import Image from 'next/image';
 import sanityUpdateUsername  from '@/sanity/lib/update-username';
+import { urlForImage } from '@/sanity/lib/image';
 
 const USERNAME_SCHEMA = z
   .string()
@@ -43,12 +44,12 @@ const ProfileCard = ({user, isOwner}: {user: Author, isOwner: boolean}) => {
             }
             setIsLoading(false);
         }
-
+    
     return (
         <div className="red-container pattern">
             <div className="relative w-48 h-48">
                 <Image
-                    src={user.image || '/fallback-profile.png'}
+                    src={urlForImage(user.image).width(192).height(192).url() || '/fallback-profile.png'}
                     alt={`${user.name}'s avatar`}
                     sizes="(max-width: 768px) 100vw, 200px"
                     fill

@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { PortableText } from 'next-sanity';
 import { components } from '@/sanity/PortableTextComponents';
 import { Separator } from '@/components/ui/separator';
+import { urlForImage } from '@/sanity/lib/image';
 
 const Page = async ({params}: {
     params: Promise<{username: string, postId: string}>
@@ -30,7 +31,6 @@ const Page = async ({params}: {
     const { title, description, author, category, image, likes, views, _createdAt, _updatedAt, pitch } = currentPost;
     return (
         <>
-            {/* Header Section */}
             <section className='red-container pattern'>
                 <div className="max-w-4xl w-full mx-auto relative">
                     <div className="flex flex-col items-center">
@@ -57,7 +57,7 @@ const Page = async ({params}: {
                     <div className="relative w-12 h-12 rounded-full bg-gray-200 overflow-hidden shadow-md">
                         {author?.image ? (
                         <Image
-                            src={author.image}
+                            src={urlForImage(author.image).width(48).height(48).url()}
                             alt={`${author.name}'s avatar`}
                             fill
                             sizes='(50px) 50px, (100px) 100px, 150px'

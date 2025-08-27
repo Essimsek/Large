@@ -6,12 +6,14 @@ import { TextareaWithCounter } from './ui/textarea'
 import { InputWithCounter } from '@/components/ui/input';
 import { SimpleEditor } from './tiptap-templates/simple/simple-editor'
 import { Separator } from '@radix-ui/react-dropdown-menu'
+import { createNewPost } from '@/sanity/lib/create-new-post'
 
 function PostForm() {
-  const handleSubmit = (e: React.FormEvent) => {
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const form = new FormData(e.target as HTMLFormElement)
-    console.log("Form submitted: ", form.get("post-content"))
+    await createNewPost({data: form})
   }
 
   return (
