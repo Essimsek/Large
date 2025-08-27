@@ -18,12 +18,12 @@ function PostForm() {
     <form onSubmit={handleSubmit} className='flex flex-col gap-4 p-5'>
 
       <Label className='text-2xl' htmlFor='post-title'>Title</Label>
-      <InputWithCounter id='post-title' name='post-title' className='' maxChars={100}/>
+      <InputWithCounter id='post-title' name='post-title' className='' maxChars={100} required/>
 
       <SimpleDropzone />
 
       <Label className='text-2xl' htmlFor='post-description'>Description</Label>
-      <TextareaWithCounter id='post-description' name='post-description' maxChars={150} />
+      <TextareaWithCounter id='post-description' name='post-description' maxChars={150} required/>
       
       <Separator className="border mt-3" />
       
