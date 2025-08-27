@@ -41,5 +41,6 @@ Create and publish your own posts.
   - Enhance styling and responsiveness.
   - Add feedback for actions (e.g., post creation, errors).
 - **Use sanity image type**
-  - upload images to sanity
+  - upload images to sanity for posts
+  - author profle photo url -> image DONE
 ---
