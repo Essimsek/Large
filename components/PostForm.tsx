@@ -26,10 +26,13 @@ function PostForm() {
 
       <Label className='text-2xl' htmlFor='post-description'>Description</Label>
       <TextareaWithCounter id='post-description' name='post-description' maxChars={150} required/>
-      
+
+      <Label className='text-2xl' htmlFor='post-category'>Category</Label>
+      <TextareaWithCounter id='post-category' name='post-category' maxChars={40} required/>
+
       <Separator className="border mt-3" />
       
-      <Label className='text-2xl'>Pitch information</Label>
+      <Label className='text-2xl'>Content</Label>
       <div className='w-full flex items-center justify-center'>
         <SimpleEditor />
       </div>

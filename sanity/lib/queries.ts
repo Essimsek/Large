@@ -46,10 +46,14 @@ export const GET_POST_BY_SLUG_QUERY = defineQuery(`*[_type == "post" && slug.cur
   views,
   _createdAt,
   _updatedAt,
-  pitch
+  content
 }`);
 
 export const GET_USER_BY_USERNAME_QUERY = defineQuery(`*[_type == "author" && username == $username][0]`);
+
+export const GET_AUTHOR_ID_BY_USERNAME_QUERY = defineQuery(`*[_type == "author" && username == $username][0] {
+  _id,}`
+);
 
 export const GET_USER_POSTS_QUERY = defineQuery(`*[_type == "post" && author->username == $username] | order(_createdAt desc) {
   _id,

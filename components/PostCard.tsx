@@ -6,7 +6,6 @@ import { Post } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/image';
 
 const PostCard = ({ post }: { post: Post }) => {
-  const imageUrl = urlForImage(post.author?.image).width(24).height(24).url()
   return (
     <div className="max-w-2xl w-full bg-white border-2 border-black rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] p-5 my-6">
     { /*Header ->  avatar date etc. */ }
@@ -14,7 +13,7 @@ const PostCard = ({ post }: { post: Post }) => {
         <Link href={"/" + post.author?.username} className="flex p-1 items-center justify-center gap-2 transition-all duration-150 shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] hover:shadow-[0px_2px_0px_0px_rgba(0,0,0,1)]">
           <div className="p-1 border border-gray-300 rounded-sm">
             {post.author?.image ?
-              <img src={imageUrl} alt={post.author.username} className="w-6 h-6 rounded-full" /> 
+              <img src={urlForImage(post.author.image).width(24).height(24).url()} alt={post.author.username} className="w-6 h-6 rounded-full" /> 
             : <UserCircle className="w-6 h-6 text-gray-500" />
             }
           </div>
@@ -43,23 +42,21 @@ const PostCard = ({ post }: { post: Post }) => {
           </Link>
           <p className="text-gray-700 line-clamp-3">{post.description}</p>
         </div>
-        
+
         <div className="md:col-span-1 flex justify-center">
+          {post.image ? 
           <div className="border-2 border-black w-full h-32 bg-gray-100 flex items-center justify-center">
-            {post.image ? (
               <img
-                src={post.image}
+                src={urlForImage(post.image).width(120).height(120).url()}
                 alt={post.title}
                 width={120}
                 height={120}
                 className="object-cover w-full h-full"
-              />
-            ) : (
-              <div className="bg-gray-200 border-2 border-dashed border-gray-400 w-full h-full flex items-center justify-center">
-                <span className="text-xs text-gray-500">NO IMAGE</span>
-              </div>
-            )}
+                />
           </div>
+        :
+        <div className='w-full h-32'></div>
+        }
         </div>
       </div>
 

@@ -7,10 +7,11 @@ import { formatDate } from '@/lib/utils';
 import Header from '@/components/Header';
 import Image from 'next/image';
 import Link from 'next/link';
-import { PortableText } from 'next-sanity';
-import { components } from '@/sanity/PortableTextComponents';
+//import { PortableText } from 'next-sanity';
+//import { components } from '@/sanity/PortableTextComponents';
 import { Separator } from '@/components/ui/separator';
 import { urlForImage } from '@/sanity/lib/image';
+import PortableEditor from '@/components/PortableEditor';
 
 const Page = async ({params}: {
     params: Promise<{username: string, postId: string}>
@@ -28,7 +29,7 @@ const Page = async ({params}: {
     } catch (error) {
         console.error("Error updating post views:", error);
     }
-    const { title, description, author, category, image, likes, views, _createdAt, _updatedAt, pitch } = currentPost;
+    const { title, description, author, category, image, likes, views, _createdAt, _updatedAt, content } = currentPost;
     return (
         <>
             <section className='red-container pattern'>
@@ -101,7 +102,7 @@ const Page = async ({params}: {
                 <section className="max-w-4xl mx-auto px-5 mt-8">
                     <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg">
                         <Image
-                            src={image}
+                            src={urlForImage(image).width(800).height(450).url()}
                             alt={title || 'Post image'}
                             fill
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -113,10 +114,8 @@ const Page = async ({params}: {
             )}
 
             <section className="max-w-3xl mx-auto px-5 py-10">
-                {pitch && pitch.length > 0 ? (
-                    <PortableText 
-                        value={pitch} 
-                        components={components}
+                {content && content.length > 0 ? (
+                    <PortableEditor content={content}
                     />
                 ) : (
                     <p className="text-gray-500 italic">No content available</p>

@@ -27,7 +27,7 @@ export type Post = {
   image?: string;
   views?: number;
   likes?: number;
-  pitch?: Array<{
+  content?: Array<{
     children?: Array<{
       marks?: Array<string>;
       text?: string;

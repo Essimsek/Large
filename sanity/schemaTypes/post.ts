@@ -35,7 +35,7 @@ export const post = defineType({
         defineField({
             name: "image",
             type: "image",
-            validation: (Rule) => Rule.required(),
+            //validation: (Rule) => Rule.required(),
         }),
         defineField({
             name: "views",
@@ -46,7 +46,7 @@ export const post = defineType({
             type: "number",
         }),
         defineField({
-        name: "pitch",
+        name: "content",
         type: "array",
         of: [
             // Text blocks (paragraphs, headings, etc.)

@@ -114,7 +114,7 @@
         },
         "optional": true
       },
-      "pitch": {
+      "content": {
         "type": "objectAttribute",
         "value": {
           "type": "array",
