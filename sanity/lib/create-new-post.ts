@@ -19,12 +19,11 @@ async function createNewPost({data}: {data: FormData}) {
     const category = data.get('post-category') as string
     try {
         const author = await client.fetch(GET_AUTHOR_ID_BY_USERNAME_QUERY, {username: session.user?.username})
-        let post = undefined;
         const authorRef = {
             _type: "reference",
             _ref: author._id,
         }
-        if (file) {
+        if (file && file.size > 0) {
             const asset = await client.assets.upload("image", file, {
                 filename: file.name,
             });
@@ -35,7 +34,7 @@ async function createNewPost({data}: {data: FormData}) {
                     _ref: asset._id,
                 },
             }
-            post = await client.create(
+            await client.create(
                 { 
                     _type: "post",
                     title,
@@ -51,7 +50,7 @@ async function createNewPost({data}: {data: FormData}) {
             )
         }
         else {
-            post = await client.create(
+            await client.create(
                 { 
                     _type: "post",
                     title: title,
@@ -65,7 +64,6 @@ async function createNewPost({data}: {data: FormData}) {
                 }
             )
         }
-        console.log("Post created successfully:", post);
     } catch (error) {
         console.error("Error creating new post:", error); 
     }

@@ -17,7 +17,8 @@ Create and publish your own posts.
   - Individual post pages: `[username]/[postId].tsx`
   - fetch the post informations in `[username]/[postId].tsx`
 - **New Post Page UI:**  
-  `/new-post` page with authentication check and basic layout.
+  - `/new-post` page with authentication check and basic layout.
+  - Implement the form UI and logic to create and publish new posts from the `/new-post` page.
 - **Search**
   - search posts by Title, Author, Name, Username and Category
 - **Author Creation After Login:**  
@@ -29,8 +30,8 @@ Create and publish your own posts.
 ## 🛠️ In Progress / Next Steps
 - /[username]
   - change profile photo
-- **New Post Functionality:**  
-  Implement the form UI and logic to create and publish new posts from the `/new-post` page.
+- **New Post Functionality:** 
+  - add edit and delete options for the post
 - **Testing:**  
   Add unit and integration tests for critical flows.
   add small hash to the username if already exists. Not Sure ?
