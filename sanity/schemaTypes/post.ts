@@ -1,5 +1,4 @@
-import { ImageIcon } from "lucide-react";
-import { defineArrayMember, defineField, defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 
 export const post = defineType({
     name: "post",

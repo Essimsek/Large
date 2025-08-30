@@ -57,7 +57,7 @@ async function createNewPost({data}: {data: FormData}) {
                     description: description,
                     slug: {current: slug, _type: "slug"},
                     content: content,
-                    category: content,
+                    category: category,
                     views: 0,
                     likes: 0,
                     author: authorRef,
