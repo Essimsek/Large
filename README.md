@@ -14,8 +14,10 @@ Create and publish your own posts.
   - User profile pages: `[username].tsx`
     - user can change the username
     - user's latest posts
+-- **Post Page:**
   - Individual post pages: `[username]/[postId].tsx`
   - fetch the post informations in `[username]/[postId].tsx`
+  - update view count when visit a page.
 - **New Post Page UI:**  
   - `/new-post` page with authentication check and basic layout.
   - Implement the form UI and logic to create and publish new posts from the `/new-post` page.
@@ -36,7 +38,6 @@ Create and publish your own posts.
   Add unit and integration tests for critical flows.
   add small hash to the username if already exists. Not Sure ?
 - **Post page:**
-  update view count when visit a page.
   add like button and update like count
 - **Improve UI/UX:**  
   - Enhance styling and responsiveness.
