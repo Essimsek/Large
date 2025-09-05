@@ -8,14 +8,24 @@ import { SimpleEditor } from './tiptap-templates/simple/simple-editor'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import { createNewPost } from '@/sanity/lib/create-new-post'
 
-function PostForm() {
+interface PostFormProps {
+  post?: {
+    title: string;
+    image: string;
+    description: string;
+    category: string;
+    content: string;
+  }
+}
+
+function PostForm({post}: PostFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     const form = new FormData(e.target as HTMLFormElement)
     await createNewPost({data: form})
   }
-
+  // title, image, description, category, content
   return (
     <form onSubmit={handleSubmit} className='flex flex-col gap-4 p-5'>
 
