@@ -1,4 +1,5 @@
 "use client"
+
 import { Button } from './ui/button'
 import { Label } from './ui/label'
 import SimpleDropzone from './ui/dropzone'
@@ -30,15 +31,15 @@ function PostForm({post}: PostFormProps) {
     <form onSubmit={handleSubmit} className='flex flex-col gap-4 p-5'>
 
       <Label className='text-2xl' htmlFor='post-title'>Title</Label>
-      <InputWithCounter id='post-title' name='post-title' className='' maxChars={100} required/>
+      <InputWithCounter defaultValue={post?.title} id='post-title' name='post-title' className='' maxChars={100} required/>
 
       <SimpleDropzone />
 
       <Label className='text-2xl' htmlFor='post-description'>Description</Label>
-      <TextareaWithCounter id='post-description' name='post-description' maxChars={150} required/>
+      <TextareaWithCounter defaultValue={post?.description} id='post-description' name='post-description' maxChars={150} required/>
 
       <Label className='text-2xl' htmlFor='post-category'>Category</Label>
-      <TextareaWithCounter id='post-category' name='post-category' maxChars={40} required/>
+      <TextareaWithCounter defaultValue={post?.category} id='post-category' name='post-category' maxChars={40} required/>
 
       <Separator className="border mt-3" />
       

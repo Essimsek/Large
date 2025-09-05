@@ -19,12 +19,11 @@ function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
 function TextareaWithCounter(
   { maxChars, className, ...props }: { maxChars: number } & React.ComponentProps<"textarea">
 ) {
-  const [value, setValue] = useState("")
+  const [value, setValue] = useState(props.defaultValue ? String(props.defaultValue).slice(0, maxChars) : "")
 
   return (
     <div className="grid w-full gap-1">
       <Textarea
-        value={value}
         onChange={(e) => setValue(e.target.value)}
         maxLength={maxChars}
         className={cn("!text-lg !font-semibold", className)}

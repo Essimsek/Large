@@ -6,11 +6,10 @@ import { useState } from "react"
 function InputWithCounter(
   { maxChars, className, ...props }: { maxChars: number } & React.ComponentProps<"input">
 ) {
-  const [value, setValue] = useState("")
+  const [value, setValue] = useState(props.defaultValue ? String(props.defaultValue).slice(0, maxChars) : "")
   return (
     <>
       <Input 
-        value={value} 
         onChange={(e) => setValue(e.target.value)} 
         maxLength={maxChars} 
         className={cn("!text-lg !font-semibold", className)}
