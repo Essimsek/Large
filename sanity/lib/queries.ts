@@ -72,3 +72,16 @@ export const GET_USER_POSTS_QUERY = defineQuery(`*[_type == "post" && author->us
     image
   },
 }`);
+
+export const GET_POST_FOR_EDIT_QUERY = `
+  *[_type == "post" && author->username == $username && slug.current == $slug][0]{
+    title,
+    description,
+    category,
+    content,
+    image,
+    _id,
+  }
+`;
+
+export const GET_IMAGE_REF_BY_ID = defineQuery(`*[_type == "post" && _id == $postId][0].image.asset._ref`);

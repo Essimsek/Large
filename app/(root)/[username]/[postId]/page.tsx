@@ -12,13 +12,16 @@ import Link from 'next/link';
 import { Separator } from '@/components/ui/separator';
 import { urlForImage } from '@/sanity/lib/image';
 import PortableEditor from '@/components/PortableEditor';
+import { Button } from '@/components/ui/button';
+import { auth } from '@/auth';
 
 const Page = async ({params}: {
     params: Promise<{username: string, postId: string}>
 }) => {
     const {username, postId} = await params;
     const currentPost = await client.withConfig({useCdn: false}).fetch(GET_POST_BY_SLUG_QUERY, {username, slug: postId}) as Post; // get the posts
-    
+    const session = await auth();
+    const isOwner = session?.user.username === username;
     if (!currentPost) {
         notFound();
     }
@@ -32,6 +35,7 @@ const Page = async ({params}: {
     const { title, description, author, category, image, likes, views, _createdAt, _updatedAt, content } = currentPost;
     return (
         <>
+            {isOwner && <Link className='fixed bottom-4 right-4' href={`/${username}/${postId}/edit`}><Button >Edit</Button></Link>}
             <section className='red-container pattern'>
                 <div className="max-w-4xl w-full mx-auto relative">
                     <div className="flex flex-col items-center">
