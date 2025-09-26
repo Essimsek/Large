@@ -21,6 +21,7 @@ Create and publish your own posts.
 - **New Post Page UI:**  
   - `/new-post` page with authentication check and basic layout.
   - Implement the form UI and logic to create and publish new posts from the `/new-post` page.
+  - Implement the edit page for the posts
 - **Search**
   - search posts by Title, Author, Name, Username and Category
 - **Author Creation After Login:**  
@@ -32,8 +33,8 @@ Create and publish your own posts.
 ## 🛠️ In Progress / Next Steps
 - /[username]
   - change profile photo
-- **New Post Functionality:** 
-  - add edit and delete options for the post
+- **New Post Functionality:**
+  - delete options for the post
 - **Testing:**  
   Add unit and integration tests for critical flows.
   add small hash to the username if already exists. Not Sure ?
