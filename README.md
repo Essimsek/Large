@@ -14,7 +14,7 @@ Create and publish your own posts.
   - User profile pages: `[username].tsx`
     - user can change the username
     - user's latest posts
--- **Post Page:**
+- **Post Page:**
   - Individual post pages: `[username]/[postId].tsx`
   - fetch the post informations in `[username]/[postId].tsx`
   - update view count when visit a page.
@@ -35,6 +35,7 @@ Create and publish your own posts.
   - change profile photo
 - **New Post Functionality:**
   - delete options for the post
+  - show an allert or success when user publish the post or edit the post with using toast
 - **Testing:**  
   Add unit and integration tests for critical flows.
   add small hash to the username if already exists. Not Sure ?

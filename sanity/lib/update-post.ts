@@ -18,7 +18,7 @@ async function updatePost({data} : {data: FormData}, {postId}: {postId?: string}
     const title = data.get('post-title') as string
     const description = data.get('post-description') as string
     const file = data.get('post-thumbnail') as File
-    const slug = await checkExistingSlug(title)
+    const slug = await checkExistingSlug(title.trim())
     const content = data.get('post-content')
     const category = data.get('post-category') as string
 

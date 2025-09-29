@@ -19,7 +19,7 @@ const Page = async ({params}: {
     params: Promise<{username: string, postId: string}>
 }) => {
     const {username, postId} = await params;
-    const currentPost = await client.withConfig({useCdn: false}).fetch(GET_POST_BY_SLUG_QUERY, {username, slug: postId}) as Post; // get the posts
+    const currentPost = await client.fetch(GET_POST_BY_SLUG_QUERY, {username, slug: postId}) as Post; // get the posts
     const session = await auth();
     const isOwner = session?.user.username === username;
     if (!currentPost) {
@@ -104,13 +104,14 @@ const Page = async ({params}: {
             {/* Thumbnail image */}
             {image && (
                 <section className="max-w-4xl mx-auto px-5 mt-8">
-                    <div className="relative aspect-video rounded-xl overflow-hidden shadow-lg">
+                    <div className="relative rounded-2xl shadow-lg">
                         <Image
-                            src={urlForImage(image).width(800).height(450).url()}
+                            src={urlForImage(image).width(800).url()}
                             alt={title || 'Post image'}
-                            fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            className="object-cover"
+                            height={900}
+                            width={1600}
+                            sizes="(100vw)"
+                            className="object-cover rounded-2xl"
                         />
                     </div>
                     <Separator className='mt-4'/>
