@@ -18,6 +18,7 @@ Create and publish your own posts.
   - Individual post pages: `[username]/[postId].tsx`
   - fetch the post informations in `[username]/[postId].tsx`
   - update view count when visit a page.
+  - delete post and the post assets
 - **New Post Page UI:**  
   - `/new-post` page with authentication check and basic layout.
   - Implement the form UI and logic to create and publish new posts from the `/new-post` page.
@@ -34,7 +35,6 @@ Create and publish your own posts.
 - /[username]
   - change profile photo
 - **New Post Functionality:**
-  - delete options for the post
   - show an allert or success when user publish the post or edit the post with using toast
 - **Testing:**  
   Add unit and integration tests for critical flows.
@@ -42,6 +42,7 @@ Create and publish your own posts.
 - **Post page:**
   - add like button and update like count
   - post images look awful fix it
+  - UI update for post settings
 - **Improve UI/UX:**  
   - Enhance styling and responsiveness.
   - Add feedback for actions (e.g., post creation, errors).
