@@ -7,6 +7,7 @@ import { formatDate } from '@/lib/utils';
 import Header from '@/components/Header';
 import Image from 'next/image';
 import Link from 'next/link';
+
 //import { PortableText } from 'next-sanity';
 //import { components } from '@/sanity/PortableTextComponents';
 import { Separator } from '@/components/ui/separator';
@@ -14,6 +15,17 @@ import { urlForImage } from '@/sanity/lib/image';
 import PortableEditor from '@/components/PortableEditor';
 import { Button } from '@/components/ui/button';
 import { auth } from '@/auth';
+import { Settings } from 'lucide-react';
+
+import DeletePostButton from './deletePostButton';
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu"
 
 const Page = async ({params}: {
     params: Promise<{username: string, postId: string}>
@@ -35,7 +47,28 @@ const Page = async ({params}: {
     const { title, description, author, category, image, likes, views, _createdAt, _updatedAt, content } = currentPost;
     return (
         <>
-            {isOwner && <Link className='fixed bottom-4 right-4' href={`/${username}/${postId}/edit`}><Button >Edit</Button></Link>}
+            {isOwner && 
+            <>
+                <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="outline"><Settings/></Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="border-none mr-4 bg-black/80 text-white font-medium">
+                    <DropdownMenuItem asChild>
+                        <Link href={`/${username}/${postId}/edit`}>
+                            <button>
+                                edit
+                            </button>
+                        </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild className='focus:bg-red-400'>
+                        <DeletePostButton postId={currentPost._id} />
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+                </DropdownMenu>
+            </>
+            }
             <section className='red-container pattern'>
                 <div className="max-w-4xl w-full mx-auto relative">
                     <div className="flex flex-col items-center">
