@@ -15,7 +15,7 @@ import { urlForImage } from '@/sanity/lib/image';
 import PortableEditor from '@/components/PortableEditor';
 import { Button } from '@/components/ui/button';
 import { auth } from '@/auth';
-import { Settings } from 'lucide-react';
+import { Edit2Icon, Settings } from 'lucide-react';
 
 import DeletePostButton from './deletePostButton';
 
@@ -47,29 +47,8 @@ const Page = async ({params}: {
     const { title, description, author, category, image, likes, views, _createdAt, _updatedAt, content } = currentPost;
     return (
         <>
-            {isOwner && 
-            <>
-                <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="outline"><Settings/></Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="border-none mr-4 bg-black/80 text-white font-medium">
-                    <DropdownMenuItem asChild>
-                        <Link href={`/${username}/${postId}/edit`}>
-                            <button>
-                                edit
-                            </button>
-                        </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild className='focus:bg-red-400'>
-                        <DeletePostButton postId={currentPost._id} />
-                    </DropdownMenuItem>
-                </DropdownMenuContent>
-                </DropdownMenu>
-            </>
-            }
-            <section className='red-container pattern'>
+            {/* Post Header Section (category, description, title and settings dropdown menu) */}
+            <section className='red-container pattern relative'>
                 <div className="max-w-4xl w-full mx-auto relative">
                     <div className="flex flex-col items-center">
                         <Header title={title || ''} />
@@ -85,6 +64,27 @@ const Page = async ({params}: {
                         </p>
                     </div>
                 </div>
+                {isOwner && 
+                <div className='absolute bottom-0.5 right-0.5 p-10'>
+                    <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline"><Settings/></Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="border-none mr-4 bg-black/80 text-white font-medium">
+                        <DropdownMenuItem asChild>
+                            <Link className='w-full flex justify-between !px-3 !py-2' href={`/${username}/${postId}/edit`}>
+                                Edit
+                                <Edit2Icon />
+                            </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild className='focus:bg-red-400'>
+                            <DeletePostButton postId={currentPost._id} />
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
+                }
             </section>
             <section className="max-w-4xl mx-auto px-5 mt-6 mb-6">
                 <div className="flex items-center gap-4">

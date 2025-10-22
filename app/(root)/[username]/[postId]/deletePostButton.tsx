@@ -4,6 +4,7 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
+import { Delete } from "lucide-react"
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -46,8 +47,9 @@ export default function DeletePostButton({ postId }: { postId: string }) {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button className="w-full" variant="destructive">
+        <Button className="w-full justify-between !bg-transparent hover:!bg-red-400">
           Delete
+          <Delete />
         </Button>
       </AlertDialogTrigger>
 
