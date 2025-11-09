@@ -21,6 +21,7 @@ Create and publish your own posts.
   - delete post and the post assets
   - post images look awful fix it
   - UI update for post settings
+  - Add feedback for actions (e.g., post creation, errors).
 - **New Post Page UI:**  
   - `/new-post` page with authentication check and basic layout.
   - Implement the form UI and logic to create and publish new posts from the `/new-post` page.
@@ -45,7 +46,6 @@ Create and publish your own posts.
   - add like button and update like count
 - **Improve UI/UX:**  
   - Enhance styling and responsiveness.
-  - Add feedback for actions (e.g., post creation, errors).
 - **Use sanity image type**
   - upload images to sanity for posts
 ---
