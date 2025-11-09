@@ -9,7 +9,7 @@ async function createNewPost({data}: {data: FormData}) {
     const session = await auth();
     if (!session || !session?.user) {
         console.log("User not authenticated. Cannot create post.");
-        return;
+        return {success: false, message: "User not authenticated."};
     }
     const title = data.get('post-title') as string
     const description = data.get('post-description') as string
@@ -64,8 +64,10 @@ async function createNewPost({data}: {data: FormData}) {
                 }
             )
         }
+        return { success: true, message: "Post created successfully.", username: session.user?.username };
     } catch (error) {
-        console.error("Error creating new post:", error); 
+        console.error("Error creating new post:", error);
+        return { success: false, message: error instanceof Error ? error.message : "Unknown error occurred."};
     }
 }
 export { createNewPost };

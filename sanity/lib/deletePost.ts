@@ -12,21 +12,25 @@ const deletePost = async ({ postId }: { postId: string }) => {
                 _type
             }
             },
+            "author": author -> {
+            username
+            },
             _id,
             title
         }`,
         { postId }
         );
         if (!post) {
-            throw new Error("post not found");
+            return {success: false, message: "Post not found"};
         }
         await client.delete(post._id);
         if (post.image?.asset?._id) {
             await client.delete(post.image?.asset?._id)
             console.log("Deleted image asset:", post.image?.asset?._id);
         }
+        return {success: true, message: "Post deleted successfully", username: post.author.username};
     } catch (error) {
-        throw new Error(error instanceof Error ? error.message : "An error occurred while deleting the post images.");
+        return {success: false, message: error instanceof Error ? error.message : "An error occurred while deleting the post."};
     }
 }
 

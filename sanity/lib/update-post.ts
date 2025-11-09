@@ -9,11 +9,11 @@ async function updatePost({data} : {data: FormData}, {postId}: {postId?: string}
     const session = await auth();
     if (!session || !session?.user) {
         console.log("User not authenticated. Cannot update post.");
-        return;
+        return {success: false, message: "User not authenticated."};
     }
     if (!postId) {
         console.log("Post ID is required to update a post.");
-        return;
+        return {success: false, message: "Post not found to update."};
     }
     const title = data.get('post-title') as string
     const description = data.get('post-description') as string
@@ -56,8 +56,10 @@ async function updatePost({data} : {data: FormData}, {postId}: {postId?: string}
                 category: category,
             }).commit();
         }
+        return { success: true, message: "Post updated successfully."};
     } catch (error) {
         console.error("Error while updating the post: ", error);
+        return { success: false, message: "An error occurred while updating the post."};
     }
 }
 

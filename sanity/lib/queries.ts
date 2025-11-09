@@ -79,7 +79,11 @@ export const GET_POST_FOR_EDIT_QUERY = `
     description,
     category,
     content,
+    "slug": slug.current,
     image,
+    "author": author -> {
+    username
+    },
     _id,
   }
 `;

@@ -23,24 +23,24 @@ export default function DeletePostButton({ postId }: { postId: string }) {
   const router = useRouter()
 
   const handleDelete = async () => {
-    try {
-      setIsDeleting(true)
-      await deletePost({ postId })
-      
-      // Close dialog
-      setOpen(false)
-      
-      // Reset state after a short delay.
+    setIsDeleting(true)
+    const result = await deletePost({ postId })
+    
+    // Close dialog
+    setOpen(false)
+    
+    // Reset state after a short delay.
+    if (result.message) {
       setTimeout(() => {
         setIsDeleting(false)
         toast.success("Post deleted successfully.")
-        router.push("/")
+        router.push(`/${result.username}`)
       }, 100)
-      
-    } catch (error) {
+    }
+    else {
+      toast.error(result.message)
       setOpen(false)
       setIsDeleting(false)
-      toast.error(error instanceof Error ? error.message : "An error occurred while deleting the post.")
     }
   }
 

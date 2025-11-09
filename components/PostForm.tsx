@@ -9,6 +9,9 @@ import { SimpleEditor } from './tiptap-templates/simple/simple-editor'
 import { Separator } from '@radix-ui/react-dropdown-menu'
 import { createNewPost } from '@/sanity/lib/create-new-post'
 import { updatePost } from '@/sanity/lib/update-post'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
+import { useState } from 'react';
 
 export type EditablePost = {
   title: string;
@@ -16,6 +19,10 @@ export type EditablePost = {
   category: string;
   content: string;
   image?: string;
+  author?: {
+    username: string;
+  }
+  slug?: string;
   _id?: string;
 };
 
@@ -25,16 +32,39 @@ interface PostFormProps {
 
 function PostForm({post}: PostFormProps) {
 
+  const [clicked, setClicked] = useState(false);
+  
   const parsedContent = typeof post?.content === "string" ? JSON.parse(post?.content) : post?.content;
+  const router = useRouter();
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setClicked(true);
     const form = new FormData(e.target as HTMLFormElement)
     if (post) {
-      await updatePost({data: form}, {postId: post._id});
-    }
+        const result = await updatePost({data: form}, {postId: post._id});
+        const success = result?.success;
+        const msg = result?.message;
+        if (success) {
+          toast.success(msg)
+          router.push(`/${post.author?.username}`);
+        }
+        else {
+          toast.error(msg)
+        }
+      }
     else {
-      await createNewPost({data: form})
+      const result = await createNewPost({data: form})
+      const success = result?.success;
+      const msg = result?.message;
+      if (success) {
+        toast.success(msg)
+        router.push(`/${result.username}`);
+      }
+      else {
+        toast.error(msg)
+      }
     }
+    setClicked(false);
   }
   return (
     <form onSubmit={handleSubmit} className='flex flex-col gap-4 p-5'>
@@ -57,7 +87,7 @@ function PostForm({post}: PostFormProps) {
         <SimpleEditor content={parsedContent} />
       </div>
       <Separator className="border mt-3" />
-      <Button type='submit' className='inline-flex'>{post ? 'Update' : 'Create'}</Button>
+      <Button disabled={clicked} type='submit' className='inline-flex'>{post ? 'Update' : 'Create'}</Button>
     </form>
   )
 }
