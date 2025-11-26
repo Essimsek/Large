@@ -26,6 +26,7 @@ Create and publish your own posts.
   - `/new-post` page with authentication check and basic layout.
   - Implement the form UI and logic to create and publish new posts from the `/new-post` page.
   - Implement the edit page for the posts
+  - show an allert or success when user publish the post or edit the post with using toast
 - **Search**
   - search posts by Title, Author, Name, Username and Category
 - **Author Creation After Login:**  
@@ -38,7 +39,7 @@ Create and publish your own posts.
 - /[username]
   - change profile photo
 - **New Post Functionality:**
-  - show an allert or success when user publish the post or edit the post with using toast
+  - DONE
 - **Testing:**  
   Add unit and integration tests for critical flows.
   add small hash to the username if already exists. Not Sure ?

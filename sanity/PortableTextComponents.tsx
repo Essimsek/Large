@@ -1,3 +1,5 @@
+// i don't use it anymore. TipTap is used in components/PortableEditor.tsx instead.
+
 import Image from "next/image";
 import Link from "next/link";
 import { PortableTextComponents } from "next-sanity";

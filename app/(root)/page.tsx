@@ -3,7 +3,6 @@ import SearchForm from "@/components/SearchForm";
 import { Suspense } from "react";
 import PostList from "@/components/PostList";
 import SkeletonList from "@/components/ui/SkeletonList";
-import DeletePostButton from "./[username]/[postId]/deletePostButton";
 
 export const experimental_ppr = true;
 

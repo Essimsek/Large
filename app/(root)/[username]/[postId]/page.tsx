@@ -9,7 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 //import { PortableText } from 'next-sanity';
-//import { components } from '@/sanity/PortableTextComponents';
+//import { components } from '@/sanity/PortableTextComponents'; // deprecated dudeeeeee
 import { Separator } from '@/components/ui/separator';
 import { urlForImage } from '@/sanity/lib/image';
 import PortableEditor from '@/components/PortableEditor';
