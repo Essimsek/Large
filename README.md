@@ -38,8 +38,8 @@ Create and publish your own posts.
 ## 🛠️ In Progress / Next Steps
 - /[username]
   - change profile photo
-- **New Post Functionality:**
-  - DONE
+- **Paginating Stratagy:**
+  - add pagination to the home page 10 post per page ?
 - **Testing:**  
   Add unit and integration tests for critical flows.
   add small hash to the username if already exists. Not Sure ?
