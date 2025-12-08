@@ -89,3 +89,5 @@ export const GET_POST_FOR_EDIT_QUERY = `
 `;
 
 export const GET_IMAGE_REF_BY_ID = defineQuery(`*[_type == "post" && _id == $postId][0].image.asset._ref`);
+
+export const GET_TOTAL_POSTS_COUNT = `count(*[_type == "post"])`;
