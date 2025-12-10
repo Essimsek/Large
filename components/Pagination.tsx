@@ -18,6 +18,7 @@ export default function MyPagination({pageCount}: {pageCount: number}) {
   const createPageURL = (pageNumber: number | string) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", pageNumber.toString());
+    // params.delete("query");
     return `${pathname}?${params.toString()}`;
   };
 
@@ -28,7 +29,7 @@ export default function MyPagination({pageCount}: {pageCount: number}) {
       return Array.from({ length: pageCount }, (_, i) => i + 1);
     }
 
-    let start = Math.max(currentPage - Math.floor(maxVisible / 2), 1);
+    let start = Math.max(currentPage - Math.floor(maxVisible / 2), 1); // if we are at 6 then --> 4, 5, 6, 7, 8
     let end = start + maxVisible - 1;
 
     if (end > pageCount) {

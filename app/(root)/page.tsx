@@ -16,7 +16,6 @@ export default async function Home({ searchParams }: {
 
   // search params
   const query = (await searchParams).query
-  const pageNumber = (await searchParams).page || 1;
   const params = { search: query ? `*${query}*` : null };
 
   // get the total posts count to give to pagination component
