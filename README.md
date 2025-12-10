@@ -33,13 +33,15 @@ Create and publish your own posts.
   After user logs in, create a new author in Sanity ( auth.ts  callbacks) if one doesn't exist (override GitHub profile username if needed).
 - **Authorization & Permissions:** 
   Ensure only authenticated users can create/edit posts.
+- **Paginating Sratagy:**
+  - add pagination to the home page (works with query as well exp. Essimsek's posts 3 page long and home page without query 10 pages)
 ---
 
 ## 🛠️ In Progress / Next Steps
 - /[username]
   - change profile photo
 - **Paginating Stratagy:**
-  - add pagination to the home page 10 post per page ?
+  - add pagination to the individual user pages
 - **Testing:**  
   Add unit and integration tests for critical flows.
   add small hash to the username if already exists. Not Sure ?
