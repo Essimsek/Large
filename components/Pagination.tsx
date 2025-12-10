@@ -1,5 +1,5 @@
 "use client";
-import { usePathname, useSearchParams } from "next/navigation";
+import { redirect, usePathname, useSearchParams } from "next/navigation";
 import {
   Pagination,
   PaginationContent,
@@ -15,21 +15,26 @@ export default function MyPagination({pageCount}: {pageCount: number}) {
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
 
+  if ((currentPage > pageCount || currentPage < 1) && pageCount > 0) {
+    const queryParams = new URLSearchParams(searchParams.toString());
+    queryParams.set("page", "1");
+    redirect(`${pathname}?${queryParams.toString()}`);
+  }
+
   const createPageURL = (pageNumber: number | string) => {
     const params = new URLSearchParams(searchParams);
     params.set("page", pageNumber.toString());
-    // params.delete("query");
     return `${pathname}?${params.toString()}`;
   };
 
   const getVisiblePages = () => {
-    const maxVisible = 5; // number of pagination buttons
+    const maxVisible = 5;
     
     if (pageCount <= maxVisible) {
       return Array.from({ length: pageCount }, (_, i) => i + 1);
     }
 
-    let start = Math.max(currentPage - Math.floor(maxVisible / 2), 1); // if we are at 6 then --> 4, 5, 6, 7, 8
+    let start = Math.max(currentPage - Math.floor(maxVisible / 2), 1);
     let end = start + maxVisible - 1;
 
     if (end > pageCount) {
