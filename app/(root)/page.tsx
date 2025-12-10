@@ -20,9 +20,8 @@ export default async function Home({ searchParams }: {
   const params = { search: query ? `*${query}*` : null };
 
   // get the total posts count to give to pagination component
-  const totalPosts = await client.fetch(GET_TOTAL_POSTS_COUNT);
+  const totalPosts = await client.fetch(GET_TOTAL_POSTS_COUNT) + 200;
   const totalPages = Math.ceil(totalPosts / MAX_POST_PER_PAGE);
-  console.log("Total Posts:", totalPosts, "Total Pages:", totalPages);
 
   return (
     <>
@@ -41,7 +40,7 @@ export default async function Home({ searchParams }: {
         <Suspense fallback={<SkeletonList range={4} />}>
           <PostList params={params} />
         </Suspense>
-        <MyPagination />
+        <MyPagination pageCount={totalPages}/>
       </section>
     </>
   );
