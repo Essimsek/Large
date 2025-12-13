@@ -10,6 +10,7 @@ export const GET_ALL_POSTS_QUERY_DESC = defineQuery(`
       title match $search ||
       description match $search ||
       author->username match $search ||
+      author->_id match $search ||
       author->name match $search
     )
   ] | order(_createdAt desc) [$start...$end] {

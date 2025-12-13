@@ -38,9 +38,11 @@ const Page = async ({params}: {
         notFound();
     }
     try {
-        await client.patch(currentPost._id)
+        if (!isOwner) {
+            await client.patch(currentPost._id)
             .inc({ views: 1 })
             .commit();
+        }
     } catch (error) {
         console.error("Error updating post views:", error);
     }

@@ -16,7 +16,7 @@ export default async function Home({ searchParams }: {
 
   // search params
   const query = (await searchParams).query
-  const page = (await searchParams).page;
+  const page = Number((await searchParams).page) || 1;
 
   // start end for pagination
   const start = ((page || 1) - 1) * MAX_POST_PER_PAGE
@@ -26,7 +26,6 @@ export default async function Home({ searchParams }: {
   // get the total posts count to give to pagination
   const totalPosts = await client.fetch(GET_TOTAL_POSTS_COUNT, {search: params.search});
   const totalPages = Math.ceil(totalPosts / MAX_POST_PER_PAGE);
-  
 
   return (
     <>
