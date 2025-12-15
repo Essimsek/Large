@@ -1,15 +1,18 @@
 import { notFound } from 'next/navigation';
 import { client } from '@/sanity/lib/client';
-import { GET_USER_BY_USERNAME_QUERY, GET_TOTAL_POSTS_COUNT, GET_ALL_POSTS_QUERY_DESC } from '@/sanity/lib/queries';
-import { Author, Post } from '@/sanity.types';
+import { GET_USER_BY_USERNAME_QUERY, GET_TOTAL_POSTS_COUNT } from '@/sanity/lib/queries';
+import { Author } from '@/sanity.types';
 import ProfileCard from '@/components/ProfileCard';
 import {auth} from '@/auth';
-import PostCard from '@/components/PostCard';
 
 // pagination 
 import MyPagination from '@/components/Pagination';
+import { Suspense } from 'react';
+import SkeletonList from '@/components/ui/SkeletonList';
+import PostList from '@/components/PostList';
 
 const MAX_POST_PER_PAGE = 6;
+export const experimental_ppr = true;
 
 export default async function Page({ params, searchParams }: {
   params: Promise<{username: string}>,
@@ -34,8 +37,6 @@ export default async function Page({ params, searchParams }: {
   const totalPages = Math.ceil(totalPosts / MAX_POST_PER_PAGE);
 
   const search = { search: username ? `*${user._id}*` : null, start, end};
-
-  const posts = await client.fetch(GET_ALL_POSTS_QUERY_DESC, search) as Post[];
   const isOwner = session?.user?.username === user.username;
   return (
     <>
@@ -44,15 +45,9 @@ export default async function Page({ params, searchParams }: {
         <p className="text-black text-3xl font-semibold"> 
           {isOwner ? `Your Posts` : "Posts by " + user.username}
         </p>
-        <ul className="grid-card-area">
-          {posts?.length > 0 ? (
-            posts.map((post) => (
-              <PostCard key={post?._id} post={post} />
-            ))
-          ) : (
-            <li className="col-span-3 text-center text-gray-500">No posts found</li>
-          )}
-          </ul>
+        <Suspense fallback={<SkeletonList range={totalPosts} />}>
+          <PostList params={search} />
+        </Suspense>
           <MyPagination pageCount={totalPages} />
         </section>
     </>
