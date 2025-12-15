@@ -53,6 +53,7 @@ function PaginationLink({
       aria-current={isActive ? "page" : undefined}
       data-slot="pagination-link"
       data-active={isActive}
+      scroll={false}
       className={cn(
         buttonVariants({
           variant: isActive ? "outline" : "ghost",
@@ -72,6 +73,7 @@ function PaginationPrevious({
     <PaginationLink
       aria-label="Go to previous page"
       className={cn("gap-1 px-2.5 sm:pl-2.5", className)}
+      scroll={false}
       {...props}
     >
       <ChevronLeftIcon />
@@ -88,6 +90,7 @@ function PaginationNext({
     <PaginationLink
       aria-label="Go to next page"
       className={cn("gap-1 px-2.5 sm:pr-2.5", className)}
+      scroll={false}
       {...props}
     >
       <span className="hidden sm:block">Next</span>
