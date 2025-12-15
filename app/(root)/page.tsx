@@ -6,6 +6,7 @@ import SkeletonList from "@/components/ui/SkeletonList";
 import MyPagination from "@/components/Pagination";
 import { client } from "@/sanity/lib/client";
 import { GET_TOTAL_POSTS_COUNT } from "@/sanity/lib/queries";
+import { redirect } from "next/navigation";
 
 export const experimental_ppr = true;
 const MAX_POST_PER_PAGE = 6;
@@ -26,6 +27,12 @@ export default async function Home({ searchParams }: {
   // get the total posts count to give to pagination
   const totalPosts = await client.fetch(GET_TOTAL_POSTS_COUNT, {search: params.search});
   const totalPages = Math.ceil(totalPosts / MAX_POST_PER_PAGE);
+  
+  if (page > totalPages && totalPages > 0 || page < 0) {
+    redirect(`/?page=1${query ? `&query=${query}` : ''}`);
+  }
+
+  const skeletonRange = totalPosts - start < MAX_POST_PER_PAGE ? totalPosts - start : MAX_POST_PER_PAGE;
 
   return (
     <>
@@ -41,7 +48,7 @@ export default async function Home({ searchParams }: {
         <p className="text-black text-3xl font-semibold"> 
           {query ? `Search results for ${query}` : "Explore Posts"}
         </p>
-        <Suspense fallback={<SkeletonList range={4} />}>
+        <Suspense fallback={<SkeletonList range={skeletonRange} />}>
           <PostList params={params} />
         </Suspense>
         <MyPagination pageCount={totalPages}/>

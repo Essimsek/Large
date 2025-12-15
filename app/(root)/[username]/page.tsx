@@ -10,6 +10,7 @@ import MyPagination from '@/components/Pagination';
 import { Suspense } from 'react';
 import SkeletonList from '@/components/ui/SkeletonList';
 import PostList from '@/components/PostList';
+import { redirect } from 'next/navigation';
 
 const MAX_POST_PER_PAGE = 6;
 export const experimental_ppr = true;
@@ -21,6 +22,7 @@ export default async function Page({ params, searchParams }: {
   const { username } = await params;
   const session = await auth();
   const page = Number((await searchParams).page) || 1;
+
   const user = (await client.fetch(
     GET_USER_BY_USERNAME_QUERY,
     { username }
@@ -36,8 +38,15 @@ export default async function Page({ params, searchParams }: {
   const totalPosts = await client.fetch(GET_TOTAL_POSTS_COUNT, {search: username});
   const totalPages = Math.ceil(totalPosts / MAX_POST_PER_PAGE);
 
+  if (page > totalPages && totalPages > 0 || page < 0) {
+    redirect(`/${username}?page=1`);
+  }
+
   const search = { search: username ? `*${user._id}*` : null, start, end};
   const isOwner = session?.user?.username === user.username;
+
+  const skeletonRange = totalPosts - start < MAX_POST_PER_PAGE ? totalPosts - start : MAX_POST_PER_PAGE;
+  
   return (
     <>
       <ProfileCard user={user} isOwner={isOwner} />
@@ -45,7 +54,7 @@ export default async function Page({ params, searchParams }: {
         <p className="text-black text-3xl font-semibold"> 
           {isOwner ? `Your Posts` : "Posts by " + user.username}
         </p>
-        <Suspense fallback={<SkeletonList range={totalPosts} />}>
+        <Suspense fallback={<SkeletonList range={skeletonRange} />}>
           <PostList params={search} />
         </Suspense>
           <MyPagination pageCount={totalPages} />

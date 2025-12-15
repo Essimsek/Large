@@ -1,5 +1,5 @@
 "use client";
-import { redirect, usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import {
   Pagination,
   PaginationContent,
@@ -14,12 +14,6 @@ export default function MyPagination({pageCount}: {pageCount: number}) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get("page")) || 1;
-
-  if ((currentPage > pageCount || currentPage < 1) && pageCount > 0) {
-    const queryParams = new URLSearchParams(searchParams.toString());
-    queryParams.set("page", "1");
-    redirect(`${pathname}?${queryParams.toString()}`);
-  }
 
   const createPageURL = (pageNumber: number | string) => {
     const params = new URLSearchParams(searchParams);
