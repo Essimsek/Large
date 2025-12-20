@@ -25,7 +25,7 @@ import "@/components/tiptap-node/heading-node/heading-node.scss"
 import "@/components/tiptap-node/paragraph-node/paragraph-node.scss"
 import "@/components/tiptap-templates/simple/simple-editor.scss"
 
-const PortableEditor = ({content}: {content: any}) => {
+const PortableEditor = ({content}: {content: string | Object }) => {
     const parsedContent = typeof content === "string" ? JSON.parse(content) : content;
     const editor = useEditor({
         extensions: [
