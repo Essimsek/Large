@@ -19,11 +19,11 @@ export type EditablePost = {
   category: string;
   content: string;
   image?: string;
-  author?: {
+  author: {
     username: string;
   }
-  slug?: string;
-  _id?: string;
+  slug: string;
+  _id: string;
 };
 
 interface PostFormProps {
@@ -39,9 +39,9 @@ function PostForm({post}: PostFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setClicked(true);
-    const form = new FormData(e.target as HTMLFormElement)
+    const data = new FormData(e.target as HTMLFormElement)
     if (post) {
-        const result = await updatePost({data: form}, {postId: post._id});
+        const result = await updatePost(data, post._id);
         const success = result?.success;
         const msg = result?.message;
         if (success) {
@@ -53,7 +53,7 @@ function PostForm({post}: PostFormProps) {
         }
       }
     else {
-      const result = await createNewPost({data: form})
+      const result = await createNewPost(data);
       const success = result?.success;
       const msg = result?.message;
       if (success) {

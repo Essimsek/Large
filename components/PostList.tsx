@@ -1,5 +1,5 @@
 import { client } from "@/sanity/lib/client";
-import { Post } from "@/sanity.types";
+import type { Post } from "@/sanity.types";
 import { GET_ALL_POSTS_QUERY_DESC } from "@/sanity/lib/queries";
 import PostCard from "@/components/PostCard";
 

@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import { Heart, Eye, CalendarDays, UserCircle } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
-import { Post } from '@/sanity.types';
+import type { Post } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/image';
 
 const PostCard = ({ post }: { post: Post }) => {

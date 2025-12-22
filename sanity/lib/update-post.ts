@@ -5,7 +5,7 @@ import { checkExistingSlug } from "./generate-slug";
 import { auth } from "@/auth";
 import { GET_IMAGE_REF_BY_ID } from "./queries";
 
-async function updatePost({data} : {data: FormData}, {postId}: {postId?: string}) {
+async function updatePost(data: FormData, postId?: string) {
     const session = await auth();
     if (!session || !session?.user) {
         console.log("User not authenticated. Cannot update post.");

@@ -3,13 +3,13 @@ import { GET_POST_FOR_EDIT_QUERY } from '@/sanity/lib/queries';
 import { auth } from '@/auth';
 import Header from '@/components/Header';
 import PostForm from '@/components/PostForm';
-import { EditablePost } from '@/components/PostForm';
+import type { EditablePost } from '@/components/PostForm';
 
 async function Page({params}: {
     params: Promise<{username: string, postId: string}>
 }) {
   const {username, postId} = await params;
-  const post = await client.withConfig({ useCdn: false }).fetch<EditablePost>(GET_POST_FOR_EDIT_QUERY, { username, slug: postId });
+  const post: EditablePost = await client.withConfig({ useCdn: false }).fetch(GET_POST_FOR_EDIT_QUERY, { username, slug: postId });
   
     const session = await auth();
     if (!session || !session?.user) {

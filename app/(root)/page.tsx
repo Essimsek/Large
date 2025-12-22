@@ -17,7 +17,7 @@ export default async function Home({ searchParams }: {
 
   // search params
   const { query, page } = await searchParams;
-  const pageNumber = Number(page);
+  const pageNumber = page ? Number(page) : 1;
   
   // start end for pagination
   const start = ((pageNumber || 1) - 1) * MAX_POST_PER_PAGE

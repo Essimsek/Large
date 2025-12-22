@@ -5,7 +5,7 @@ import { checkExistingSlug } from "@/sanity/lib/generate-slug";
 import { auth } from "@/auth";
 import { GET_AUTHOR_ID_BY_USERNAME_QUERY } from "./queries";
 
-async function createNewPost({data}: {data: FormData}) {
+async function createNewPost(data: FormData) {
     const session = await auth();
     if (!session || !session?.user) {
         console.log("User not authenticated. Cannot create post.");

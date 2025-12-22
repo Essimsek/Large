@@ -1,6 +1,6 @@
 import { GET_POST_BY_SLUG_QUERY } from '@/sanity/lib/queries';
 import { client } from '@/sanity/lib/client';
-import { Post } from '@/sanity.types';
+import type { Post } from '@/sanity.types';
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { formatDate } from '@/lib/utils';
