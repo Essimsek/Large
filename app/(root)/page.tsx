@@ -8,27 +8,27 @@ import { client } from "@/sanity/lib/client";
 import { GET_TOTAL_POSTS_COUNT } from "@/sanity/lib/queries";
 import { redirect } from "next/navigation";
 
-export const experimental_ppr = true;
-const MAX_POST_PER_PAGE = 6;
+export const experimental_ppr: boolean = true;
+const MAX_POST_PER_PAGE: number = 6;
 
 export default async function Home({ searchParams }: {
-   searchParams: Promise<{query?: string, page?: number}>
+   searchParams: Promise<{query?: string, page?: string}>
 }) {
 
   // search params
-  const query = (await searchParams).query
-  const page = Number((await searchParams).page) || 1;
-
+  const { query, page } = await searchParams;
+  const pageNumber = Number(page);
+  
   // start end for pagination
-  const start = ((page || 1) - 1) * MAX_POST_PER_PAGE
+  const start = ((pageNumber || 1) - 1) * MAX_POST_PER_PAGE
   const end = start + MAX_POST_PER_PAGE;
   const params = { search: query ? `*${query}*` : null, start, end};
   
   // get the total posts count to give to pagination
-  const totalPosts = await client.fetch(GET_TOTAL_POSTS_COUNT, {search: params.search});
+  const totalPosts: number = await client.fetch(GET_TOTAL_POSTS_COUNT, {search: params.search});
   const totalPages = Math.ceil(totalPosts / MAX_POST_PER_PAGE);
   
-  if (page > totalPages && totalPages > 0 || page < 0) {
+  if ((pageNumber > totalPages && totalPages > 0) || pageNumber < 1 || !Number.isInteger(pageNumber)) {
     redirect(`/?page=1${query ? `&query=${query}` : ''}`);
   }
 
