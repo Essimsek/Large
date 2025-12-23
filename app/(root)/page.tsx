@@ -8,8 +8,8 @@ import { client } from "@/sanity/lib/client";
 import { GET_TOTAL_POSTS_COUNT } from "@/sanity/lib/queries";
 import { redirect } from "next/navigation";
 
-export const experimental_ppr: boolean = true;
-const MAX_POST_PER_PAGE: number = 6;
+export const experimental_ppr = true;
+const MAX_POST_PER_PAGE = 6;
 
 export default async function Home({ searchParams }: {
    searchParams: Promise<{query?: string, page?: string}>
