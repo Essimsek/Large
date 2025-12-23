@@ -41,22 +41,20 @@ function PostForm({post}: PostFormProps) {
     setClicked(true);
     const data = new FormData(e.target as HTMLFormElement)
     if (post) {
-        const result = await updatePost(data, post._id);
-        const success = result?.success;
-        const msg = result?.message;
-        if (success) {
-          toast.success(msg)
-          router.push(`/${post.author?.username}`);
-        }
-        else {
-          toast.error(msg)
-        }
+      const result = await updatePost(data, post._id);
+      const msg = result?.message;
+      if (result.type === "success") {
+        toast.success(msg)
+        router.push(`/${post.author?.username}`);
       }
+      else {
+        toast.error(msg)
+      }
+    }
     else {
       const result = await createNewPost(data);
-      const success = result?.success;
       const msg = result?.message;
-      if (success) {
+      if (result.type === "success") {
         toast.success(msg)
         router.push(`/${result.username}`);
       }

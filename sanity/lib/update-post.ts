@@ -5,22 +5,46 @@ import { checkExistingSlug } from "./generate-slug";
 import { auth } from "@/auth";
 import { GET_IMAGE_REF_BY_ID } from "./queries";
 
-async function updatePost(data: FormData, postId?: string) {
+function getStringField(
+  data: FormData,
+  fieldName: string
+): string | null {
+  const field = data.get(fieldName);
+  return typeof field === "string" ? field.trim() : null;
+}
+
+type Success<T = {}> = {
+  type: "success";
+  message: string;
+} & T;
+
+type Failure = {
+  type: "fail";
+  message: string;
+};
+
+export type Result<T = {}> = Success<T> | Failure;
+
+async function updatePost(data: FormData, postId?: string): Promise<Result> {
     const session = await auth();
     if (!session || !session?.user) {
         console.log("User not authenticated. Cannot update post.");
-        return {success: false, message: "User not authenticated."};
+        return {type: "fail", message: "User not authenticated."};
     }
     if (!postId) {
         console.log("Post ID is required to update a post.");
-        return {success: false, message: "Post not found to update."};
+        return {type: "fail", message: "Post not found to update."};
     }
-    const title = data.get('post-title') as string
-    const description = data.get('post-description') as string
+    const title = getStringField(data, 'post-title')
+    const description = getStringField(data, 'post-description')
+    const content = getStringField(data, 'post-content')
+    const category = getStringField(data, 'post-category')
+    if (!title || !description || !content || !category) {
+        console.log("Missing required fields to update post.");
+        return {type: "fail", message: "Missing required fields."};
+    }
     const file = data.get('post-thumbnail') as File
-    const slug = await checkExistingSlug(title.trim())
-    const content = data.get('post-content')
-    const category = data.get('post-category') as string
+    const slug = await checkExistingSlug(title)
 
     try {
         if (file && file.size > 0) {
@@ -56,10 +80,10 @@ async function updatePost(data: FormData, postId?: string) {
                 category: category,
             }).commit();
         }
-        return { success: true, message: "Post updated successfully."};
+        return { type: "success", message: "Post updated successfully."};
     } catch (error) {
         console.error("Error while updating the post: ", error);
-        return { success: false, message: "An error occurred while updating the post."};
+        return { type: "fail", message: "An error occurred while updating the post."};
     }
 }
 

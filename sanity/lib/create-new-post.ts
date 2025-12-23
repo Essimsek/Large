@@ -4,19 +4,34 @@ import { client } from "./client";
 import { checkExistingSlug } from "@/sanity/lib/generate-slug";
 import { auth } from "@/auth";
 import { GET_AUTHOR_ID_BY_USERNAME_QUERY } from "./queries";
+import { type Result } from "./update-post";
 
-async function createNewPost(data: FormData) {
+type CreatePostResult = Result<{username: string}>;
+
+function getStringField(
+  data: FormData,
+  fieldName: string
+): string | null {
+  const field = data.get(fieldName);
+  return typeof field === "string" ? field.trim() : null;
+}
+
+async function createNewPost(data: FormData): Promise<CreatePostResult> {
     const session = await auth();
-    if (!session || !session?.user) {
+    if (!session || !session?.user || !session.user.username) {
         console.log("User not authenticated. Cannot create post.");
-        return {success: false, message: "User not authenticated."};
+        return {type: "fail", message: "User not authenticated."};
     }
-    const title = data.get('post-title') as string
-    const description = data.get('post-description') as string
-    const file = data.get('post-thumbnail') as File
-    const slug = await checkExistingSlug(title)
-    const content = data.get('post-content')
-    const category = data.get('post-category') as string
+    const title = getStringField(data, 'post-title');
+    const description = getStringField(data, 'post-description');
+    const content = getStringField(data, 'post-content');
+    const category = getStringField(data, 'post-category');
+    if (!title || !description || !content || !category) {
+        console.log("Missing required fields to create post.");
+        return {type: "fail", message: "Missing required fields."};
+    }
+    const file = data.get('post-thumbnail') as File;
+    const slug = await checkExistingSlug(title);
     try {
         const author = await client.fetch(GET_AUTHOR_ID_BY_USERNAME_QUERY, {username: session.user?.username})
         const authorRef = {
@@ -64,10 +79,10 @@ async function createNewPost(data: FormData) {
                 }
             )
         }
-        return { success: true, message: "Post created successfully.", username: session.user?.username };
+        return {type: "success", message: "Post created successfully.", username: session.user.username};
     } catch (error) {
         console.error("Error creating new post:", error);
-        return { success: false, message: error instanceof Error ? error.message : "Unknown error occurred."};
+        return {type: "fail", message: "Error creating post."};
     }
 }
 export { createNewPost };
