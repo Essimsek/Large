@@ -5,7 +5,11 @@ import { formatDate } from '@/lib/utils';
 import type { Post } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/image';
 
-const PostCard = ({ post }: { post: Post }) => {
+type PostCardProps = {
+  post: Post;
+}
+
+const PostCard = ({ post }: PostCardProps ) => {
   return (
     <div className="max-w-2xl w-full bg-white border-2 border-black rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] p-5 my-6">
     { /*Header ->  avatar date etc. */ }

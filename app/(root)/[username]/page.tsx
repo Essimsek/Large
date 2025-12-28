@@ -15,10 +15,12 @@ import { redirect } from 'next/navigation';
 const MAX_POST_PER_PAGE = 6;
 export const experimental_ppr = true;
 
-export default async function Page({ params, searchParams }: {
-  params: Promise<{username: string}>,
-  searchParams: Promise<{page?: number}>
-}) {
+type PageProps = {
+  params: Promise<{ username: string }>
+  searchParams: Promise<{ page?: string }>
+};
+
+export default async function Page({ params, searchParams }: PageProps) {
   const { username } = await params;
   const session = await auth();
   const page = Number((await searchParams).page) || 1;

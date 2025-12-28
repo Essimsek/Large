@@ -7,7 +7,7 @@ import MyPagination from "@/components/Pagination";
 import { client } from "@/sanity/lib/client";
 import { GET_TOTAL_POSTS_COUNT } from "@/sanity/lib/queries";
 import { redirect } from "next/navigation";
-
+import type { QuerySearchParams } from "@/components/PostList";
 export const experimental_ppr = true;
 const MAX_POST_PER_PAGE = 6;
 
@@ -22,7 +22,7 @@ export default async function Home({ searchParams }: {
   // start end for pagination
   const start = ((pageNumber || 1) - 1) * MAX_POST_PER_PAGE
   const end = start + MAX_POST_PER_PAGE;
-  const params = { search: query ? `*${query}*` : null, start, end};
+  const params: QuerySearchParams = { search: query ? `*${query}*` : null, start, end};
   
   // get the total posts count to give to pagination
   const totalPosts: number = await client.fetch(GET_TOTAL_POSTS_COUNT, {search: params.search});
