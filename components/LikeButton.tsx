@@ -1,7 +1,7 @@
 "use client";
 
 import { Heart } from "lucide-react";
-import { useState, useTransition } from "react";
+import { useRef, useState } from "react";
 import { toggleLike } from "@/sanity/lib/toggle-like";
 
 type LikeButtonProps = {
@@ -19,32 +19,32 @@ export default function LikeButton({
 }: LikeButtonProps) {
     const [liked, setLiked] = useState(initialLiked);
     const [count, setCount] = useState(initialCount);
-    const [isPending, startTransition] = useTransition();
+    const pendingRef = useRef(false);
 
-    function handleClick() {
-        if (!isAuthenticated) return;
+    async function handleClick() {
+        if (!isAuthenticated || pendingRef.current) return;
+        pendingRef.current = true;
 
         const prevLiked = liked;
         const prevCount = count;
         setLiked(!prevLiked);
         setCount(prevLiked ? prevCount - 1 : prevCount + 1);
 
-        startTransition(async () => {
-            try {
-                const result = await toggleLike(postId);
-                setLiked(result.liked);
-                setCount(result.likeCount);
-            } catch {
-                setLiked(prevLiked);
-                setCount(prevCount);
-            }
-        });
+        try {
+            const result = await toggleLike(postId);
+            setLiked(result.liked);
+            setCount(result.likeCount);
+        } catch {
+            setLiked(prevLiked);
+            setCount(prevCount);
+        } finally {
+            pendingRef.current = false;
+        }
     }
 
     return (
         <button
             onClick={handleClick}
-            disabled={isPending || !isAuthenticated}
             className={`flex items-center gap-1.5 text-sm transition-all ${
                 isAuthenticated
                     ? "cursor-pointer hover:scale-105 active:scale-95"
@@ -55,7 +55,7 @@ export default function LikeButton({
         >
             <Heart
                 size={20}
-                className={`transition-colors ${
+                className={`transition-colors duration-200 ${
                     liked
                         ? "fill-red-500 stroke-red-500"
                         : "stroke-gray-500"
