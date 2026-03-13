@@ -1,13 +1,47 @@
 /**
  * Phase 1 Migration Script
  *
- * Run with: npx tsx scripts/migrate-phase1.ts
+ * Run with: node --env-file=.env node_modules/.bin/tsx scripts/migrate-phase1.ts
  *
  * 1. Converts all author `id` fields from number to string
  * 2. Sets `status: "published"` on all existing posts
  */
 
+import { readFileSync } from "fs";
+import { resolve } from "path";
 import { createClient } from "next-sanity";
+
+// Load .env file since we're running outside Next.js
+const envPath = resolve(process.cwd(), ".env.local");
+try {
+    const envFile = readFileSync(envPath, "utf-8");
+    for (const line of envFile.split("\n")) {
+        const trimmed = line.trim();
+        if (!trimmed || trimmed.startsWith("#")) continue;
+        const eqIndex = trimmed.indexOf("=");
+        if (eqIndex === -1) continue;
+        const key = trimmed.slice(0, eqIndex).trim();
+        const value = trimmed.slice(eqIndex + 1).trim().replace(/^["']|["']$/g, "");
+        if (!process.env[key]) process.env[key] = value;
+    }
+} catch {
+    // Try .env if .env.local doesn't exist
+    try {
+        const envFile = readFileSync(resolve(process.cwd(), ".env"), "utf-8");
+        for (const line of envFile.split("\n")) {
+            const trimmed = line.trim();
+            if (!trimmed || trimmed.startsWith("#")) continue;
+            const eqIndex = trimmed.indexOf("=");
+            if (eqIndex === -1) continue;
+            const key = trimmed.slice(0, eqIndex).trim();
+            const value = trimmed.slice(eqIndex + 1).trim().replace(/^["']|["']$/g, "");
+            if (!process.env[key]) process.env[key] = value;
+        }
+    } catch {
+        console.error("No .env.local or .env file found. Set env vars manually.");
+        process.exit(1);
+    }
+}
 
 const client = createClient({
     projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
