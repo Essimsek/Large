@@ -40,6 +40,8 @@ function PostForm({post}: PostFormProps) {
     e.preventDefault()
     setClicked(true);
     const data = new FormData(e.target as HTMLFormElement)
+    const submitter = (e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement;
+    data.set('post-status', submitter?.value || 'draft');
     if (post) {
       const result = await updatePost(data, post._id);
       const msg = result?.message;
@@ -85,7 +87,14 @@ function PostForm({post}: PostFormProps) {
         <SimpleEditor content={parsedContent} />
       </div>
       <Separator className="border mt-3" />
-      <Button disabled={clicked} type='submit' className='inline-flex'>{post ? 'Update' : 'Create'}</Button>
+      <div className="flex gap-2">
+        <Button disabled={clicked} type='submit' value='draft' variant='outline' className='flex-1'>
+          Save as Draft
+        </Button>
+        <Button disabled={clicked} type='submit' value='published' className='flex-1'>
+          {post ? 'Update & Publish' : 'Publish'}
+        </Button>
+      </div>
     </form>
   )
 }

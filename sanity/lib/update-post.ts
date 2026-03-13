@@ -43,6 +43,7 @@ async function updatePost(data: FormData, postId?: string): Promise<Result> {
         console.log("Missing required fields to update post.");
         return {type: "fail", message: "Missing required fields."};
     }
+    const status = getStringField(data, 'post-status');
     const file = data.get('post-thumbnail') as File
     const slug = await checkExistingSlug(title)
 
@@ -65,6 +66,7 @@ async function updatePost(data: FormData, postId?: string): Promise<Result> {
                 image: imageRef,
                 content: content,
                 category: category,
+                ...(status && { status }),
             }).commit();
 
             if (oldImageRef) {
@@ -78,6 +80,7 @@ async function updatePost(data: FormData, postId?: string): Promise<Result> {
                 slug: {current: slug, _type: "slug"},
                 content: content,
                 category: category,
+                ...(status && { status }),
             }).commit();
         }
         return { type: "success", message: "Post updated successfully."};

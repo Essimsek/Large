@@ -16,6 +16,7 @@ import { auth } from '@/auth';
 import { Edit2Icon, Settings } from 'lucide-react';
 
 import DeletePostButton from './deletePostButton';
+import PublishPostButton from './PublishPostButton';
 import LikeButton from '@/components/LikeButton';
 import CommentSection from '@/components/CommentSection';
 import RelatedPosts from '@/components/RelatedPosts';
@@ -47,6 +48,10 @@ const Page = async ({params}: {
     } catch (error) {
         console.error("Error updating post views:", error);
     }
+    const isDraft = (currentPost as Post & { status?: string }).status === "draft";
+    if (isDraft && !isOwner) {
+        notFound();
+    }
     const { title, description, author, category, image, likes, views, _createdAt, _updatedAt, content } = currentPost;
     const readingTime = content ? estimateReadingTime(content) : 1;
     const isAuthenticated = !!session?.user?.username;
@@ -66,11 +71,18 @@ const Page = async ({params}: {
                     <div className="flex flex-col items-center">
                         <Header title={title || ''} />
                         
-                        {category && (
-                            <span className="bg-white text-red-600 px-3 py-1 rounded-full text-sm font-medium mt-4">
-                                {category}
-                            </span>
-                        )}
+                        <div className="flex items-center gap-2 mt-4">
+                            {isDraft && (
+                                <span className="bg-yellow-400 text-black px-3 py-1 rounded-full text-xs font-bold">
+                                    DRAFT
+                                </span>
+                            )}
+                            {category && (
+                                <span className="bg-white text-red-600 px-3 py-1 rounded-full text-sm font-medium">
+                                    {category}
+                                </span>
+                            )}
+                        </div>
                         
                         <p className="text-xl text-white text-center mt-4 max-w-3xl">
                             {description}
@@ -89,6 +101,10 @@ const Page = async ({params}: {
                                 Edit
                                 <Edit2Icon />
                             </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                            <PublishPostButton postId={currentPost._id} isPublished={!isDraft} />
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem asChild className='focus:bg-red-400'>

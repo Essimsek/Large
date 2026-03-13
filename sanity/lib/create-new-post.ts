@@ -30,6 +30,7 @@ async function createNewPost(data: FormData): Promise<CreatePostResult> {
         console.log("Missing required fields to create post.");
         return {type: "fail", message: "Missing required fields."};
     }
+    const status = getStringField(data, 'post-status') || 'draft';
     const file = data.get('post-thumbnail') as File;
     const slug = await checkExistingSlug(title);
     try {
@@ -50,7 +51,7 @@ async function createNewPost(data: FormData): Promise<CreatePostResult> {
                 },
             }
             await client.create(
-                { 
+                {
                     _type: "post",
                     title,
                     description,
@@ -61,12 +62,13 @@ async function createNewPost(data: FormData): Promise<CreatePostResult> {
                     views: 0,
                     likes: 0,
                     author: authorRef,
+                    status,
                 }
             )
         }
         else {
             await client.create(
-                { 
+                {
                     _type: "post",
                     title: title,
                     description: description,
@@ -76,6 +78,7 @@ async function createNewPost(data: FormData): Promise<CreatePostResult> {
                     views: 0,
                     likes: 0,
                     author: authorRef,
+                    status,
                 }
             )
         }

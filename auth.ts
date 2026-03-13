@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
 import GitHub from "next-auth/providers/github"
+import Google from "next-auth/providers/google"
 import { client } from "./sanity/lib/client"
 import { Author } from "./sanity.types";
 import { checkExistingUsername } from "./sanity/lib/update-username";
@@ -30,37 +31,79 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     GitHub({
         clientId: process.env.AUTH_GITHUB_ID,
         clientSecret: process.env.AUTH_GITHUB_SECRET,
-    })
+    }),
+    Google({
+        clientId: process.env.AUTH_GOOGLE_ID,
+        clientSecret: process.env.AUTH_GOOGLE_SECRET,
+    }),
   ],
   callbacks: {
-    async signIn(params) {
+    async signIn({ profile, account }) {
       try {
-        const id = String(params.profile?.id);
-        const author = await client.withConfig({useCdn: false}).fetch(`*[_type == "author" && id == $id][0]`, { id }) as Author
-        if (author) {
-          return true
+        const provider = account?.provider;
+        let id: string;
+        let name: string;
+        let username: string;
+        let avatarUrl: string | undefined;
+        let email: string | undefined;
+        let bio: string;
+
+        if (provider === "github") {
+          id = String(profile?.id);
+          name = (profile?.name as string) || "Unknown";
+          username = (profile?.login as string) || "";
+          avatarUrl = profile?.avatar_url as string;
+          email = profile?.email as string;
+          bio = (profile?.bio as string) || "No bio available";
+        } else if (provider === "google") {
+          id = profile?.sub as string;
+          name = (profile?.name as string) || "Unknown";
+          username = ((profile?.email as string) ?? "").split("@")[0] || "";
+          avatarUrl = profile?.picture as string;
+          email = profile?.email as string;
+          bio = "No bio available";
         } else {
-          const imageRef = await uploadImageFromUrl(params.profile?.avatar_url);
-          let username = await checkExistingUsername(`${params.profile?.login}` || '');
-          await client.create({
-            _type: "author",
-            name: params.profile?.name || "Unknown",
-            username: username,
-            image: imageRef,
-            email: params.profile?.email,
-            bio: params.profile?.bio || "No bio available",
-            id,
-            provider: "github",
-          })
-          return true
+          return false;
         }
+
+        const author = await client.withConfig({useCdn: false}).fetch(
+          `*[_type == "author" && id == $id][0]`, { id }
+        ) as Author;
+
+        if (author) {
+          return true;
+        }
+
+        const imageRef = avatarUrl ? await uploadImageFromUrl(avatarUrl) : undefined;
+        const finalUsername = await checkExistingUsername(username);
+
+        await client.create({
+          _type: "author",
+          name,
+          username: finalUsername,
+          image: imageRef,
+          email,
+          bio,
+          id,
+          provider: provider || "unknown",
+        });
+
+        return true;
       } catch (error) {
         console.error("Error in signIn callback:", error)
         return false
       }
     },
-  async jwt({ token, profile }) {
-    const id = profile?.id ? String(profile.id) : (token.id as string | undefined);
+  async jwt({ token, profile, account }) {
+    let id: string | undefined;
+    if (profile) {
+      id = account?.provider === "google"
+        ? (profile.sub as string)
+        : String(profile.id);
+    } else {
+      id = token.id as string | undefined;
+    }
+
     if (id) {
       const author = await client.withConfig({useCdn: false}).fetch(
         `*[_type=="author" && id == $id][0]{username}`,

@@ -1,29 +1,33 @@
 import { notFound } from 'next/navigation';
 import { client } from '@/sanity/lib/client';
-import { GET_USER_BY_USERNAME_QUERY, GET_TOTAL_POSTS_COUNT } from '@/sanity/lib/queries';
-import { Author } from '@/sanity.types';
+import { GET_USER_BY_USERNAME_QUERY, GET_TOTAL_POSTS_COUNT, GET_USER_DRAFTS } from '@/sanity/lib/queries';
+import { Author, Post } from '@/sanity.types';
 import ProfileCard from '@/components/ProfileCard';
+import PostCard from '@/components/PostCard';
 import {auth} from '@/auth';
 
-// pagination 
+// pagination
 import MyPagination from '@/components/Pagination';
 import { Suspense } from 'react';
 import SkeletonList from '@/components/ui/SkeletonList';
 import PostList from '@/components/PostList';
 import { redirect } from 'next/navigation';
+import Link from 'next/link';
 
 const MAX_POST_PER_PAGE = 6;
 export const experimental_ppr = true;
 
 type PageProps = {
   params: Promise<{ username: string }>
-  searchParams: Promise<{ page?: string }>
+  searchParams: Promise<{ page?: string; tab?: string }>
 };
 
 export default async function Page({ params, searchParams }: PageProps) {
   const { username } = await params;
   const session = await auth();
-  const page = Number((await searchParams).page) || 1;
+  const sp = await searchParams;
+  const page = Number(sp.page) || 1;
+  const tab = sp.tab;
 
   const user = (await client.fetch(
     GET_USER_BY_USERNAME_QUERY,
@@ -46,21 +50,69 @@ export default async function Page({ params, searchParams }: PageProps) {
 
   const search = { search: username ? `*${user._id}*` : null, start, end};
   const isOwner = session?.user?.username === user.username;
+  const showDrafts = isOwner && tab === "drafts";
 
   const skeletonRange = totalPosts - start < MAX_POST_PER_PAGE ? totalPosts - start : MAX_POST_PER_PAGE;
-  
+
+  let drafts: Post[] = [];
+  if (showDrafts) {
+    drafts = await client.fetch(GET_USER_DRAFTS, { username }) as Post[];
+  }
+
   return (
     <>
       <ProfileCard user={user} isOwner={isOwner} />
       <section className="px-6 py-10 mx-auto max-w-7xl">
-        <p className="text-black text-3xl font-semibold"> 
-          {isOwner ? `Your Posts` : "Posts by " + user.username}
-        </p>
-        <Suspense fallback={<SkeletonList range={skeletonRange} />}>
-          <PostList params={search} />
-        </Suspense>
-          <MyPagination pageCount={totalPages} />
-        </section>
+        {isOwner && (
+          <div className="flex gap-6 mb-6 border-b border-gray-200">
+            <Link
+              href={`/${username}`}
+              className={`pb-2 text-sm font-semibold transition-colors ${
+                !showDrafts
+                  ? "border-b-2 border-black text-black"
+                  : "text-gray-500 hover:text-black"
+              }`}
+            >
+              Published
+            </Link>
+            <Link
+              href={`/${username}?tab=drafts`}
+              className={`pb-2 text-sm font-semibold transition-colors ${
+                showDrafts
+                  ? "border-b-2 border-black text-black"
+                  : "text-gray-500 hover:text-black"
+              }`}
+            >
+              Drafts
+            </Link>
+          </div>
+        )}
+
+        {!isOwner && (
+          <p className="text-black text-3xl font-semibold">
+            Posts by {user.username}
+          </p>
+        )}
+
+        {showDrafts ? (
+          <ul className="grid-card-area">
+            {drafts.length > 0 ? (
+              drafts.map((post) => (
+                <PostCard key={post._id} post={post} />
+              ))
+            ) : (
+              <li className="col-span-3 text-center text-gray-500">No drafts</li>
+            )}
+          </ul>
+        ) : (
+          <>
+            <Suspense fallback={<SkeletonList range={skeletonRange} />}>
+              <PostList params={search} />
+            </Suspense>
+            <MyPagination pageCount={totalPages} />
+          </>
+        )}
+      </section>
     </>
   );
 }
