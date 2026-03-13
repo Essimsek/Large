@@ -18,6 +18,7 @@ import { Edit2Icon, Settings } from 'lucide-react';
 import DeletePostButton from './deletePostButton';
 import LikeButton from '@/components/LikeButton';
 import CommentSection from '@/components/CommentSection';
+import RelatedPosts from '@/components/RelatedPosts';
 
 import {
   DropdownMenu,
@@ -195,6 +196,13 @@ const Page = async ({params}: {
                     postId={currentPost._id}
                     currentUsername={session?.user?.username}
                 />
+
+                {category && (
+                    <RelatedPosts
+                        category={category}
+                        postId={currentPost._id}
+                    />
+                )}
             </section>
         </>
     );

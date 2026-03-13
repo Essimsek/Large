@@ -112,6 +112,66 @@ export const GET_COMMENT_COUNT_BY_POST = defineQuery(
     `count(*[_type == "comment" && post._ref == $postId])`
 );
 
+export const GET_ALL_CATEGORIES = defineQuery(`
+    array::unique(*[_type == "post" && defined(category) && defined(slug.current)].category)
+`);
+
+export const GET_POSTS_BY_CATEGORY = defineQuery(`
+    *[_type == "post" && category == $category && defined(slug.current)] | order(_createdAt desc) [$start...$end] {
+        _id,
+        _createdAt,
+        title,
+        "slug": slug.current,
+        category,
+        description,
+        image,
+        likes,
+        views,
+        "author": author -> {
+            _id,
+            username,
+            name,
+            image
+        }
+    }
+`);
+
+export const GET_TOTAL_POSTS_BY_CATEGORY = defineQuery(`
+    count(*[_type == "post" && category == $category && defined(slug.current)])
+`);
+
+export const GET_RELATED_POSTS = defineQuery(`
+    *[_type == "post" && category == $category && _id != $postId && defined(slug.current)] | order(_createdAt desc) [0...3] {
+        _id,
+        _createdAt,
+        title,
+        "slug": slug.current,
+        category,
+        description,
+        image,
+        likes,
+        views,
+        "author": author -> {
+            _id,
+            username,
+            name,
+            image
+        }
+    }
+`);
+
+export const GET_LATEST_POSTS_FOR_RSS = defineQuery(`
+    *[_type == "post" && defined(slug.current)] | order(_createdAt desc) [0...20] {
+        _id,
+        _createdAt,
+        title,
+        "slug": slug.current,
+        description,
+        category,
+        "authorUsername": author->username
+    }
+`);
+
 // get total posts based on search query. yasssssss
 export const GET_TOTAL_POSTS_COUNT = defineQuery(`
   count(*[

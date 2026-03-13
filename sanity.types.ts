@@ -315,6 +315,61 @@ export type GET_COMMENTS_BY_POSTResult = Array<never>;
 // Variable: GET_COMMENT_COUNT_BY_POST
 // Query: count(*[_type == "comment" && post._ref == $postId])
 export type GET_COMMENT_COUNT_BY_POSTResult = number;
+// Variable: GET_ALL_CATEGORIES
+// Query: array::unique(*[_type == "post" && defined(category) && defined(slug.current)].category)
+export type GET_ALL_CATEGORIESResult = Array<string | null>;
+// Variable: GET_POSTS_BY_CATEGORY
+// Query: *[_type == "post" && category == $category && defined(slug.current)] | order(_createdAt desc) [$start...$end] {        _id,        _createdAt,        title,        "slug": slug.current,        category,        description,        image,        likes,        views,        "author": author -> {            _id,            username,            name,            image        }    }
+export type GET_POSTS_BY_CATEGORYResult = Array<{
+  _id: string;
+  _createdAt: string;
+  title: string | null;
+  slug: string | null;
+  category: string | null;
+  description: string | null;
+  image: string | null;
+  likes: number | null;
+  views: number | null;
+  author: {
+    _id: string;
+    username: string | null;
+    name: string | null;
+    image: string | null;
+  } | null;
+}>;
+// Variable: GET_TOTAL_POSTS_BY_CATEGORY
+// Query: count(*[_type == "post" && category == $category && defined(slug.current)])
+export type GET_TOTAL_POSTS_BY_CATEGORYResult = number;
+// Variable: GET_RELATED_POSTS
+// Query: *[_type == "post" && category == $category && _id != $postId && defined(slug.current)] | order(_createdAt desc) [0...3] {        _id,        _createdAt,        title,        "slug": slug.current,        category,        description,        image,        likes,        views,        "author": author -> {            _id,            username,            name,            image        }    }
+export type GET_RELATED_POSTSResult = Array<{
+  _id: string;
+  _createdAt: string;
+  title: string | null;
+  slug: string | null;
+  category: string | null;
+  description: string | null;
+  image: string | null;
+  likes: number | null;
+  views: number | null;
+  author: {
+    _id: string;
+    username: string | null;
+    name: string | null;
+    image: string | null;
+  } | null;
+}>;
+// Variable: GET_LATEST_POSTS_FOR_RSS
+// Query: *[_type == "post" && defined(slug.current)] | order(_createdAt desc) [0...20] {        _id,        _createdAt,        title,        "slug": slug.current,        description,        category,        "authorUsername": author->username    }
+export type GET_LATEST_POSTS_FOR_RSSResult = Array<{
+  _id: string;
+  _createdAt: string;
+  title: string | null;
+  slug: string | null;
+  description: string | null;
+  category: string | null;
+  authorUsername: string | null;
+}>;
 // Variable: GET_TOTAL_POSTS_COUNT
 // Query: count(*[    _type == "post" &&    defined(slug.current) &&    (      !defined($search) ||      title match $search ||      category match $search ||      description match $search ||      author->username match $search ||      author->name match $search    )  ])
 export type GET_TOTAL_POSTS_COUNTResult = number;
@@ -332,6 +387,11 @@ declare module "@sanity/client" {
     "count(*[_type == \"like\" && author._ref == $authorId && post._ref == $postId]) > 0": CHECK_USER_LIKED_POSTResult;
     "\n    *[_type == \"comment\" && post._ref == $postId] | order(_createdAt desc) {\n        _id,\n        _createdAt,\n        text,\n        \"author\": author -> {\n            username,\n            name,\n            image\n        }\n    }\n": GET_COMMENTS_BY_POSTResult;
     "count(*[_type == \"comment\" && post._ref == $postId])": GET_COMMENT_COUNT_BY_POSTResult;
+    "\n    array::unique(*[_type == \"post\" && defined(category) && defined(slug.current)].category)\n": GET_ALL_CATEGORIESResult;
+    "\n    *[_type == \"post\" && category == $category && defined(slug.current)] | order(_createdAt desc) [$start...$end] {\n        _id,\n        _createdAt,\n        title,\n        \"slug\": slug.current,\n        category,\n        description,\n        image,\n        likes,\n        views,\n        \"author\": author -> {\n            _id,\n            username,\n            name,\n            image\n        }\n    }\n": GET_POSTS_BY_CATEGORYResult;
+    "\n    count(*[_type == \"post\" && category == $category && defined(slug.current)])\n": GET_TOTAL_POSTS_BY_CATEGORYResult;
+    "\n    *[_type == \"post\" && category == $category && _id != $postId && defined(slug.current)] | order(_createdAt desc) [0...3] {\n        _id,\n        _createdAt,\n        title,\n        \"slug\": slug.current,\n        category,\n        description,\n        image,\n        likes,\n        views,\n        \"author\": author -> {\n            _id,\n            username,\n            name,\n            image\n        }\n    }\n": GET_RELATED_POSTSResult;
+    "\n    *[_type == \"post\" && defined(slug.current)] | order(_createdAt desc) [0...20] {\n        _id,\n        _createdAt,\n        title,\n        \"slug\": slug.current,\n        description,\n        category,\n        \"authorUsername\": author->username\n    }\n": GET_LATEST_POSTS_FOR_RSSResult;
     "\n  count(*[\n    _type == \"post\" &&\n    defined(slug.current) &&\n    (\n      !defined($search) ||\n      title match $search ||\n      category match $search ||\n      description match $search ||\n      author->username match $search ||\n      author->name match $search\n    )\n  ])\n": GET_TOTAL_POSTS_COUNTResult;
   }
 }
