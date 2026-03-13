@@ -3,7 +3,7 @@ import { Skeleton } from "./skeleton";
 
 export default function SkeletonCard() {
   return (
-    <div className="max-w-2xl w-full bg-white border-2 border-black rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-5 my-6">
+    <div className="max-w-2xl w-full bg-card border-2 border-foreground rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.15)] p-5 my-6">
       
       {/* Header */}
       <div className="flex justify-between mb-3">
@@ -31,7 +31,7 @@ export default function SkeletonCard() {
       </div>
 
       {/* Footer */}
-      <div className="flex justify-between items-center mt-4 pt-3 border-t border-gray-300">
+      <div className="flex justify-between items-center mt-4 pt-3 border-t border-border">
         <div className="flex space-x-4">
           <Skeleton className="h-4 w-12" />
           <Skeleton className="h-4 w-12" />

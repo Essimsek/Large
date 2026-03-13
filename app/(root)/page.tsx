@@ -45,7 +45,7 @@ export default async function Home({ searchParams }: {
       </section>
       
       <section className="px-6 py-10 mx-auto max-w-7xl">
-        <p className="text-black text-3xl font-semibold"> 
+        <p className="text-foreground text-3xl font-semibold">
           {query ? `Search results for ${query}` : "Explore Posts"}
         </p>
         <Suspense fallback={<SkeletonList range={skeletonRange} />}>

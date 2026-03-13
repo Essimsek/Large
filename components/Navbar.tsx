@@ -12,11 +12,12 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
+import { ThemeToggle } from './ThemeToggle';
 
 const Navbar = async () => {
     const session = await auth();
     return (
-        <header className="text-black p-1 mb-0 rounded-lg mx-auto bg-white shadow-md w-full max-w-8xl">
+        <header className="text-foreground p-1 mb-0 rounded-lg mx-auto bg-background shadow-md w-full max-w-8xl">
             <nav className='flex justify-between items-center px-4'>
                 <Link href="/">
                     <Image 
@@ -27,7 +28,8 @@ const Navbar = async () => {
                         className="p-0 m-0 rounded-full hover:scale-105 transition-transform duration-300 ease-in-out"    
                     />
                 </Link>
-                <div className='flex flex-row gap-4'>
+                <div className='flex flex-row gap-4 items-center'>
+                    <ThemeToggle />
                     {session && session?.user ? (
                         <div className="flex flex-row gap-2 items-center">
                             <Link href="/new-post">Create</Link>

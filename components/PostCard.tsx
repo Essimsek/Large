@@ -11,7 +11,7 @@ type PostCardProps = {
 
 const PostCard = ({ post }: PostCardProps ) => {
   return (
-    <div className="max-w-2xl w-full bg-white border-2 border-black rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] p-5 my-6">
+    <div className="max-w-2xl w-full bg-card border-2 border-foreground rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.15)] transition-all hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.15)] p-5 my-6">
     { /*Header ->  avatar date etc. */ }
       <div className="flex justify-between mb-3">
         <Link href={"/" + post.author?.username} className="flex p-1 items-center justify-center gap-2 transition-all duration-150 shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] hover:shadow-[0px_2px_0px_0px_rgba(0,0,0,1)]">
@@ -32,7 +32,7 @@ const PostCard = ({ post }: PostCardProps ) => {
         
         <Link 
           href={`?query=${post.category?.toString()}`} 
-          className="px-2 py-1 bg-yellow-400 text-black max-h-7 text-xs font-bold border transition-all duration-150 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+          className="px-2 py-1 bg-yellow-400 text-black max-h-7 text-xs font-bold border transition-all duration-150 border-foreground shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.15)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.15)]"
         >
           {post.category}
         </Link>
@@ -44,12 +44,12 @@ const PostCard = ({ post }: PostCardProps ) => {
           <Link href={`/${post.author?.username}/${post.slug}`}>
             <h2 className="text-xl font-bold mb-2 hover:underline">{post.title}</h2>
           </Link>
-          <p className="text-gray-700 line-clamp-3">{post.description}</p>
+          <p className="text-muted-foreground line-clamp-3">{post.description}</p>
         </div>
 
         <div className="md:col-span-1 flex justify-center">
           {post.image ? 
-          <div className="border-2 border-black w-full h-32 bg-gray-100 flex items-center justify-center">
+          <div className="border-2 border-foreground w-full h-32 bg-muted flex items-center justify-center">
               <img
                 src={urlForImage(post.image).width(120).height(120).url()}
                 alt={post.title}
@@ -65,7 +65,7 @@ const PostCard = ({ post }: PostCardProps ) => {
       </div>
 
       {/* Stats and Read More */}
-      <div className="flex justify-between items-center mt-4 pt-3 border-t border-gray-300">
+      <div className="flex justify-between items-center mt-4 pt-3 border-t border-border">
         <div className="flex space-x-4">
           <div className="flex items-center text-gray-600">
             <Eye className="mr-1" size={16} />

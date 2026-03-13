@@ -1,6 +1,7 @@
 import { GET_POST_BY_SLUG_QUERY, CHECK_USER_LIKED_POST, GET_AUTHOR_ID_BY_USERNAME_QUERY } from '@/sanity/lib/queries';
 import { client } from '@/sanity/lib/client';
 import type { Post } from '@/sanity.types';
+import type { Metadata } from 'next';
 import React from 'react';
 import { notFound } from 'next/navigation';
 import { formatDate, estimateReadingTime } from '@/lib/utils';
@@ -20,6 +21,32 @@ import PublishPostButton from './PublishPostButton';
 import LikeButton from '@/components/LikeButton';
 import CommentSection from '@/components/CommentSection';
 import RelatedPosts from '@/components/RelatedPosts';
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ username: string; postId: string }>;
+}): Promise<Metadata> {
+    const { username, postId } = await params;
+    const post = await client.fetch(GET_POST_BY_SLUG_QUERY, {
+        username,
+        slug: postId,
+    }) as Post;
+    if (!post) return { title: "Post Not Found" };
+    return {
+        title: post.title,
+        description: post.description,
+        openGraph: {
+            type: "article",
+            title: post.title || "",
+            description: post.description || "",
+            ...(post.image && {
+                images: [urlForImage(post.image).width(1200).height(630).url()],
+            }),
+            publishedTime: post._createdAt,
+        },
+    };
+}
 
 import {
   DropdownMenu,

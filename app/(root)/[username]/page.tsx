@@ -2,9 +2,11 @@ import { notFound } from 'next/navigation';
 import { client } from '@/sanity/lib/client';
 import { GET_USER_BY_USERNAME_QUERY, GET_TOTAL_POSTS_COUNT, GET_USER_DRAFTS } from '@/sanity/lib/queries';
 import { Author, Post } from '@/sanity.types';
+import type { Metadata } from 'next';
 import ProfileCard from '@/components/ProfileCard';
 import PostCard from '@/components/PostCard';
 import {auth} from '@/auth';
+import { urlForImage } from '@/sanity/lib/image';
 
 // pagination
 import MyPagination from '@/components/Pagination';
@@ -13,6 +15,26 @@ import SkeletonList from '@/components/ui/SkeletonList';
 import PostList from '@/components/PostList';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
+
+export async function generateMetadata({
+    params,
+}: {
+    params: Promise<{ username: string }>;
+}): Promise<Metadata> {
+    const { username } = await params;
+    const user = await client.fetch(GET_USER_BY_USERNAME_QUERY, { username }) as Author;
+    if (!user) return { title: "User Not Found" };
+    return {
+        title: user.name || user.username,
+        description: user.bio || `Posts by ${user.username}`,
+        openGraph: {
+            type: "profile",
+            ...(user.image && {
+                images: [urlForImage(user.image).width(400).height(400).url()],
+            }),
+        },
+    };
+}
 
 const MAX_POST_PER_PAGE = 6;
 export const experimental_ppr = true;
