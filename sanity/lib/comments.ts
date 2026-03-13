@@ -3,6 +3,7 @@
 import { client } from "./client";
 import { auth } from "@/auth";
 import { GET_AUTHOR_ID_BY_USERNAME_QUERY } from "./queries";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function createComment(
     postId: string,
@@ -11,6 +12,9 @@ export async function createComment(
     const session = await auth();
     if (!session?.user?.username) {
         return { success: false, message: "Not authenticated" };
+    }
+    if (!rateLimit(`comment:${session.user.username}`, 10, 5 * 60 * 1000)) {
+        return { success: false, message: "Too many comments. Please wait." };
     }
 
     const trimmed = text.trim();

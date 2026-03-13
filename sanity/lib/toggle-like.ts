@@ -3,11 +3,15 @@
 import { client } from "./client";
 import { auth } from "@/auth";
 import { GET_AUTHOR_ID_BY_USERNAME_QUERY } from "./queries";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function toggleLike(postId: string): Promise<{ liked: boolean; likeCount: number }> {
     const session = await auth();
     if (!session?.user?.username) {
         throw new Error("Not authenticated");
+    }
+    if (!rateLimit(`like:${session.user.username}`, 30, 60 * 1000)) {
+        throw new Error("Too many likes. Slow down.");
     }
 
     const author = await client.fetch(GET_AUTHOR_ID_BY_USERNAME_QUERY, {

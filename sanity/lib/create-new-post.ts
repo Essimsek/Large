@@ -5,6 +5,7 @@ import { checkExistingSlug } from "@/sanity/lib/generate-slug";
 import { auth } from "@/auth";
 import { GET_AUTHOR_ID_BY_USERNAME_QUERY } from "./queries";
 import { type Result } from "./update-post";
+import { rateLimit } from "@/lib/rate-limit";
 
 type CreatePostResult = Result<{username: string}>;
 
@@ -21,6 +22,9 @@ async function createNewPost(data: FormData): Promise<CreatePostResult> {
     if (!session || !session?.user || !session.user.username) {
         console.log("User not authenticated. Cannot create post.");
         return {type: "fail", message: "User not authenticated."};
+    }
+    if (!rateLimit(`create-post:${session.user.username}`, 5, 10 * 60 * 1000)) {
+        return {type: "fail", message: "Too many posts. Please wait before creating another."};
     }
     const title = getStringField(data, 'post-title');
     const description = getStringField(data, 'post-description');

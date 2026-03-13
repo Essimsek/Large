@@ -1,8 +1,17 @@
 "use server";
 
 import { client } from "@/sanity/lib/client";
+import { auth } from "@/auth";
+import { rateLimit } from "@/lib/rate-limit";
 
 const deletePost = async ({ postId }: { postId: string }) => {
+    const session = await auth();
+    if (!session?.user?.username) {
+        return { success: false, message: "Not authenticated" };
+    }
+    if (!rateLimit(`delete-post:${session.user.username}`, 5, 10 * 60 * 1000)) {
+        return { success: false, message: "Too many deletions. Please wait." };
+    }
     try {
         const post = await client.fetch(
         `*[_type == "post" && _id == $postId][0] {

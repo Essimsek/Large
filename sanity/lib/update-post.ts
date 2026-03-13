@@ -4,6 +4,7 @@ import { client } from "./client";
 import { checkExistingSlug } from "./generate-slug";
 import { auth } from "@/auth";
 import { GET_IMAGE_REF_BY_ID } from "./queries";
+import { rateLimit } from "@/lib/rate-limit";
 
 function getStringField(
   data: FormData,
@@ -30,6 +31,9 @@ async function updatePost(data: FormData, postId?: string): Promise<Result> {
     if (!session || !session?.user) {
         console.log("User not authenticated. Cannot update post.");
         return {type: "fail", message: "User not authenticated."};
+    }
+    if (!rateLimit(`update-post:${session.user.username}`, 10, 10 * 60 * 1000)) {
+        return {type: "fail", message: "Too many updates. Please wait."};
     }
     if (!postId) {
         console.log("Post ID is required to update a post.");
