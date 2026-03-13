@@ -45,8 +45,19 @@ export const post = defineType({
             type: "number",
         }),
         defineField({
-        name: "content",
-        type: "string",
+            name: "content",
+            type: "string",
+        }),
+        defineField({
+            name: "status",
+            type: "string",
+            options: {
+                list: [
+                    { title: "Draft", value: "draft" },
+                    { title: "Published", value: "published" },
+                ],
+            },
+            initialValue: "draft",
         }),
     ],
 })

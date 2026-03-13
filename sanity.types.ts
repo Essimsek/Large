@@ -21,13 +21,47 @@ export type Post = {
   _rev: string;
   title?: string;
   slug?: Slug;
-  author?: Author;
+  author?: {
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    [internalGroqTypeReferenceTo]?: "author";
+  };
   description?: string;
   category?: string;
   image?: string;
   views?: number;
   likes?: number;
-  content?: string;
+  content?: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "normal" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "blockquote";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }>;
 };
 
 export type Author = {
@@ -41,7 +75,6 @@ export type Author = {
   image?: string;
   email?: string;
   bio?: string;
-  id: number;
 };
 
 export type SanityImagePaletteSwatch = {
@@ -164,3 +197,129 @@ export type SanityAssetSourceData = {
 
 export type AllSanitySchemaTypes = Post | Author | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
+// Source: ./sanity/lib/queries.ts
+// Variable: GET_ALL_POSTS_QUERY_DESC
+// Query: *[    _type == "post" &&    defined(slug.current) &&    (      !defined($search) ||      category match $search ||      title match $search ||      description match $search ||      author->username match $search ||      author->_id match $search ||      author->name match $search    )  ] | order(_createdAt desc) [$start...$end] {    _id,    _createdAt,    title,    "slug": slug.current,    category,    description,    image,    likes,    views,    "author": author -> {      _id,      username,      name,      image    },  }
+export type GET_ALL_POSTS_QUERY_DESCResult = Array<{
+  _id: string;
+  _createdAt: string;
+  title: string | null;
+  slug: string | null;
+  category: string | null;
+  description: string | null;
+  image: string | null;
+  likes: number | null;
+  views: number | null;
+  author: {
+    _id: string;
+    username: string | null;
+    name: string | null;
+    image: string | null;
+  } | null;
+}>;
+// Variable: GET_POST_BY_SLUG_QUERY
+// Query: *[_type == "post" && slug.current == $slug && author->username == $username][0] {  _id,  title,  description,  category,  image,  likes,  author -> {  username,  name,  image  },  views,  _createdAt,  _updatedAt,  content}
+export type GET_POST_BY_SLUG_QUERYResult = {
+  _id: string;
+  title: string | null;
+  description: string | null;
+  category: string | null;
+  image: string | null;
+  likes: number | null;
+  author: {
+    username: string | null;
+    name: string | null;
+    image: string | null;
+  } | null;
+  views: number | null;
+  _createdAt: string;
+  _updatedAt: string;
+  content: Array<{
+    children?: Array<{
+      marks?: Array<string>;
+      text?: string;
+      _type: "span";
+      _key: string;
+    }>;
+    style?: "blockquote" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6" | "normal";
+    listItem?: "bullet" | "number";
+    markDefs?: Array<{
+      href?: string;
+      _type: "link";
+      _key: string;
+    }>;
+    level?: number;
+    _type: "block";
+    _key: string;
+  } | {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+    _key: string;
+  }> | null;
+} | null;
+// Variable: GET_USER_BY_USERNAME_QUERY
+// Query: *[_type == "author" && username == $username][0]
+export type GET_USER_BY_USERNAME_QUERYResult = {
+  _id: string;
+  _type: "author";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  name?: string;
+  username?: string;
+  image?: string;
+  email?: string;
+  bio?: string;
+} | null;
+// Variable: GET_AUTHOR_ID_BY_USERNAME_QUERY
+// Query: *[_type == "author" && username == $username][0] {  _id,}
+export type GET_AUTHOR_ID_BY_USERNAME_QUERYResult = {
+  _id: string;
+} | null;
+// Variable: GET_USER_POSTS_QUERY
+// Query: *[_type == "post" && author->username == $username] | order(_createdAt desc) {  _id,  _createdAt,  title,  "slug": slug.current,  category,  description,  image,  likes,  views,  "author": author -> {    _id,    username,    name,    image  },}
+export type GET_USER_POSTS_QUERYResult = Array<{
+  _id: string;
+  _createdAt: string;
+  title: string | null;
+  slug: string | null;
+  category: string | null;
+  description: string | null;
+  image: string | null;
+  likes: number | null;
+  views: number | null;
+  author: {
+    _id: string;
+    username: string | null;
+    name: string | null;
+    image: string | null;
+  } | null;
+}>;
+// Variable: GET_IMAGE_REF_BY_ID
+// Query: *[_type == "post" && _id == $postId][0].image.asset._ref
+export type GET_IMAGE_REF_BY_IDResult = null;
+// Variable: GET_TOTAL_POSTS_COUNT
+// Query: count(*[    _type == "post" &&    defined(slug.current) &&    (      !defined($search) ||      title match $search ||      category match $search ||      description match $search ||      author->username match $search ||      author->name match $search    )  ])
+export type GET_TOTAL_POSTS_COUNTResult = number;
+
+// Query TypeMap
+import "@sanity/client";
+declare module "@sanity/client" {
+  interface SanityQueries {
+    "\n  *[\n    _type == \"post\" &&\n    defined(slug.current) &&\n    (\n      !defined($search) ||\n      category match $search ||\n      title match $search ||\n      description match $search ||\n      author->username match $search ||\n      author->_id match $search ||\n      author->name match $search\n    )\n  ] | order(_createdAt desc) [$start...$end] {\n    _id,\n    _createdAt,\n    title,\n    \"slug\": slug.current,\n    category,\n    description,\n    image,\n    likes,\n    views,\n    \"author\": author -> {\n      _id,\n      username,\n      name,\n      image\n    },\n  }\n": GET_ALL_POSTS_QUERY_DESCResult;
+    "*[_type == \"post\" && slug.current == $slug && author->username == $username][0] {\n  _id,\n  title,\n  description,\n  category,\n  image,\n  likes,\n  author -> {\n  username,\n  name,\n  image\n  },\n  views,\n  _createdAt,\n  _updatedAt,\n  content\n}": GET_POST_BY_SLUG_QUERYResult;
+    "*[_type == \"author\" && username == $username][0]": GET_USER_BY_USERNAME_QUERYResult;
+    "*[_type == \"author\" && username == $username][0] {\n  _id,}": GET_AUTHOR_ID_BY_USERNAME_QUERYResult;
+    "*[_type == \"post\" && author->username == $username] | order(_createdAt desc) {\n  _id,\n  _createdAt,\n  title,\n  \"slug\": slug.current,\n  category,\n  description,\n  image,\n  likes,\n  views,\n  \"author\": author -> {\n    _id,\n    username,\n    name,\n    image\n  },\n}": GET_USER_POSTS_QUERYResult;
+    "*[_type == \"post\" && _id == $postId][0].image.asset._ref": GET_IMAGE_REF_BY_IDResult;
+    "\n  count(*[\n    _type == \"post\" &&\n    defined(slug.current) &&\n    (\n      !defined($search) ||\n      title match $search ||\n      category match $search ||\n      description match $search ||\n      author->username match $search ||\n      author->name match $search\n    )\n  ])\n": GET_TOTAL_POSTS_COUNTResult;
+  }
+}
