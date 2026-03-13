@@ -91,6 +91,27 @@ export const GET_POST_FOR_EDIT_QUERY = `
 
 export const GET_IMAGE_REF_BY_ID = defineQuery(`*[_type == "post" && _id == $postId][0].image.asset._ref`);
 
+export const CHECK_USER_LIKED_POST = defineQuery(
+    `count(*[_type == "like" && author._ref == $authorId && post._ref == $postId]) > 0`
+);
+
+export const GET_COMMENTS_BY_POST = defineQuery(`
+    *[_type == "comment" && post._ref == $postId] | order(_createdAt desc) {
+        _id,
+        _createdAt,
+        text,
+        "author": author -> {
+            username,
+            name,
+            image
+        }
+    }
+`);
+
+export const GET_COMMENT_COUNT_BY_POST = defineQuery(
+    `count(*[_type == "comment" && post._ref == $postId])`
+);
+
 // get total posts based on search query. yasssssss
 export const GET_TOTAL_POSTS_COUNT = defineQuery(`
   count(*[

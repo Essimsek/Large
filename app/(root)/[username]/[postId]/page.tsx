@@ -1,15 +1,13 @@
-import { GET_POST_BY_SLUG_QUERY } from '@/sanity/lib/queries';
+import { GET_POST_BY_SLUG_QUERY, CHECK_USER_LIKED_POST, GET_AUTHOR_ID_BY_USERNAME_QUERY } from '@/sanity/lib/queries';
 import { client } from '@/sanity/lib/client';
 import type { Post } from '@/sanity.types';
 import React from 'react';
 import { notFound } from 'next/navigation';
-import { formatDate } from '@/lib/utils';
+import { formatDate, estimateReadingTime } from '@/lib/utils';
 import Header from '@/components/Header';
 import Image from 'next/image';
 import Link from 'next/link';
 
-//import { PortableText } from 'next-sanity';
-//import { components } from '@/sanity/PortableTextComponents'; // deprecated dudeeeeee
 import { Separator } from '@/components/ui/separator';
 import { urlForImage } from '@/sanity/lib/image';
 import PortableEditor from '@/components/PortableEditor';
@@ -18,6 +16,8 @@ import { auth } from '@/auth';
 import { Edit2Icon, Settings } from 'lucide-react';
 
 import DeletePostButton from './deletePostButton';
+import LikeButton from '@/components/LikeButton';
+import CommentSection from '@/components/CommentSection';
 
 import {
   DropdownMenu,
@@ -47,6 +47,16 @@ const Page = async ({params}: {
         console.error("Error updating post views:", error);
     }
     const { title, description, author, category, image, likes, views, _createdAt, _updatedAt, content } = currentPost;
+    const readingTime = content ? estimateReadingTime(content) : 1;
+    const isAuthenticated = !!session?.user?.username;
+
+    let userLiked = false;
+    if (isAuthenticated) {
+        const currentAuthor = await client.fetch(GET_AUTHOR_ID_BY_USERNAME_QUERY, { username: session!.user.username });
+        if (currentAuthor?._id) {
+            userLiked = await client.fetch(CHECK_USER_LIKED_POST, { authorId: currentAuthor._id, postId: currentPost._id });
+        }
+    }
     return (
         <>
             {/* Post Header Section (category, description, title and settings dropdown menu) */}
@@ -132,6 +142,13 @@ const Page = async ({params}: {
                         {formatDate(_updatedAt)}
                     </time>
                     </div>
+
+                    <div className="h-8 w-px bg-gray-300 ml-4"></div>
+
+                    <div className="flex flex-col ml-4">
+                    <span className="text-xs text-gray-500">Read time</span>
+                    <span className="font-medium text-gray-700">{readingTime} min</span>
+                    </div>
                 </div>
                 <Separator className='mt-4'/>
             </section>
@@ -161,10 +178,23 @@ const Page = async ({params}: {
                     <p className="text-gray-500 italic">No content available</p>
                 )}
                 
-                <div className="mt-12 pt-6 border-t border-gray-200 text-gray-500 text-sm flex justify-between">
+                <div className="mt-12 pt-6 border-t border-gray-200 text-gray-500 text-sm flex justify-between items-center">
                     <p>Last updated: {formatDate(_updatedAt)}</p>
-                    <p>{views?.toLocaleString()} views • {likes?.toLocaleString()} likes</p>
+                    <div className="flex items-center gap-4">
+                        <span>{views?.toLocaleString()} views</span>
+                        <LikeButton
+                            postId={currentPost._id}
+                            initialLiked={userLiked}
+                            initialCount={likes ?? 0}
+                            isAuthenticated={isAuthenticated}
+                        />
+                    </div>
                 </div>
+
+                <CommentSection
+                    postId={currentPost._id}
+                    currentUsername={session?.user?.username}
+                />
             </section>
         </>
     );

@@ -306,6 +306,15 @@ export type GET_USER_POSTS_QUERYResult = Array<{
 // Variable: GET_IMAGE_REF_BY_ID
 // Query: *[_type == "post" && _id == $postId][0].image.asset._ref
 export type GET_IMAGE_REF_BY_IDResult = null;
+// Variable: CHECK_USER_LIKED_POST
+// Query: count(*[_type == "like" && author._ref == $authorId && post._ref == $postId]) > 0
+export type CHECK_USER_LIKED_POSTResult = boolean;
+// Variable: GET_COMMENTS_BY_POST
+// Query: *[_type == "comment" && post._ref == $postId] | order(_createdAt desc) {        _id,        _createdAt,        text,        "author": author -> {            username,            name,            image        }    }
+export type GET_COMMENTS_BY_POSTResult = Array<never>;
+// Variable: GET_COMMENT_COUNT_BY_POST
+// Query: count(*[_type == "comment" && post._ref == $postId])
+export type GET_COMMENT_COUNT_BY_POSTResult = number;
 // Variable: GET_TOTAL_POSTS_COUNT
 // Query: count(*[    _type == "post" &&    defined(slug.current) &&    (      !defined($search) ||      title match $search ||      category match $search ||      description match $search ||      author->username match $search ||      author->name match $search    )  ])
 export type GET_TOTAL_POSTS_COUNTResult = number;
@@ -320,6 +329,9 @@ declare module "@sanity/client" {
     "*[_type == \"author\" && username == $username][0] {\n  _id,}": GET_AUTHOR_ID_BY_USERNAME_QUERYResult;
     "*[_type == \"post\" && author->username == $username] | order(_createdAt desc) {\n  _id,\n  _createdAt,\n  title,\n  \"slug\": slug.current,\n  category,\n  description,\n  image,\n  likes,\n  views,\n  \"author\": author -> {\n    _id,\n    username,\n    name,\n    image\n  },\n}": GET_USER_POSTS_QUERYResult;
     "*[_type == \"post\" && _id == $postId][0].image.asset._ref": GET_IMAGE_REF_BY_IDResult;
+    "count(*[_type == \"like\" && author._ref == $authorId && post._ref == $postId]) > 0": CHECK_USER_LIKED_POSTResult;
+    "\n    *[_type == \"comment\" && post._ref == $postId] | order(_createdAt desc) {\n        _id,\n        _createdAt,\n        text,\n        \"author\": author -> {\n            username,\n            name,\n            image\n        }\n    }\n": GET_COMMENTS_BY_POSTResult;
+    "count(*[_type == \"comment\" && post._ref == $postId])": GET_COMMENT_COUNT_BY_POSTResult;
     "\n  count(*[\n    _type == \"post\" &&\n    defined(slug.current) &&\n    (\n      !defined($search) ||\n      title match $search ||\n      category match $search ||\n      description match $search ||\n      author->username match $search ||\n      author->name match $search\n    )\n  ])\n": GET_TOTAL_POSTS_COUNTResult;
   }
 }
