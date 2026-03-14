@@ -8,28 +8,31 @@
 
 @layer utilities {
   .auth-button {
-    @apply flex flex-row cursor-pointer gap-1 hover:bg-gray-200 p-2 transition-all rounded-xl;
+    @apply flex flex-row cursor-pointer gap-1 hover:bg-muted p-2 transition-all duration-200 rounded-xl;
    }
   .header-title {
-    @apply text-2xl text-white p-4 text-center font-semibold relative leading-10 z-20 md:text-4xl lg:text-5xl;
+    @apply text-3xl text-white p-5 text-center font-bold relative leading-tight z-20 md:text-5xl lg:text-6xl tracking-tight drop-shadow-md;
   }
   .header-bg {
-    @apply bg-black rounded-sm shadow-sm p-4 rotate-1 absolute inset-0 z-10;
+    @apply bg-black/90 dark:bg-black/80 rounded-xl shadow-2xl p-4 rotate-1 absolute inset-0 z-10 backdrop-blur-sm;
   }
   .red-container {
-    @apply flex flex-col gap-2 items-center justify-center bg-red-400 p-10 mx-5 mt-4 min-h-[350px]; 
+    @apply flex flex-col gap-3 items-center justify-center bg-gradient-to-br from-red-500 via-red-400 to-rose-400 dark:from-red-800 dark:via-red-700 dark:to-rose-700 p-12 md:p-16 min-h-[400px] rounded-3xl mx-4 mt-4 relative overflow-hidden;
   }
   .pattern {
-  background-image: repeating-linear-gradient(
-    30deg,
-    rgba(255, 255, 255, 0.08) 0px,
-    rgba(255, 255, 255, 0.08) 1px,
-    transparent 1px,
-    transparent 12px
-  );
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(255,255,255,0.1) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(255,255,255,0.08) 0%, transparent 40%),
+      repeating-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.03) 0px,
+        rgba(255, 255, 255, 0.03) 1px,
+        transparent 1px,
+        transparent 16px
+      );
   }
   .grid-card-area {
-    @apply grid grid-cols-1 md:grid-cols-2 gap-5 mt-7 justify-center
+    @apply grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8;
   }
 }
 
@@ -167,43 +170,43 @@
 
   --sidebar-ring: oklch(0.708 0 0);
 
-  --background: oklch(1 0 0);
+  --background: oklch(0.985 0.002 90);
 
   --foreground: oklch(0.145 0 0);}
 
 .dark {
 
-  --background: oklch(0.145 0 0);
+  --background: oklch(0.16 0.01 260);
 
-  --foreground: oklch(0.985 0 0);
+  --foreground: oklch(0.93 0.005 90);
 
-  --card: oklch(0.205 0 0);
+  --card: oklch(0.2 0.012 260);
 
-  --card-foreground: oklch(0.985 0 0);
+  --card-foreground: oklch(0.93 0.005 90);
 
-  --popover: oklch(0.205 0 0);
+  --popover: oklch(0.2 0.012 260);
 
-  --popover-foreground: oklch(0.985 0 0);
+  --popover-foreground: oklch(0.93 0.005 90);
 
   --primary: oklch(0.922 0 0);
 
   --primary-foreground: oklch(0.205 0 0);
 
-  --secondary: oklch(0.269 0 0);
+  --secondary: oklch(0.26 0.01 260);
 
-  --secondary-foreground: oklch(0.985 0 0);
+  --secondary-foreground: oklch(0.93 0.005 90);
 
-  --muted: oklch(0.269 0 0);
+  --muted: oklch(0.26 0.01 260);
 
-  --muted-foreground: oklch(0.708 0 0);
+  --muted-foreground: oklch(0.65 0.01 260);
 
-  --accent: oklch(0.269 0 0);
+  --accent: oklch(0.26 0.01 260);
 
-  --accent-foreground: oklch(0.985 0 0);
+  --accent-foreground: oklch(0.93 0.005 90);
 
   --destructive: oklch(0.704 0.191 22.216);
 
-  --border: oklch(1 0 0 / 10%);
+  --border: oklch(1 0 0 / 12%);
 
   --input: oklch(1 0 0 / 15%);
 
@@ -236,7 +239,13 @@
   --sidebar-ring: oklch(0.556 0 0);}
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
   * {
-    @apply border-border outline-ring/50;}
+    @apply border-border outline-ring/50;
+  }
   body {
-    @apply bg-background text-foreground;}}
+    @apply bg-background text-foreground transition-colors duration-300;
+  }
+}

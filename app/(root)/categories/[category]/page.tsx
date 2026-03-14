@@ -6,6 +6,7 @@ import MyPagination from "@/components/Pagination";
 import type { Post } from "@/sanity.types";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
 
 const POSTS_PER_PAGE = 6;
 
@@ -43,20 +44,19 @@ export default async function CategoryPage({
         <>
             <section className="red-container pattern">
                 <Header title={decodedCategory} />
-                <p className="font-semibold text-white text-center mt-4 text-lg">
+                <p className="font-medium text-white/90 text-center mt-5 text-lg">
                     {totalPosts} {totalPosts === 1 ? "post" : "posts"} in this category
                 </p>
             </section>
 
-            <section className="px-6 py-10 mx-auto max-w-7xl">
-                <div className="mb-6">
-                    <Link
-                        href="/categories"
-                        className="text-sm font-medium hover:underline"
-                    >
-                        &larr; All Categories
-                    </Link>
-                </div>
+            <section className="px-6 py-12 mx-auto max-w-7xl">
+                <Link
+                    href="/categories"
+                    className="inline-flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-red-500 transition-colors mb-6"
+                >
+                    <ArrowLeft size={14} />
+                    All Categories
+                </Link>
 
                 {posts?.length > 0 ? (
                     <ul className="grid-card-area">
@@ -65,7 +65,7 @@ export default async function CategoryPage({
                         ))}
                     </ul>
                 ) : (
-                    <p className="text-center text-gray-500">No posts in this category.</p>
+                    <p className="text-center text-muted-foreground py-12">No posts in this category.</p>
                 )}
 
                 <MyPagination pageCount={totalPages} />

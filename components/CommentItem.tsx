@@ -38,34 +38,34 @@ export default function CommentItem({ comment, isOwner }: CommentItemProps) {
     }
 
     return (
-        <div className={`flex gap-3 p-3 rounded-lg bg-gray-50 ${isPending ? "opacity-50" : ""}`}>
+        <div className={`flex gap-3 p-4 rounded-xl bg-muted/40 dark:bg-muted/20 border border-border/30 transition-all duration-200 ${isPending ? "opacity-40" : "hover:bg-muted/60 dark:hover:bg-muted/30"}`}>
             <Link
                 href={`/${comment.author?.username}`}
-                className="w-8 h-8 rounded-full bg-gray-200 overflow-hidden flex-shrink-0"
+                className="w-9 h-9 rounded-full bg-muted overflow-hidden flex-shrink-0 ring-2 ring-border/50"
             >
                 {comment.author?.image ? (
                     <img
-                        src={urlForImage(comment.author.image).width(32).height(32).url()}
+                        src={urlForImage(comment.author.image).width(36).height(36).url()}
                         alt={comment.author.username}
                         className="w-full h-full object-cover"
                     />
                 ) : (
-                    <div className="w-full h-full bg-gray-300 rounded-full" />
+                    <div className="w-full h-full bg-muted rounded-full" />
                 )}
             </Link>
             <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
                     <Link
                         href={`/${comment.author?.username}`}
-                        className="font-medium text-sm hover:underline"
+                        className="font-semibold text-sm hover:text-red-500 transition-colors"
                     >
                         {comment.author?.name}
                     </Link>
-                    <span className="text-xs text-gray-400">
+                    <span className="text-xs text-muted-foreground">
                         {formatDate(comment._createdAt)}
                     </span>
                 </div>
-                <p className="text-sm text-gray-700 mt-1 break-words whitespace-pre-line">
+                <p className="text-sm text-foreground/80 mt-1.5 break-words whitespace-pre-line leading-relaxed">
                     {comment.text}
                 </p>
             </div>
@@ -73,7 +73,7 @@ export default function CommentItem({ comment, isOwner }: CommentItemProps) {
                 <button
                     onClick={handleDelete}
                     disabled={isPending}
-                    className="text-gray-400 hover:text-red-500 transition-colors self-start p-1"
+                    className="text-muted-foreground hover:text-red-500 transition-all duration-200 self-start p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-500/10"
                     aria-label="Delete comment"
                 >
                     <Trash2 size={14} />

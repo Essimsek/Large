@@ -84,25 +84,25 @@ export default async function Page({ params, searchParams }: PageProps) {
   return (
     <>
       <ProfileCard user={user} isOwner={isOwner} />
-      <section className="px-6 py-10 mx-auto max-w-7xl">
+      <section className="px-6 py-12 mx-auto max-w-7xl">
         {isOwner && (
-          <div className="flex gap-6 mb-6 border-b border-gray-200">
+          <div className="flex gap-1 mb-8 bg-muted/50 dark:bg-muted/30 p-1 rounded-xl w-fit">
             <Link
               href={`/${username}`}
-              className={`pb-2 text-sm font-semibold transition-colors ${
+              className={`px-5 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${
                 !showDrafts
-                  ? "border-b-2 border-black text-black"
-                  : "text-gray-500 hover:text-black"
+                  ? "bg-background dark:bg-card text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
               }`}
             >
               Published
             </Link>
             <Link
               href={`/${username}?tab=drafts`}
-              className={`pb-2 text-sm font-semibold transition-colors ${
+              className={`px-5 py-2 text-sm font-semibold rounded-lg transition-all duration-200 ${
                 showDrafts
-                  ? "border-b-2 border-black text-black"
-                  : "text-gray-500 hover:text-black"
+                  ? "bg-background dark:bg-card text-foreground shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
               }`}
             >
               Drafts
@@ -111,9 +111,12 @@ export default async function Page({ params, searchParams }: PageProps) {
         )}
 
         {!isOwner && (
-          <p className="text-black text-3xl font-semibold">
-            Posts by {user.username}
-          </p>
+          <>
+            <h2 className="text-foreground text-3xl font-bold tracking-tight">
+              Posts by {user.username}
+            </h2>
+            <div className="w-12 h-1 bg-red-400 rounded-full mt-2 mb-4" />
+          </>
         )}
 
         {showDrafts ? (
@@ -123,7 +126,7 @@ export default async function Page({ params, searchParams }: PageProps) {
                 <PostCard key={post._id} post={post} />
               ))
             ) : (
-              <li className="col-span-3 text-center text-gray-500">No drafts</li>
+              <li className="col-span-3 text-center text-muted-foreground py-12">No drafts yet</li>
             )}
           </ul>
         ) : (

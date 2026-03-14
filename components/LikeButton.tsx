@@ -45,23 +45,25 @@ export default function LikeButton({
     return (
         <button
             onClick={handleClick}
-            className={`flex items-center gap-1.5 text-sm transition-all ${
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-300 ${
                 isAuthenticated
-                    ? "cursor-pointer hover:scale-105 active:scale-95"
-                    : "cursor-default opacity-70"
-            }`}
+                    ? "cursor-pointer hover:bg-red-50 dark:hover:bg-red-500/10 active:scale-95"
+                    : "cursor-default opacity-60"
+            } ${liked ? "bg-red-50 dark:bg-red-500/10" : ""}`}
             aria-label={liked ? "Unlike" : "Like"}
             title={!isAuthenticated ? "Sign in to like" : undefined}
         >
             <Heart
-                size={20}
-                className={`transition-colors duration-200 ${
+                size={18}
+                className={`transition-all duration-300 ${
                     liked
-                        ? "fill-red-500 stroke-red-500"
-                        : "stroke-gray-500"
+                        ? "fill-red-500 stroke-red-500 scale-110"
+                        : "stroke-muted-foreground"
                 }`}
             />
-            <span className="font-medium text-gray-600">
+            <span className={`text-sm font-semibold transition-colors duration-200 ${
+                liked ? "text-red-500" : "text-muted-foreground"
+            }`}>
                 {count.toLocaleString()}
             </span>
         </button>

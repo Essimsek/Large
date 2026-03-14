@@ -18,16 +18,16 @@ export default async function Home({ searchParams }: {
   // search params
   const { query, page } = await searchParams;
   const pageNumber = page ? Number(page) : 1;
-  
+
   // start end for pagination
   const start = ((pageNumber || 1) - 1) * MAX_POST_PER_PAGE
   const end = start + MAX_POST_PER_PAGE;
   const params: QuerySearchParams = { search: query ? `*${query}*` : null, start, end};
-  
+
   // get the total posts count to give to pagination
   const totalPosts: number = await client.fetch(GET_TOTAL_POSTS_COUNT, {search: params.search});
   const totalPages = Math.ceil(totalPosts / MAX_POST_PER_PAGE);
-  
+
   if ((pageNumber > totalPages && totalPages > 0) || pageNumber < 1 || !Number.isInteger(pageNumber)) {
     redirect(`/?page=1${query ? `&query=${query}` : ''}`);
   }
@@ -38,16 +38,22 @@ export default async function Home({ searchParams }: {
     <>
       <section className="red-container pattern">
         <Header title="Think Large. Write Larger." />
-        <p className="font-semibold text-white text-center mt-4 text-lg">
-          Write your story, discover others', and build your own library of <span className="bg-black p-1 rounded-sm">inspiration</span>
+        <p className="font-medium text-white/90 text-center mt-5 text-lg max-w-xl leading-relaxed">
+          Write your story, discover others&apos;, and build your own library of <span className="bg-black/80 px-2 py-0.5 rounded-lg font-semibold">inspiration</span>
         </p>
         <SearchForm query={query}/>
       </section>
-      
-      <section className="px-6 py-10 mx-auto max-w-7xl">
-        <p className="text-foreground text-3xl font-semibold">
-          {query ? `Search results for ${query}` : "Explore Posts"}
-        </p>
+
+      <section className="px-6 py-12 mx-auto max-w-7xl">
+        <div className="flex items-center gap-3 mb-2">
+          <h2 className="text-foreground text-3xl font-bold tracking-tight">
+            {query ? `Results for "${query}"` : "Explore Posts"}
+          </h2>
+          {totalPosts > 0 && (
+            <span className="text-sm text-muted-foreground mt-1">({totalPosts})</span>
+          )}
+        </div>
+        <div className="w-12 h-1 bg-red-400 rounded-full mb-4" />
         <Suspense fallback={<SkeletonList range={skeletonRange} />}>
           <PostList params={params} />
         </Suspense>

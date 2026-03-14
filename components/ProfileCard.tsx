@@ -3,7 +3,7 @@ import { Author } from '@/sanity.types';
 import { formatDate } from '@/lib/utils';
 import Header from '@/components/Header';
 import { Button } from './ui/button';
-import { Edit, Save, X } from 'lucide-react';
+import { Edit, Save, X, CalendarDays, RefreshCw } from 'lucide-react';
 import { useState } from 'react';
 import { Input } from './ui/input';
 import { signIn } from 'next-auth/react';
@@ -44,47 +44,54 @@ const ProfileCard = ({user, isOwner}: {user: Author, isOwner: boolean}) => {
             }
             setIsLoading(false);
         }
-    
+
     return (
         <div className="red-container pattern">
-            <div className="relative w-48 h-48">
+            <div className="relative w-40 h-40 md:w-48 md:h-48">
+                <div className="absolute -inset-1 bg-white/20 rounded-full blur-sm" />
                 <Image
                     src={urlForImage(user.image).width(192).height(192).url() || '/fallback-profile.png'}
                     alt={`${user.name}'s avatar`}
-                    sizes="(max-width: 768px) 100vw, 200px"
+                    sizes="(max-width: 768px) 160px, 192px"
                     fill
-                    className="object-cover rounded-full border-4 border-white"
+                    className="object-cover rounded-full border-4 border-white/90 shadow-xl relative"
                 />
             </div>
 
-            <div className="text-center mt-6 space-y-2">
+            <div className="text-center mt-6 space-y-3">
                 <div className="flex flex-row items-center justify-center space-x-2">
                 {isOwner && isEditing ? (
                     <>
-                        <Input className="text-2xl text-white py-7 text-center font-semibold md:text-3xl lg:text-4xl bg-black" 
+                        <Input className="text-2xl text-white py-7 text-center font-semibold md:text-3xl lg:text-4xl bg-black/50 border-white/30 rounded-xl backdrop-blur-sm"
                                 onChange={(e) => setUsername(e.target.value)}
-                                value={isError ? user.username : username} 
+                                value={isError ? user.username : username}
                         />
-                        <Button onClick={() => {handleSave()}}><Save /></Button>
-                        { isLoading && <span className="text-white">Saving...</span>}
-                        <Button onClick={() => setIsEditing(false)}><X /></Button>
-                        {isError == true && <span className="text-red-500">Username already exists!</span>}
+                        <Button onClick={() => {handleSave()}} className="rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm"><Save /></Button>
+                        { isLoading && <span className="text-white animate-pulse">Saving...</span>}
+                        <Button onClick={() => setIsEditing(false)} className="rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm"><X /></Button>
+                        {isError == true && <span className="text-yellow-300 font-medium">Username already exists!</span>}
                     </>
                 ): (
                     <>
                         <Header title={user.username || 'no name'} />
-                        {isOwner && <Button onClick={() => setIsEditing(true)}><Edit /></Button>}
+                        {isOwner && <Button onClick={() => setIsEditing(true)} className="rounded-full bg-white/20 hover:bg-white/30 backdrop-blur-sm"><Edit size={16} /></Button>}
                     </>
                 )}
                 </div>
-                <p className="text-white font-medium">
+                <p className="text-white/90 font-medium max-w-md mx-auto leading-relaxed">
                 {user.bio || 'This user has not set up their profile yet.'}
                 </p>
             </div>
 
-            <div className="mt-4 text-sm text-white/80 text-center">
-                <p>Joined: {formatDate(user._createdAt)}</p>
-                <p>Last update: {formatDate(user._updatedAt)}</p>
+            <div className="mt-6 flex gap-6 text-sm text-white/70">
+                <div className="flex items-center gap-1.5">
+                    <CalendarDays size={14} />
+                    <span>Joined {formatDate(user._createdAt)}</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                    <RefreshCw size={14} />
+                    <span>Updated {formatDate(user._updatedAt)}</span>
+                </div>
             </div>
         </div>
   );

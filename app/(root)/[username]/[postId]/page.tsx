@@ -14,7 +14,7 @@ import { urlForImage } from '@/sanity/lib/image';
 import PortableEditor from '@/components/PortableEditor';
 import { Button } from '@/components/ui/button';
 import { auth } from '@/auth';
-import { Edit2Icon, Settings } from 'lucide-react';
+import { Edit2Icon, Settings, Clock, Eye } from 'lucide-react';
 
 import DeletePostButton from './deletePostButton';
 import PublishPostButton from './PublishPostButton';
@@ -60,7 +60,7 @@ const Page = async ({params}: {
     params: Promise<{username: string, postId: string}>
 }) => {
     const {username, postId} = await params;
-    const currentPost = await client.fetch(GET_POST_BY_SLUG_QUERY, {username, slug: postId}) as Post; // get the posts
+    const currentPost = await client.fetch(GET_POST_BY_SLUG_QUERY, {username, slug: postId}) as Post;
     const session = await auth();
     const isOwner = session?.user.username === username;
     if (!currentPost) {
@@ -92,41 +92,41 @@ const Page = async ({params}: {
     }
     return (
         <>
-            {/* Post Header Section (category, description, title and settings dropdown menu) */}
+            {/* Post Header */}
             <section className='red-container pattern relative'>
                 <div className="max-w-4xl w-full mx-auto relative">
                     <div className="flex flex-col items-center">
                         <Header title={title || ''} />
-                        
-                        <div className="flex items-center gap-2 mt-4">
+
+                        <div className="flex items-center gap-2 mt-5 flex-wrap justify-center">
                             {isDraft && (
-                                <span className="bg-yellow-400 text-black px-3 py-1 rounded-full text-xs font-bold">
+                                <span className="bg-yellow-400 text-black px-4 py-1 rounded-full text-xs font-bold tracking-wide">
                                     DRAFT
                                 </span>
                             )}
                             {category && (
-                                <span className="bg-white text-red-600 px-3 py-1 rounded-full text-sm font-medium">
+                                <span className="bg-white/90 text-red-600 px-4 py-1.5 rounded-full text-sm font-semibold shadow-sm">
                                     {category}
                                 </span>
                             )}
                         </div>
-                        
-                        <p className="text-xl text-white text-center mt-4 max-w-3xl">
+
+                        <p className="text-lg text-white/90 text-center mt-5 max-w-2xl leading-relaxed">
                             {description}
                         </p>
                     </div>
                 </div>
-                {isOwner && 
-                <div className='absolute bottom-0.5 right-0.5 p-10'>
+                {isOwner &&
+                <div className='absolute bottom-4 right-4 md:bottom-6 md:right-6'>
                     <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline"><Settings/></Button>
+                        <Button variant="outline" className="rounded-full bg-white/20 border-white/30 text-white hover:bg-white/30 backdrop-blur-sm"><Settings size={18}/></Button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="border-none mr-4 bg-black/80 text-white font-medium">
+                    <DropdownMenuContent className="border border-border/50 mr-4 bg-popover/95 backdrop-blur-xl text-popover-foreground font-medium rounded-xl shadow-xl">
                         <DropdownMenuItem asChild>
-                            <Link className='w-full flex justify-between !px-3 !py-2' href={`/${username}/${postId}/edit`}>
+                            <Link className='w-full flex justify-between !px-3 !py-2 rounded-lg' href={`/${username}/${postId}/edit`}>
                                 Edit
-                                <Edit2Icon />
+                                <Edit2Icon size={14} />
                             </Link>
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
@@ -134,7 +134,7 @@ const Page = async ({params}: {
                             <PublishPostButton postId={currentPost._id} isPublished={!isDraft} />
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem asChild className='focus:bg-red-400'>
+                        <DropdownMenuItem asChild className='focus:bg-red-500/10 focus:text-red-600 rounded-lg'>
                             <DeletePostButton postId={currentPost._id} />
                         </DropdownMenuItem>
                     </DropdownMenuContent>
@@ -142,90 +142,97 @@ const Page = async ({params}: {
                 </div>
                 }
             </section>
-            <section className="max-w-4xl mx-auto px-5 mt-6 mb-6">
-                <div className="flex items-center gap-4">
-                    <Link 
-                    href={`/${author?.username}`} 
-                    className="flex items-center gap-3 group flex-1"
+
+            {/* Author Bar */}
+            <section className="max-w-4xl mx-auto px-5 mt-8 mb-6">
+                <div className="flex flex-wrap items-center gap-4">
+                    <Link
+                    href={`/${author?.username}`}
+                    className="flex items-center gap-3 group flex-1 min-w-[200px]"
                     >
-                    <div className="relative w-12 h-12 rounded-full bg-gray-200 overflow-hidden shadow-md">
+                    <div className="relative w-11 h-11 rounded-full overflow-hidden ring-2 ring-border group-hover:ring-red-400 transition-all duration-200">
                         {author?.image ? (
                         <Image
                             src={urlForImage(author.image).width(48).height(48).url()}
                             alt={`${author.name}'s avatar`}
                             fill
-                            sizes='(50px) 50px, (100px) 100px, 150px'
-                            className="object-cover rounded-full border-2 border-white group-hover:border-red-300 transition-all"
+                            sizes='48px'
+                            className="object-cover"
                         />
                         ) : (
-                        <div className="bg-gray-300 border-2 border-dashed rounded-full w-full h-full" />
+                        <div className="bg-muted w-full h-full" />
                         )}
                     </div>
                     <div>
-                        <p className="font-medium text-gray-900 group-hover:text-red-600 group-hover:underline">
+                        <p className="font-semibold text-foreground group-hover:text-red-500 transition-colors">
                         {author?.name}
                         </p>
-                        <p className="text-sm text-gray-500 group-hover:text-gray-700">
+                        <p className="text-sm text-muted-foreground">
                         @{author?.username}
                         </p>
                     </div>
                     </Link>
-                    
-                    <div className="h-8 w-px bg-gray-300"></div>
-                    
-                    <div className="flex flex-col">
-                    <span className="text-xs text-gray-500">Published</span>
-                    <time className="font-medium text-gray-700" dateTime={_createdAt}>
-                        {formatDate(_createdAt)}
-                    </time>
-                    </div>
-                    
-                    <div className="flex flex-col ml-4">
-                    <span className="text-xs text-gray-500">Updated</span>
-                    <time className="font-medium text-gray-700" dateTime={_updatedAt}>
-                        {formatDate(_updatedAt)}
-                    </time>
-                    </div>
 
-                    <div className="h-8 w-px bg-gray-300 ml-4"></div>
+                    <div className="flex items-center gap-5 text-sm text-muted-foreground flex-wrap">
+                        <div className="flex flex-col">
+                            <span className="text-xs text-muted-foreground/70">Published</span>
+                            <time className="font-medium text-foreground/80" dateTime={_createdAt}>
+                                {formatDate(_createdAt)}
+                            </time>
+                        </div>
 
-                    <div className="flex flex-col ml-4">
-                    <span className="text-xs text-gray-500">Read time</span>
-                    <span className="font-medium text-gray-700">{readingTime} min</span>
+                        <div className="h-6 w-px bg-border" />
+
+                        <div className="flex flex-col">
+                            <span className="text-xs text-muted-foreground/70">Updated</span>
+                            <time className="font-medium text-foreground/80" dateTime={_updatedAt}>
+                                {formatDate(_updatedAt)}
+                            </time>
+                        </div>
+
+                        <div className="h-6 w-px bg-border" />
+
+                        <div className="flex items-center gap-1.5">
+                            <Clock size={14} />
+                            <span className="font-medium text-foreground/80">{readingTime} min read</span>
+                        </div>
                     </div>
                 </div>
-                <Separator className='mt-4'/>
+                <Separator className='mt-6 bg-border/50'/>
             </section>
 
-            {/* Thumbnail image */}
+            {/* Thumbnail */}
             {image && (
-                <section className="max-w-4xl mx-auto px-5 mt-8">
-                    <div className="relative rounded-2xl shadow-lg">
+                <section className="max-w-4xl mx-auto px-5 mt-6">
+                    <div className="relative rounded-2xl overflow-hidden shadow-lg">
                         <Image
                             src={urlForImage(image).width(800).url()}
                             alt={title || 'Post image'}
                             height={900}
                             width={1600}
                             sizes="(100vw)"
-                            className="object-cover rounded-2xl"
+                            className="object-cover"
                         />
                     </div>
-                    <Separator className='mt-4'/>
                 </section>
             )}
 
+            {/* Content */}
             <section className="max-w-3xl mx-auto px-5 py-10">
                 {content && content.length > 0 ? (
-                    <PortableEditor content={content}
-                    />
+                    <PortableEditor content={content} />
                 ) : (
-                    <p className="text-gray-500 italic">No content available</p>
+                    <p className="text-muted-foreground italic">No content available</p>
                 )}
-                
-                <div className="mt-12 pt-6 border-t border-gray-200 text-gray-500 text-sm flex justify-between items-center">
-                    <p>Last updated: {formatDate(_updatedAt)}</p>
-                    <div className="flex items-center gap-4">
-                        <span>{views?.toLocaleString()} views</span>
+
+                {/* Stats */}
+                <div className="mt-12 pt-6 border-t border-border/50 flex justify-between items-center">
+                    <p className="text-sm text-muted-foreground">Last updated: {formatDate(_updatedAt)}</p>
+                    <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-1.5 text-sm text-muted-foreground px-3 py-1.5 rounded-full bg-muted/50">
+                            <Eye size={14} />
+                            <span>{views?.toLocaleString()}</span>
+                        </div>
                         <LikeButton
                             postId={currentPost._id}
                             initialLiked={userLiked}

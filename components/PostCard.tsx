@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Heart, Eye, CalendarDays, UserCircle } from 'lucide-react';
+import { Heart, Eye, CalendarDays, UserCircle, ArrowRight } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 import type { Post } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/image';
@@ -11,86 +11,80 @@ type PostCardProps = {
 
 const PostCard = ({ post }: PostCardProps ) => {
   return (
-    <div className="max-w-2xl w-full bg-card border-2 border-foreground rounded-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.15)] transition-all hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[6px_6px_0px_0px_rgba(255,255,255,0.15)] p-5 my-6">
-    { /*Header ->  avatar date etc. */ }
-      <div className="flex justify-between mb-3">
-        <Link href={"/" + post.author?.username} className="flex p-1 items-center justify-center gap-2 transition-all duration-150 shadow-[0px_0px_0px_0px_rgba(0,0,0,1)] hover:shadow-[0px_2px_0px_0px_rgba(0,0,0,1)]">
-          <div className="p-1 border border-gray-300 rounded-sm">
-            {post.author?.image ?
-              <img src={urlForImage(post.author.image).width(24).height(24).url()} alt={post.author.username} className="w-6 h-6 rounded-full" /> 
-            : <UserCircle className="w-6 h-6 text-gray-500" />
-            }
+    <div className="group max-w-2xl w-full bg-card rounded-2xl border border-border/60 dark:border-border shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out p-6 my-3 overflow-hidden">
+      {/* Header */}
+      <div className="flex justify-between items-start mb-4">
+        <Link href={"/" + post.author?.username} className="flex items-center gap-2.5 group/author">
+          <div className="p-0.5 rounded-full bg-gradient-to-br from-red-400 to-rose-500">
+            <div className="rounded-full overflow-hidden bg-card p-0.5">
+              {post.author?.image ?
+                <img src={urlForImage(post.author.image).width(28).height(28).url()} alt={post.author.username} className="w-7 h-7 rounded-full object-cover" />
+              : <UserCircle className="w-7 h-7 text-muted-foreground" />
+              }
+            </div>
           </div>
-          <div className='flex flex-col justify-center'>
-            <p className="text-sm font-bold pl-0.5">{post.author?.username}</p>
-            <div className="flex items-center gap-1 text-xs text-gray-500">
-              <CalendarDays size={12} />
+          <div className='flex flex-col'>
+            <p className="text-sm font-semibold group-hover/author:text-red-500 transition-colors">{post.author?.username}</p>
+            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+              <CalendarDays size={11} />
               <span>{formatDate(post._createdAt)}</span>
             </div>
           </div>
         </Link>
-        
-        <Link 
-          href={`?query=${post.category?.toString()}`} 
-          className="px-2 py-1 bg-yellow-400 text-black max-h-7 text-xs font-bold border transition-all duration-150 border-foreground shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] dark:shadow-[2px_2px_0px_0px_rgba(255,255,255,0.15)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,0.15)]"
+
+        <Link
+          href={`?query=${post.category?.toString()}`}
+          className="px-3 py-1 bg-yellow-400/90 dark:bg-yellow-500/90 text-black text-xs font-bold rounded-full hover:bg-yellow-300 dark:hover:bg-yellow-400 transition-colors duration-200"
         >
           {post.category}
         </Link>
       </div>
 
-      { /*Content Section*/ }
+      {/* Content */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="md:col-span-3">
           <Link href={`/${post.author?.username}/${post.slug}`}>
-            <h2 className="text-xl font-bold mb-2 hover:underline">{post.title}</h2>
+            <h2 className="text-xl font-bold mb-2 group-hover:text-red-500 transition-colors duration-200">{post.title}</h2>
           </Link>
-          <p className="text-muted-foreground line-clamp-3">{post.description}</p>
+          <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">{post.description}</p>
         </div>
 
         <div className="md:col-span-1 flex justify-center">
-          {post.image ? 
-          <div className="border-2 border-foreground w-full h-32 bg-muted flex items-center justify-center">
+          {post.image ?
+          <div className="rounded-xl overflow-hidden w-full h-28 bg-muted">
               <img
                 src={urlForImage(post.image).width(120).height(120).url()}
                 alt={post.title}
                 width={120}
                 height={120}
-                className="object-cover w-full h-full"
+                className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
                 />
           </div>
         :
-        <div className='w-full h-32'></div>
+        <div className='w-full h-28'></div>
         }
         </div>
       </div>
 
-      {/* Stats and Read More */}
-      <div className="flex justify-between items-center mt-4 pt-3 border-t border-border">
+      {/* Footer */}
+      <div className="flex justify-between items-center mt-5 pt-4 border-t border-border/50">
         <div className="flex space-x-4">
-          <div className="flex items-center text-gray-600">
-            <Eye className="mr-1" size={16} />
-            <span className="text-xs font-medium">{post.views} views</span>
+          <div className="flex items-center text-muted-foreground">
+            <Eye className="mr-1.5" size={14} />
+            <span className="text-xs font-medium">{post.views}</span>
           </div>
-          <div className="flex items-center text-gray-600">
-            <Heart className="mr-1" size={16} fill="#f87171" stroke="#f87171" />
-            <span className="text-xs font-medium">{post.likes} likes</span>
+          <div className="flex items-center text-muted-foreground">
+            <Heart className="mr-1.5 text-red-400" size={14} fill="currentColor" />
+            <span className="text-xs font-medium">{post.likes}</span>
           </div>
         </div>
-        
-        <Link 
-          href={`/${post.author?.username}/${post.slug}`} 
-          className="flex items-center text-sm font-bold hover:underline group transition-all"
+
+        <Link
+          href={`/${post.author?.username}/${post.slug}`}
+          className="flex items-center text-sm font-semibold text-foreground/70 hover:text-red-500 group/link transition-colors duration-200"
         >
           Read more
-          <svg 
-            xmlns="http://www.w3.org/2000/svg" 
-            className="h-4 w-4 ml-1 transition-all group-hover:translate-x-1" 
-            fill="none" 
-            viewBox="0 0 24 24" 
-            stroke="currentColor"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-          </svg>
+          <ArrowRight size={14} className="ml-1 group-hover/link:translate-x-1 transition-transform duration-200" />
         </Link>
       </div>
     </div>
