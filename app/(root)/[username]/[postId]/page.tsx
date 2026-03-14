@@ -24,6 +24,8 @@ import RelatedPosts from '@/components/RelatedPosts';
 import ReadingProgressBar from '@/components/ReadingProgressBar';
 import ShareButton from '@/components/ShareButton';
 import TableOfContents from '@/components/TableOfContents';
+import ReadingMode from '@/components/ReadingMode';
+import ImageLightbox from '@/components/ImageLightbox';
 
 export async function generateMetadata({
     params,
@@ -104,6 +106,8 @@ const Page = async ({params}: {
     return (
         <>
             <ReadingProgressBar />
+            <ReadingMode />
+            <ImageLightbox />
             {/* Post Header */}
             <section className='red-container pattern relative'>
                 <div className="max-w-4xl w-full mx-auto relative">
@@ -216,7 +220,7 @@ const Page = async ({params}: {
             {/* Thumbnail */}
             {image && (
                 <section className="max-w-4xl mx-auto px-5 mt-6">
-                    <div className="relative rounded-2xl overflow-hidden shadow-lg">
+                    <div className="relative rounded-2xl overflow-hidden shadow-lg" data-lightbox>
                         <Image
                             src={urlForImage(image).width(800).url()}
                             alt={title || 'Post image'}

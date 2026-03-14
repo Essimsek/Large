@@ -486,3 +486,28 @@ img {
 .dark .tiptap blockquote {
   color: oklch(0.7 0 0);
 }
+
+/* Click-to-zoom cursor on post images */
+.tiptap img,
+[data-lightbox] img {
+  cursor: zoom-in;
+  transition: transform 0.2s ease;
+}
+.tiptap img:hover,
+[data-lightbox] img:hover {
+  transform: scale(1.01);
+}
+
+/* Reading mode - hides everything except content */
+html.reading-mode header,
+html.reading-mode footer,
+html.reading-mode nav,
+html.reading-mode .red-container {
+  display: none !important;
+}
+
+html.reading-mode main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding-top: 2rem;
+}
