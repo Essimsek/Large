@@ -21,6 +21,8 @@ import PublishPostButton from './PublishPostButton';
 import LikeButton from '@/components/LikeButton';
 import CommentSection from '@/components/CommentSection';
 import RelatedPosts from '@/components/RelatedPosts';
+import ReadingProgressBar from '@/components/ReadingProgressBar';
+import ShareButton from '@/components/ShareButton';
 
 export async function generateMetadata({
     params,
@@ -100,6 +102,7 @@ const Page = async ({params}: {
     }
     return (
         <>
+            <ReadingProgressBar />
             {/* Post Header */}
             <section className='red-container pattern relative'>
                 <div className="max-w-4xl w-full mx-auto relative">
@@ -247,6 +250,7 @@ const Page = async ({params}: {
                             initialCount={likes ?? 0}
                             isAuthenticated={isAuthenticated}
                         />
+                        <ShareButton title={title || ""} />
                     </div>
                 </div>
 

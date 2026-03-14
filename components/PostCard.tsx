@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import { Heart, Eye, CalendarDays, UserCircle, ArrowRight } from 'lucide-react';
-import { formatDate } from '@/lib/utils';
+import { Heart, Eye, CalendarDays, UserCircle, ArrowRight, Clock } from 'lucide-react';
+import { formatDate, estimateReadingTime } from '@/lib/utils';
 import type { Post } from '@/sanity.types';
 import { urlForImage } from '@/sanity/lib/image';
 
@@ -10,8 +10,9 @@ type PostCardProps = {
 }
 
 const PostCard = ({ post }: PostCardProps ) => {
+  const readingTime = post.content ? estimateReadingTime(JSON.stringify(post.content)) : 1;
   return (
-    <div className="group max-w-2xl w-full bg-card rounded-2xl border border-border/60 dark:border-border shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ease-out p-6 my-3 overflow-hidden">
+    <div className="group max-w-2xl w-full bg-card rounded-2xl border border-border/60 dark:border-border shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 ease-out p-6 my-3 overflow-hidden relative before:absolute before:inset-0 before:rounded-2xl before:border-2 before:border-transparent before:transition-all before:duration-300 hover:before:border-red-400/30 before:pointer-events-none">
       {/* Header */}
       <div className="flex justify-between items-start mb-4">
         <Link href={"/" + post.author?.username} className="flex items-center gap-2.5 group/author">
@@ -76,6 +77,10 @@ const PostCard = ({ post }: PostCardProps ) => {
           <div className="flex items-center text-muted-foreground">
             <Heart className="mr-1.5 text-red-400" size={14} fill="currentColor" />
             <span className="text-xs font-medium">{post.likes}</span>
+          </div>
+          <div className="flex items-center text-muted-foreground">
+            <Clock className="mr-1.5" size={13} />
+            <span className="text-xs font-medium">{readingTime} min</span>
           </div>
         </div>
 

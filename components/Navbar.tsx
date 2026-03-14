@@ -14,6 +14,7 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu"
 import { ThemeToggle } from './ThemeToggle';
+import CmdKButton from './CmdKButton';
 
 const Navbar = async () => {
     const session = await auth();
@@ -30,6 +31,7 @@ const Navbar = async () => {
                     />
                 </Link>
                 <div className='flex flex-row gap-3 items-center'>
+                    <CmdKButton />
                     <ThemeToggle />
                     {session && session?.user ? (
                         <div className="flex flex-row gap-3 items-center">

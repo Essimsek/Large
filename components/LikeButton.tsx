@@ -19,6 +19,7 @@ export default function LikeButton({
 }: LikeButtonProps) {
     const [liked, setLiked] = useState(initialLiked);
     const [count, setCount] = useState(initialCount);
+    const [burst, setBurst] = useState(false);
     const pendingRef = useRef(false);
 
     async function handleClick() {
@@ -29,6 +30,12 @@ export default function LikeButton({
         const prevCount = count;
         setLiked(!prevLiked);
         setCount(prevLiked ? prevCount - 1 : prevCount + 1);
+
+        // Trigger burst animation on like
+        if (!prevLiked) {
+            setBurst(true);
+            setTimeout(() => setBurst(false), 600);
+        }
 
         try {
             const result = await toggleLike(postId);
@@ -45,7 +52,7 @@ export default function LikeButton({
     return (
         <button
             onClick={handleClick}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-300 ${
+            className={`relative flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-300 ${
                 isAuthenticated
                     ? "cursor-pointer hover:bg-red-50 dark:hover:bg-red-500/10 active:scale-95"
                     : "cursor-default opacity-60"
@@ -53,13 +60,28 @@ export default function LikeButton({
             aria-label={liked ? "Unlike" : "Like"}
             title={!isAuthenticated ? "Sign in to like" : undefined}
         >
+            {/* Burst particles */}
+            {burst && (
+                <span className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    {[...Array(6)].map((_, i) => (
+                        <span
+                            key={i}
+                            className="absolute w-1.5 h-1.5 rounded-full bg-red-400 animate-like-burst"
+                            style={{
+                                animationDelay: `${i * 40}ms`,
+                                transform: `rotate(${i * 60}deg) translateY(-12px)`,
+                            }}
+                        />
+                    ))}
+                </span>
+            )}
             <Heart
                 size={18}
                 className={`transition-all duration-300 ${
                     liked
                         ? "fill-red-500 stroke-red-500 scale-110"
                         : "stroke-muted-foreground"
-                }`}
+                } ${burst ? "animate-like-pop" : ""}`}
             />
             <span className={`text-sm font-semibold transition-colors duration-200 ${
                 liked ? "text-red-500" : "text-muted-foreground"
