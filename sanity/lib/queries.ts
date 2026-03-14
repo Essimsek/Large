@@ -191,6 +191,12 @@ export const GET_TOTAL_POSTS_COUNT = defineQuery(`
   ])
 `);
 
+export const GET_PLATFORM_STATS = defineQuery(`{
+  "totalPosts": count(*[_type == "post" && status == "published"]),
+  "totalAuthors": count(*[_type == "author"]),
+  "totalCategories": count(array::unique(*[_type == "post" && defined(category) && status == "published"].category))
+}`);
+
 export const GET_USER_DRAFTS = defineQuery(`
     *[_type == "post" && author->username == $username && status == "draft"] | order(_createdAt desc) {
         _id,

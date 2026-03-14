@@ -21,14 +21,15 @@ const Navbar = async () => {
     return (
         <header className="sticky top-0 z-50 backdrop-blur-xl bg-background/80 border-b border-border/50 transition-all duration-300">
             <nav className='flex justify-between items-center px-6 py-2 max-w-7xl mx-auto'>
-                <Link href="/" className="flex items-center gap-2">
+                <Link href="/" className="flex items-center gap-2.5 group">
                     <Image
                         src="/Website-Logo-removebg.png"
                         alt="Logo"
-                        height={48}
-                        width={48}
-                        className="p-0 m-0 rounded-full hover:scale-110 transition-transform duration-300 ease-out"
+                        height={42}
+                        width={42}
+                        className="p-0 m-0 rounded-full group-hover:scale-110 transition-transform duration-300 ease-out"
                     />
+                    <span className="text-lg font-bold tracking-tight hidden sm:inline group-hover:text-red-500 transition-colors duration-200">Large</span>
                 </Link>
                 <div className='flex flex-row gap-3 items-center'>
                     <CmdKButton />

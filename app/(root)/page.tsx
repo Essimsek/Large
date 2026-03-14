@@ -5,9 +5,11 @@ import PostList from "@/components/PostList";
 import SkeletonList from "@/components/ui/SkeletonList";
 import MyPagination from "@/components/Pagination";
 import { client } from "@/sanity/lib/client";
-import { GET_TOTAL_POSTS_COUNT } from "@/sanity/lib/queries";
+import { GET_TOTAL_POSTS_COUNT, GET_PLATFORM_STATS } from "@/sanity/lib/queries";
+import { PenLine, Users, FolderOpen } from "lucide-react";
 import { redirect } from "next/navigation";
 import type { QuerySearchParams } from "@/components/PostList";
+import TypedText from "@/components/TypedText";
 export const experimental_ppr = true;
 const MAX_POST_PER_PAGE = 6;
 
@@ -34,14 +36,34 @@ export default async function Home({ searchParams }: {
 
   const skeletonRange = totalPosts - start < MAX_POST_PER_PAGE ? totalPosts - start : MAX_POST_PER_PAGE;
 
+  const stats = await client.fetch(GET_PLATFORM_STATS);
+
   return (
     <>
       <section className="red-container pattern">
         <Header title="Think Large. Write Larger." />
         <p className="font-medium text-white/90 text-center mt-5 text-lg max-w-xl leading-relaxed">
-          Write your story, discover others&apos;, and build your own library of <span className="bg-black/80 px-2 py-0.5 rounded-lg font-semibold">inspiration</span>
+          Write your story, discover others&apos;, and build your own library of <TypedText />
         </p>
         <SearchForm query={query}/>
+
+        {/* Stats bar */}
+        <div className="flex items-center gap-6 mt-8 text-white/70 text-sm">
+          <div className="flex items-center gap-1.5">
+            <PenLine size={14} />
+            <span className="font-semibold text-white">{stats?.totalPosts ?? 0}</span> posts
+          </div>
+          <div className="w-px h-4 bg-white/20" />
+          <div className="flex items-center gap-1.5">
+            <Users size={14} />
+            <span className="font-semibold text-white">{stats?.totalAuthors ?? 0}</span> writers
+          </div>
+          <div className="w-px h-4 bg-white/20" />
+          <div className="flex items-center gap-1.5">
+            <FolderOpen size={14} />
+            <span className="font-semibold text-white">{stats?.totalCategories ?? 0}</span> topics
+          </div>
+        </div>
       </section>
 
       <section className="px-6 py-12 mx-auto max-w-7xl">

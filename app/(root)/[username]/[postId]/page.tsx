@@ -23,6 +23,7 @@ import CommentSection from '@/components/CommentSection';
 import RelatedPosts from '@/components/RelatedPosts';
 import ReadingProgressBar from '@/components/ReadingProgressBar';
 import ShareButton from '@/components/ShareButton';
+import TableOfContents from '@/components/TableOfContents';
 
 export async function generateMetadata({
     params,
@@ -229,6 +230,7 @@ const Page = async ({params}: {
             )}
 
             {/* Content */}
+            <TableOfContents />
             <section className="max-w-3xl mx-auto px-5 py-10">
                 {content && content.length > 0 ? (
                     <PortableEditor content={content} />
