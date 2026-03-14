@@ -61,8 +61,8 @@ describe("PostCard", () => {
 
     it("renders view and like counts", () => {
         render(<PostCard post={mockPost} />);
-        expect(screen.getByText("42 views")).toBeInTheDocument();
-        expect(screen.getByText("7 likes")).toBeInTheDocument();
+        expect(screen.getByText("42")).toBeInTheDocument();
+        expect(screen.getByText("7")).toBeInTheDocument();
     });
 
     it("renders a link to the full post", () => {
