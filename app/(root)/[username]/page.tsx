@@ -24,14 +24,22 @@ export async function generateMetadata({
     const { username } = await params;
     const user = await client.fetch(GET_USER_BY_USERNAME_QUERY, { username }) as Author;
     if (!user) return { title: "User Not Found" };
+
+    let ogImage: string | undefined;
+    try {
+        if (user.image) {
+            ogImage = urlForImage(user.image).width(400).height(400).url();
+        }
+    } catch {
+        // image URL build failed, skip OG image
+    }
+
     return {
         title: user.name || user.username,
         description: user.bio || `Posts by ${user.username}`,
         openGraph: {
             type: "profile",
-            ...(user.image && {
-                images: [urlForImage(user.image).width(400).height(400).url()],
-            }),
+            ...(ogImage && { images: [ogImage] }),
         },
     };
 }

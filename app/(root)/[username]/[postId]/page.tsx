@@ -33,6 +33,16 @@ export async function generateMetadata({
         slug: postId,
     }) as Post;
     if (!post) return { title: "Post Not Found" };
+
+    let ogImage: string | undefined;
+    try {
+        if (post.image) {
+            ogImage = urlForImage(post.image).width(1200).height(630).url();
+        }
+    } catch {
+        // image URL build failed, skip OG image
+    }
+
     return {
         title: post.title,
         description: post.description,
@@ -40,9 +50,7 @@ export async function generateMetadata({
             type: "article",
             title: post.title || "",
             description: post.description || "",
-            ...(post.image && {
-                images: [urlForImage(post.image).width(1200).height(630).url()],
-            }),
+            ...(ogImage && { images: [ogImage] }),
             publishedTime: post._createdAt,
         },
     };
