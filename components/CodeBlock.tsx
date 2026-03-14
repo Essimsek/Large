@@ -95,23 +95,23 @@ export function CodeBlock({ value }: CodeBlockProps) {
 
   type Node = RefractorNode;
   const isText = (n: RefractorNode): n is RefractorTextNode => n.type === 'text';
-  // Basic inline color mapping (light theme) – tweak palette as desired
+  // Token color mapping — uses CSS custom property to adapt to theme
+  // These colors are chosen to be readable on both light and dark backgrounds
   const tokenStyle = (cls: string): React.CSSProperties | undefined => {
-    if (cls.includes('comment')) return { color: '#6a737d', fontStyle: 'italic' };
-    if (cls.includes('keyword')) return { color: '#b800d8', fontWeight: 500 };
-    if (cls.includes('string')) return { color: '#0b7d13' };
-    if (cls.includes('boolean') || cls.includes('null') || cls.includes('constant')) return { color: '#b05a00' };
-    if (cls.includes('number')) return { color: '#1c6fda' };
-    if (cls.includes('function')) return { color: '#c7254e' };
-    if (cls.includes('class-name')) return { color: '#005cc5' };
-    if (cls.includes('operator')) return { color: '#aa22ff' };
-    if (cls.includes('punctuation')) return { color: '#555' };
-    // HTML / markup specific
-    if (cls.includes('tag')) return { color: '#22863a', fontWeight: 500 };
-    if (cls.includes('attr-name')) return { color: '#6f42c1' };
-    if (cls.includes('attr-value')) return { color: '#032f62' };
-    if (cls.includes('doctype')) return { color: '#b31d28', fontStyle: 'italic' };
-    if (cls.includes('entity')) return { color: '#005cc5' };
+    if (cls.includes('comment')) return { color: 'var(--code-comment, #6a737d)', fontStyle: 'italic' };
+    if (cls.includes('keyword')) return { color: 'var(--code-keyword, #b800d8)', fontWeight: 500 };
+    if (cls.includes('string')) return { color: 'var(--code-string, #0b7d13)' };
+    if (cls.includes('boolean') || cls.includes('null') || cls.includes('constant')) return { color: 'var(--code-constant, #b05a00)' };
+    if (cls.includes('number')) return { color: 'var(--code-number, #1c6fda)' };
+    if (cls.includes('function')) return { color: 'var(--code-function, #c7254e)' };
+    if (cls.includes('class-name')) return { color: 'var(--code-class, #005cc5)' };
+    if (cls.includes('operator')) return { color: 'var(--code-operator, #aa22ff)' };
+    if (cls.includes('punctuation')) return { color: 'var(--code-punctuation, #555)' };
+    if (cls.includes('tag')) return { color: 'var(--code-tag, #22863a)', fontWeight: 500 };
+    if (cls.includes('attr-name')) return { color: 'var(--code-attr-name, #6f42c1)' };
+    if (cls.includes('attr-value')) return { color: 'var(--code-attr-value, #032f62)' };
+    if (cls.includes('doctype')) return { color: 'var(--code-doctype, #b31d28)', fontStyle: 'italic' };
+    if (cls.includes('entity')) return { color: 'var(--code-entity, #005cc5)' };
     return undefined;
   };
 
@@ -141,22 +141,22 @@ export function CodeBlock({ value }: CodeBlockProps) {
   };
 
   return (
-    <div className="not-prose my-6 overflow-hidden rounded-lg border border-gray-200 bg-[#fcfcfc] shadow shadow-gray-100">
+    <div className="not-prose my-6 overflow-hidden rounded-lg border border-border bg-card shadow-sm">
       {(filename || normLang) && (
-        <div className="flex items-center justify-between border-b border-gray-200 bg-gray-100/70 backdrop-blur-sm px-3 py-2 text-[11px] font-mono">
+        <div className="flex items-center justify-between border-b border-border bg-muted/70 backdrop-blur-sm px-3 py-2 text-[11px] font-mono">
           <div className="flex items-center gap-4 min-w-0">
             {filename && (
-              <span className="truncate font-medium text-gray-700 text-[13px]" title={filename}>{filename}</span>
+              <span className="truncate font-medium text-foreground/80 text-[13px]" title={filename}>{filename}</span>
             )}
       {normLang && (
-              <span className="rounded bg-gray-200 px-2 py-0.5 text-[13px] font-semibold tracking-wide text-gray-600 select-none">
+              <span className="rounded bg-muted px-2 py-0.5 text-[13px] font-semibold tracking-wide text-muted-foreground select-none">
         {displayLang}
               </span>
             )}
           </div>
           <button
             onClick={handleCopy}
-            className="inline-flex items-center gap-1 rounded border border-gray-300 bg-white px-2 py-0.5 text-[11px] font-medium text-gray-600 hover:bg-white/80 active:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="inline-flex items-center gap-1 rounded border border-border bg-background px-2 py-0.5 text-[11px] font-medium text-muted-foreground hover:bg-muted active:bg-muted/80 focus:outline-none focus:ring-2 focus:ring-red-400 transition-colors"
             aria-label="Copy code"
             type="button"
           >
@@ -167,7 +167,7 @@ export function CodeBlock({ value }: CodeBlockProps) {
       )}
       <div className="relative">
         <pre
-          className="m-0 overflow-x-auto p-4 text-[14px] leading-[1.55] font-mono text-[#111] selection:bg-yellow-200"
+          className="m-0 overflow-x-auto p-4 text-[14px] leading-[1.55] font-mono text-foreground selection:bg-yellow-200 dark:selection:bg-yellow-500/30"
           style={{ tabSize: 2 }}
         >
           <code className={`language-${normLang} block`}>{ast ? renderNodes(ast.children as Node[]) : code}</code>

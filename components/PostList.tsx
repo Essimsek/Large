@@ -22,7 +22,7 @@ const  PostList = async ({params}: PostListProps ) => {
                 <PostCard key={post?._id} post={post} />
               ))
             ):
-            <li className="col-span-3 text-center text-gray-500">No results found</li>
+            <li className="col-span-3 text-center text-muted-foreground py-12">No results found</li>
           }
           </ul>
     );
